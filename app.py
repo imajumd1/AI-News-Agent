@@ -778,10 +778,15 @@ def run_agent():
         }), 500
 
 if __name__ == '__main__':
-    PORT = 5001
+    # Use Railway's PORT environment variable, fallback to 5001 for local development
+    PORT = int(os.environ.get('PORT', 5001))
+    HOST = os.environ.get('HOST', '0.0.0.0')  # Railway needs 0.0.0.0, not 127.0.0.1
+    DEBUG = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
+    
     print("\n" + "="*60)
     print("🚀 AI News Agent - Web Server")
     print("="*60)
-    print(f"\nStarting server on http://localhost:{PORT}")
+    print(f"\nStarting server on {HOST}:{PORT}")
+    print(f"Debug mode: {DEBUG}")
     print("Press Ctrl+C to stop\n")
-    app.run(host='127.0.0.1', port=PORT, debug=True)
+    app.run(host=HOST, port=PORT, debug=DEBUG)
