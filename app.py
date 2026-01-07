@@ -627,20 +627,28 @@ HTML_TEMPLATE = """
     </div>
 
     <script>
-        const categoryConfig = {
+        // Make functions globally accessible
+        window.runAgent = async function() {
             "GPU and AI Infra": { icon: "🏗️", color: "#667eea" },
             "AI Frontier models": { icon: "🚀", color: "#f093fb" },
             "AI Builder tools": { icon: "🛠️", color: "#4facfe" },
             "AI startups to watch": { icon: "⭐", color: "#fa709a" }
         };
 
-        async function runAgent() {
+            console.log('runAgent() called');
             const submitBtn = document.getElementById('submitBtn');
             const loading = document.getElementById('loading');
             const results = document.getElementById('results');
             const errorContainer = document.getElementById('errorContainer');
             const categoriesGrid = document.getElementById('categoriesGrid');
             
+            if (!submitBtn || !loading || !results || !errorContainer || !categoriesGrid) {
+                console.error('Missing required elements:', {submitBtn, loading, results, errorContainer, categoriesGrid});
+                alert('Error: Page elements not loaded. Please refresh the page.');
+                return;
+            }
+            
+            console.log('Starting agent...');
             // Reset UI
             submitBtn.disabled = true;
             submitBtn.textContent = 'Scraping...';
@@ -709,7 +717,7 @@ HTML_TEMPLATE = """
                     loadingText.textContent = originalText;
                 }
             }
-        }
+        };
         
         function displayResults(data) {
             console.log('displayResults called with:', data);
@@ -984,14 +992,14 @@ HTML_TEMPLATE = """
             return div.innerHTML;
         }
         
-        function showFullSummaryFromElement(element) {
+        window.showFullSummaryFromElement = function(element) {
             const overviewDiv = element.closest('.category-overview');
             const categoryName = overviewDiv.getAttribute('data-category-name');
             const fullSummary = overviewDiv.getAttribute('data-full-summary');
             showFullSummary(categoryName, fullSummary);
         }
         
-        function showFullSummary(categoryName, fullSummary) {
+        window.showFullSummary = function(categoryName, fullSummary) {
             const modal = document.getElementById('summaryModal');
             const modalTitle = document.getElementById('modalTitle');
             const modalBody = document.getElementById('modalBody');
@@ -1001,7 +1009,7 @@ HTML_TEMPLATE = """
             modal.style.display = 'block';
         }
         
-        function closeSummaryModal() {
+        window.closeSummaryModal = function() {
             const modal = document.getElementById('summaryModal');
             modal.style.display = 'none';
         }
