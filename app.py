@@ -1052,4 +1052,5 @@ if __name__ == '__main__':
     print(f"\nStarting server on {HOST}:{PORT}")
     print(f"Debug mode: {DEBUG}")
     print("Press Ctrl+C to stop\n")
-    app.run(host=HOST, port=PORT, debug=DEBUG)
+    # For Railway, use threaded=True for better performance
+    app.run(host=HOST, port=PORT, debug=DEBUG, threaded=True)
