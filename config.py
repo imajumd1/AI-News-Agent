@@ -151,6 +151,10 @@ NEWS_SOURCES = {
         "url": "https://www.anthropic.com/index.xml",
         "type": "rss"
     },
+    "aws_ml_blog": {
+        "url": "https://aws.amazon.com/blogs/machine-learning/feed/",
+        "type": "rss"
+    },
     
     # GPU & Hardware Specific Sources
     "nvidia_blog": {
@@ -181,6 +185,70 @@ NEWS_SOURCES = {
     },
     "axios_pro_rata": {
         "url": "https://www.axios.com/feeds/axios-pro-rata.rss",
+        "type": "rss"
+    },
+    
+    # AI Newsletters & Aggregators
+    "ai_trends": {
+        "url": "https://www.aitrends.com/feed/",
+        "type": "rss"
+    },
+    "the_rundown_ai": {
+        "url": "https://www.readtherundown.com/feed",
+        "type": "rss"
+    },
+    "tldr_ai": {
+        "url": "https://tldr.tech/ai/feed",
+        "type": "rss"
+    },
+    "bens_bites": {
+        "url": "https://www.bensbites.co/feed",
+        "type": "rss"
+    },
+    "mindstream": {
+        "url": "https://mindstream.ai/feed",
+        "type": "rss"
+    },
+    
+    # VC & Startup News
+    "pitchbook": {
+        "url": "https://pitchbook.com/news/rss",
+        "type": "rss"
+    },
+    "vc_news_daily": {
+        "url": "https://vcnewsdaily.com/feed/",
+        "type": "rss"
+    },
+    "venture_capital_journal": {
+        "url": "https://www.wsj.com/news/types/venture-capital?mod=rss_venture_capital",
+        "type": "rss"
+    },
+    "strictly_vc": {
+        "url": "https://strictlyvc.com/feed/",
+        "type": "rss"
+    },
+    "a16z": {
+        "url": "https://a16z.com/feed/",
+        "type": "rss"
+    },
+    
+    # Tech Publications - Regional
+    "tech_in_asia": {
+        "url": "https://www.techinasia.com/feed",
+        "type": "rss"
+    },
+    "sifted": {
+        "url": "https://sifted.eu/feed",
+        "type": "rss"
+    },
+    "geekwire": {
+        "url": "https://www.geekwire.com/feed/",
+        "type": "rss"
+    },
+    
+    # Additional Newsletters (if RSS available)
+    "superhuman_newsletter": {
+        "url": "https://superhuman.com/blog/rss",
         "type": "rss"
     }
 }
@@ -227,7 +295,7 @@ CATEGORY_KEYWORDS = {
 }
 
 # Scraping Configuration
-MAX_ARTICLES_PER_SOURCE = 3  # Reduced per source since we have many sources now
-REQUEST_TIMEOUT = 30
+MAX_ARTICLES_PER_SOURCE = 2  # Reduced to 2 for faster scraping (54 sources)
+REQUEST_TIMEOUT = 10  # Reduced timeout for faster failures
 USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
-RATE_LIMIT_DELAY = 0.3  # Delay between sources in seconds
+RATE_LIMIT_DELAY = 0.1  # Reduced delay between sources (0.1s instead of 0.3s for speed)

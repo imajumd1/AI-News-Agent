@@ -22,7 +22,8 @@ class NewsScraper:
         try:
             feed = feedparser.parse(url)
             # Filter for AI-related content if feed is general
-            for entry in feed.entries[:max_items * 2]:  # Get more to filter
+            # Reduced from max_items * 2 to max_items + 2 for faster processing
+            for entry in feed.entries[:max_items + 2]:
                 title = entry.get("title", "").lower()
                 summary = entry.get("summary", "").lower()
                 
