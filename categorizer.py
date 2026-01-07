@@ -1,4 +1,4 @@
-"""Categorizes articles into GPU and AI Infra, AI Frontier models, AI Builder tools, and AI startups."""
+"""Categorizes articles into GPU and AI Infra, AI Applications, AI Builder tools, and AI startups."""
 
 from typing import Dict, List, Optional
 from config import CATEGORY_KEYWORDS
@@ -24,11 +24,13 @@ class ArticleCategorizer:
         # Count keyword matches (case-insensitive)
         matches = sum(1 for keyword in keywords if keyword.lower() in text_lower)
         
-        # For GPU and AI Infra, use a more lenient scoring
-        if category == "GPU and AI Infra":
-            # Lower threshold - any match is significant
+        # For GPU and AI Infra and AI Applications, use a more lenient scoring
+        if category == "GPU and AI Infra" or category == "AI Applications":
+            # Very lenient - any match gets a good score
             if matches > 0:
-                score = 0.3 + (matches * 0.2)  # Start at 0.3 for 1 match, add 0.2 per additional match
+                # Start at 0.2 for 1 match, add 0.15 per additional match
+                # This ensures even single keyword matches get categorized
+                score = 0.2 + (matches * 0.15)
             else:
                 score = 0.0
         else:
@@ -61,8 +63,9 @@ class ArticleCategorizer:
         # Find the category with the highest score
         best_category = max(scores.items(), key=lambda x: x[1])
         
-        # Lower threshold for GPU and AI Infra category to catch more articles
-        threshold = 0.05 if best_category[0] == "GPU and AI Infra" else 0.1
+        # Lower threshold for GPU and AI Infra and AI Applications categories to catch more articles
+        # Very lenient threshold - any match above 0.01 is accepted
+        threshold = 0.01 if best_category[0] in ["GPU and AI Infra", "AI Applications"] else 0.1
         
         # Only categorize if score is above threshold
         if best_category[1] > threshold:
@@ -74,7 +77,7 @@ class ArticleCategorizer:
         """Categorize multiple articles."""
         categorized = {
             "GPU and AI Infra": [],
-            "AI Frontier models": [],
+            "AI Applications": [],
             "AI Builder tools": [],
             "AI startups to watch": []
         }

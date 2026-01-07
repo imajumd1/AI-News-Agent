@@ -50,7 +50,7 @@ class AINewsAgent:
         # Ensure all categories are present
         results = {
             "GPU and AI Infra": [],
-            "AI Frontier models": [],
+            "AI Applications": [],
             "AI Builder tools": [],
             "AI startups to watch": []
         }

@@ -2,14 +2,24 @@
 """Web application for AI News Agent."""
 
 from flask import Flask, render_template_string, request, jsonify
+from flask_mail import Mail, Message
 from agent import AINewsAgent
 import json
 from datetime import datetime
 import os
 import html
 import csv
+from config import MAIL_SERVER, MAIL_PORT, MAIL_USE_TLS, MAIL_USERNAME, MAIL_PASSWORD, MAIL_FROM
 
 app = Flask(__name__)
+
+# Configure Flask-Mail
+app.config['MAIL_SERVER'] = MAIL_SERVER
+app.config['MAIL_PORT'] = MAIL_PORT
+app.config['MAIL_USE_TLS'] = MAIL_USE_TLS
+app.config['MAIL_USERNAME'] = MAIL_USERNAME
+app.config['MAIL_PASSWORD'] = MAIL_PASSWORD
+mail = Mail(app)
 
 # Enable CORS manually (for localhost, CORS isn't strictly needed, but helps)
 @app.after_request
@@ -26,7 +36,7 @@ CATEGORY_CONFIG = {
         "color": "#667eea",
         "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
     },
-    "AI Frontier models": {
+    "AI Applications": {
         "icon": "🚀",
         "color": "#f093fb",
         "gradient": "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
@@ -437,6 +447,72 @@ HTML_TEMPLATE = """
         .results.visible {
             display: block;
         }
+        .email-section {
+            margin-top: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-radius: 15px;
+            border: 2px solid #667eea;
+        }
+        .email-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .email-form {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .email-input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+        .email-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .email-send-btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .email-send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        .email-send-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .email-message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            display: none;
+        }
+        .email-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .email-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
         .feedback-section {
             margin-top: 40px;
             padding: 30px;
@@ -578,14 +654,13 @@ HTML_TEMPLATE = """
                 </select>
             </div>
             <div class="form-group">
-                <button type="button" class="btn" id="submitBtn" onclick="runAgent()">Fetch Latest News</button>
+                <button type="button" class="btn" id="submitBtn" onclick="window.runAgent && window.runAgent()">Fetch Latest News</button>
             </div>
         </div>
 
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <p style="font-size: 1.1em; margin-top: 20px;">Scraping news sources and generating summaries...</p>
-            <p style="color: #666; font-size: 0.9em; margin-top: 10px;">This may take a minute or two</p>
+            <p style="font-size: 1.1em; margin-top: 20px;">Scraping 54 sources to get you the most relevant and current AI news. This may take a minute or two. Please wait...</p>
         </div>
 
         <div id="errorContainer"></div>
@@ -603,6 +678,16 @@ HTML_TEMPLATE = """
 
         <div class="results" id="results">
             <div class="categories-grid" id="categoriesGrid"></div>
+            
+            <!-- Email Section -->
+            <div class="email-section" id="emailSection" style="display: none;">
+                <div class="email-title">📧 Send Summary via Email</div>
+                <div class="email-form">
+                    <input type="email" id="emailInput" placeholder="Enter your email address" class="email-input">
+                    <button class="email-send-btn" id="emailSendBtn" onclick="sendEmail()">Send Email</button>
+                </div>
+                <div class="email-message" id="emailMessage"></div>
+            </div>
             
             <!-- Feedback Section -->
             <div class="feedback-section" id="feedbackSection" style="display: none;">
@@ -629,13 +714,13 @@ HTML_TEMPLATE = """
     <script>
         const categoryConfig = {
             "GPU and AI Infra": { icon: "🏗️", color: "#667eea" },
-            "AI Frontier models": { icon: "🚀", color: "#f093fb" },
+            "AI Applications": { icon: "🚀", color: "#f093fb" },
             "AI Builder tools": { icon: "🛠️", color: "#4facfe" },
             "AI startups to watch": { icon: "⭐", color: "#fa709a" }
         };
 
-        // Make runAgent globally accessible
-        window.runAgent = async function() {
+        // Make runAgent globally accessible (both ways for compatibility)
+        async function runAgent() {
             console.log('runAgent() called');
             const submitBtn = document.getElementById('submitBtn');
             const loading = document.getElementById('loading');
@@ -667,7 +752,7 @@ HTML_TEMPLATE = """
             // Update loading message
             const loadingText = loading.querySelector('p');
             const originalText = loadingText.textContent;
-            loadingText.textContent = 'Scraping 54 sources to get you the most relevant and current AI news. This may take 60-80 seconds. Please wait...';
+            loadingText.textContent = 'Scraping 54 sources to get you the most relevant and current AI news. This may take a minute or two. Please wait...';
             
             try {
                 const response = await fetch('/run', {
@@ -718,7 +803,10 @@ HTML_TEMPLATE = """
                     loadingText.textContent = originalText;
                 }
             }
-        };
+        }
+        
+        // Also assign to window for explicit access
+        window.runAgent = runAgent;
         
         function displayResults(data) {
             console.log('displayResults called with:', data);
@@ -731,7 +819,7 @@ HTML_TEMPLATE = """
             // Create category boxes
             const categoryOrder = [
                 "GPU and AI Infra",
-                "AI Frontier models", 
+                "AI Applications", 
                 "AI Builder tools",
                 "AI startups to watch"
             ];
@@ -887,7 +975,11 @@ HTML_TEMPLATE = """
                     
                     articlesSection.appendChild(articlesToggle);
                     articlesSection.appendChild(articlesContainer);
+                    // Always append articles section to content
                     content.appendChild(articlesSection);
+                    
+                    // Debug: Log that articles section was added
+                    console.log(`✅ Articles section added for ${categoryName} with ${articles.length} articles`);
                 }
                 
                 // Toggle expand/collapse category
@@ -902,7 +994,12 @@ HTML_TEMPLATE = """
             
             results.classList.add('visible');
             
-            // Show feedback section after results are displayed
+            // Show email and feedback sections after results are displayed
+            const emailSection = document.getElementById('emailSection');
+            if (emailSection) {
+                emailSection.style.display = 'block';
+            }
+            
             const feedbackSection = document.getElementById('feedbackSection');
             if (feedbackSection) {
                 feedbackSection.style.display = 'block';
@@ -1006,7 +1103,8 @@ HTML_TEMPLATE = """
             const modalBody = document.getElementById('modalBody');
             
             modalTitle.textContent = `${categoryName} - Full Summary`;
-            modalBody.innerHTML = escapeHtml(fullSummary).replace(/\n/g, '<br>');
+            const summaryWithBreaks = escapeHtml(fullSummary).split('\\n').join('<br>');
+            modalBody.innerHTML = summaryWithBreaks;
             modal.style.display = 'block';
         }
         
@@ -1022,6 +1120,83 @@ HTML_TEMPLATE = """
                 modal.style.display = 'none';
             }
         }
+        
+        // Store current results data for email
+        let currentResultsData = null;
+        
+        // Update displayResults to store data
+        const originalDisplayResults = displayResults;
+        displayResults = function(data) {
+            currentResultsData = data;
+            originalDisplayResults(data);
+        };
+        
+        // Send email function
+        window.sendEmail = async function() {
+            const emailInput = document.getElementById('emailInput');
+            const emailSendBtn = document.getElementById('emailSendBtn');
+            const messageDiv = document.getElementById('emailMessage');
+            
+            const email = emailInput.value.trim();
+            if (!email) {
+                messageDiv.className = 'email-message error';
+                messageDiv.textContent = '❌ Please enter an email address';
+                messageDiv.style.display = 'block';
+                return;
+            }
+            
+            // Basic email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                messageDiv.className = 'email-message error';
+                messageDiv.textContent = '❌ Please enter a valid email address';
+                messageDiv.style.display = 'block';
+                return;
+            }
+            
+            if (!currentResultsData) {
+                messageDiv.className = 'email-message error';
+                messageDiv.textContent = '❌ No results to send. Please fetch news first.';
+                messageDiv.style.display = 'block';
+                return;
+            }
+            
+            // Disable button
+            emailSendBtn.disabled = true;
+            emailSendBtn.textContent = 'Sending...';
+            messageDiv.style.display = 'none';
+            
+            try {
+                const response = await fetch('/send-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        results: currentResultsData
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    messageDiv.className = 'email-message success';
+                    messageDiv.textContent = '✅ Email sent successfully! Check your inbox.';
+                    messageDiv.style.display = 'block';
+                    emailInput.value = '';
+                } else {
+                    throw new Error(data.error || 'Failed to send email');
+                }
+            } catch (error) {
+                messageDiv.className = 'email-message error';
+                messageDiv.textContent = `❌ Error: ${error.message}. Please check email configuration.`;
+                messageDiv.style.display = 'block';
+            } finally {
+                emailSendBtn.disabled = false;
+                emailSendBtn.textContent = 'Send Email';
+            }
+        };
         
         // Ensure button is clickable on page load
         document.addEventListener('DOMContentLoaded', function() {
@@ -1081,7 +1256,7 @@ def run_agent():
         # Ensure all 4 categories are present
         all_categories = {
             "GPU and AI Infra": [],
-            "AI Frontier models": [],
+            "AI Applications": [],
             "AI Builder tools": [],
             "AI startups to watch": []
         }
@@ -1184,6 +1359,213 @@ def submit_feedback():
         import traceback
         error_trace = traceback.format_exc()
         print(f"Error saving feedback: {e}")
+        print(error_trace)
+        return jsonify({
+            "error": str(e),
+            "traceback": error_trace
+        }), 500
+
+def generate_email_html(results_data, app_url="http://localhost:5001"):
+    """Generate beautiful HTML email with news summary."""
+    categories = results_data.get('categories', {})
+    generated_at = results_data.get('generated_at', datetime.now().isoformat())
+    
+    # Format date
+    try:
+        date_obj = datetime.fromisoformat(generated_at.replace('Z', '+00:00'))
+        formatted_date = date_obj.strftime('%B %d, %Y at %I:%M %p')
+    except:
+        formatted_date = generated_at
+    
+    # Build category sections
+    category_html = ""
+    category_config = {
+        "GPU and AI Infra": {"icon": "🏗️", "color": "#667eea"},
+        "AI Applications": {"icon": "🚀", "color": "#f093fb"},
+        "AI Builder tools": {"icon": "🛠️", "color": "#4facfe"},
+        "AI startups to watch": {"icon": "⭐", "color": "#fa709a"}
+    }
+    
+    for category_name, cat_data in categories.items():
+        if isinstance(cat_data, dict):
+            articles = cat_data.get('articles', [])
+            summary = cat_data.get('summary', '')
+        else:
+            articles = cat_data if isinstance(cat_data, list) else []
+            summary = ''
+        
+        if not articles:
+            continue
+        
+        config = category_config.get(category_name, {"icon": "📰", "color": "#667eea"})
+        
+        # Category summary (first 2 sentences)
+        summary_preview = ""
+        if summary:
+            sentences = summary.split('. ')
+            preview_sentences = sentences[:2]
+            summary_preview = '. '.join(preview_sentences)
+            if len(sentences) > 2:
+                summary_preview += '...'
+        
+        category_html += f"""
+        <tr>
+            <td style="padding: 30px; background: linear-gradient(135deg, {config['color']}15 0%, {config['color']}25 100%); border-radius: 15px; margin-bottom: 20px;">
+                <h2 style="margin: 0 0 15px 0; color: {config['color']}; font-size: 24px;">
+                    {config['icon']} {category_name}
+                </h2>
+                {f'<p style="color: #555; line-height: 1.6; margin-bottom: 20px; font-size: 16px;">{html.escape(summary_preview)}</p>' if summary_preview else ''}
+                <p style="color: #666; margin: 10px 0; font-weight: 600;">📰 {len(articles)} Article{'' if len(articles) == 1 else 's'}</p>
+                <ul style="list-style: none; padding: 0; margin: 15px 0;">
+        """
+        
+        for article in articles[:5]:  # Show top 5 articles
+            title = article.get('title', 'No title')
+            link = article.get('link', '#')
+            source = article.get('source', 'Unknown')
+            category_html += f"""
+                    <li style="margin-bottom: 15px; padding: 15px; background: white; border-radius: 8px; border-left: 4px solid {config['color']};">
+                        <a href="{link}" style="color: {config['color']}; text-decoration: none; font-weight: 600; font-size: 16px; display: block; margin-bottom: 5px;">
+                            {html.escape(title)}
+                        </a>
+                        <span style="color: #999; font-size: 14px;">Source: {html.escape(source)}</span>
+                    </li>
+            """
+        
+        if len(articles) > 5:
+            category_html += f"""
+                    <li style="text-align: center; margin-top: 10px;">
+                        <span style="color: #999; font-size: 14px;">... and {len(articles) - 5} more articles</span>
+                    </li>
+            """
+        
+        category_html += """
+                </ul>
+            </td>
+        </tr>
+        """
+    
+    email_html = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>AI News Summary</title>
+    </head>
+    <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
+        <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; padding: 40px 0;">
+            <tr>
+                <td align="center">
+                    <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                        <!-- Header -->
+                        <tr>
+                            <td style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 30px; text-align: center;">
+                                <h1 style="margin: 0; color: white; font-size: 32px; font-weight: 700;">
+                                    🤖 AI News Summary
+                                </h1>
+                                <p style="margin: 10px 0 0 0; color: rgba(255,255,255,0.9); font-size: 16px;">
+                                    Your curated AI news digest
+                                </p>
+                            </td>
+                        </tr>
+                        
+                        <!-- Intro -->
+                        <tr>
+                            <td style="padding: 40px 30px; text-align: center; background: white;">
+                                <p style="margin: 0 0 20px 0; color: #333; font-size: 18px; line-height: 1.6;">
+                                    Hello! 👋
+                                </p>
+                                <p style="margin: 0 0 30px 0; color: #666; font-size: 16px; line-height: 1.8;">
+                                    Here's your personalized AI news summary, curated from 54+ trusted sources. 
+                                    Stay ahead of the latest developments in AI infrastructure, AI applications, 
+                                    builder tools, and startups to watch.
+                                </p>
+                                <a href="{app_url}" style="display: inline-block; padding: 14px 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 16px; margin: 10px 0;">
+                                    🚀 View Full Report
+                                </a>
+                            </td>
+                        </tr>
+                        
+                        <!-- Categories -->
+                        <tr>
+                            <td style="padding: 30px;">
+                                <table width="100%" cellpadding="0" cellspacing="0">
+                                    {category_html}
+                                </table>
+                            </td>
+                        </tr>
+                        
+                        <!-- Footer -->
+                        <tr>
+                            <td style="padding: 30px; background: #f8f9fa; text-align: center; border-top: 2px solid #e0e0e0;">
+                                <p style="margin: 0 0 10px 0; color: #999; font-size: 14px;">
+                                    Generated on {formatted_date}
+                                </p>
+                                <p style="margin: 0; color: #999; font-size: 12px;">
+                                    This summary was generated by the AI News Agent
+                                </p>
+                                <p style="margin: 15px 0 0 0;">
+                                    <a href="{app_url}" style="color: #667eea; text-decoration: none; font-size: 14px; font-weight: 600;">
+                                        Visit AI News Agent →
+                                    </a>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </body>
+    </html>
+    """
+    
+    return email_html
+
+@app.route('/send-email', methods=['POST'])
+def send_email():
+    """Send news summary via email."""
+    try:
+        data = request.json
+        email = data.get('email', '').strip()
+        results_data = data.get('results', {})
+        
+        if not email:
+            return jsonify({"error": "Email address is required"}), 400
+        
+        if not MAIL_USERNAME or not MAIL_PASSWORD:
+            return jsonify({
+                "error": "Email not configured. Please set MAIL_USERNAME and MAIL_PASSWORD in .env file.",
+                "config_help": "Add to .env: MAIL_USERNAME=your_email@gmail.com, MAIL_PASSWORD=your_app_password"
+            }), 500
+        
+        if not results_data:
+            return jsonify({"error": "No results to send"}), 400
+        
+        # Generate email HTML
+        app_url = request.host_url.rstrip('/')
+        email_html = generate_email_html(results_data, app_url)
+        
+        # Create message
+        msg = Message(
+            subject='🤖 Your AI News Summary',
+            recipients=[email],
+            html=email_html,
+            sender=MAIL_FROM or MAIL_USERNAME
+        )
+        
+        # Send email
+        mail.send(msg)
+        
+        return jsonify({
+            "success": True,
+            "message": "Email sent successfully"
+        })
+        
+    except Exception as e:
+        import traceback
+        error_trace = traceback.format_exc()
+        print(f"Error sending email: {e}")
         print(error_trace)
         return jsonify({
             "error": str(e),
