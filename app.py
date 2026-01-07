@@ -249,10 +249,70 @@ HTML_TEMPLATE = """
             gap: 10px;
         }
         .category-overview-text {
-            line-height: 2;
+            line-height: 1.8;
             color: #444;
             font-size: 1.05em;
             font-weight: 400;
+        }
+        .read-more-link {
+            color: #667eea;
+            cursor: pointer;
+            text-decoration: underline;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+        .read-more-link:hover {
+            color: #5568d3;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 30px;
+            border: 1px solid #888;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 700px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        .modal-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #333;
+        }
+        .close-modal {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .close-modal:hover,
+        .close-modal:focus {
+            color: #000;
+        }
+        .modal-body {
+            line-height: 1.8;
+            color: #444;
+            font-size: 1.05em;
         }
         .articles-section {
             margin-top: 20px;
@@ -530,6 +590,17 @@ HTML_TEMPLATE = """
 
         <div id="errorContainer"></div>
 
+        <!-- Modal for Full Summary -->
+        <div id="summaryModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title" id="modalTitle">Category Summary</div>
+                    <span class="close-modal" onclick="closeSummaryModal()">&times;</span>
+                </div>
+                <div class="modal-body" id="modalBody"></div>
+            </div>
+        </div>
+
         <div class="results" id="results">
             <div class="categories-grid" id="categoriesGrid"></div>
             
@@ -709,12 +780,23 @@ HTML_TEMPLATE = """
                         overviewDiv.className = 'category-overview';
                         overviewDiv.style.borderLeftColor = config.color;
                         if (categorySummary) {
+                            // Truncate summary to first 2-3 sentences (approximately 200 characters)
+                            const sentences = categorySummary.match(/[^.!?]+[.!?]+/g) || [categorySummary];
+                            const previewSentences = sentences.slice(0, 2).join(' ');
+                            const previewText = previewSentences.length < categorySummary.length 
+                                ? previewSentences 
+                                : categorySummary.substring(0, 200) + '...';
+                            const showReadMore = categorySummary.length > previewText.length;
+                            
                             overviewDiv.innerHTML = `
                                 <div class="category-overview-title">
                                     <span>📊</span>
                                     <span>AI-Generated Category Summary</span>
                                 </div>
-                                <div class="category-overview-text">${escapeHtml(categorySummary)}</div>
+                                <div class="category-overview-text">
+                                    ${escapeHtml(previewText)}
+                                    ${showReadMore ? `<span class="read-more-link" onclick="showFullSummary('${categoryName}', ${JSON.stringify(categorySummary).replace(/'/g, "&#39;")})">Read more</span>` : ''}
+                                </div>
                             `;
                         } else {
                             // Only show API key error in Full Mode when summary is missing
@@ -896,6 +978,29 @@ HTML_TEMPLATE = """
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
+        }
+        
+        function showFullSummary(categoryName, fullSummary) {
+            const modal = document.getElementById('summaryModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            
+            modalTitle.textContent = `${categoryName} - Full Summary`;
+            modalBody.innerHTML = escapeHtml(fullSummary).replace(/\n/g, '<br>');
+            modal.style.display = 'block';
+        }
+        
+        function closeSummaryModal() {
+            const modal = document.getElementById('summaryModal');
+            modal.style.display = 'none';
+        }
+        
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('summaryModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
         }
     </script>
 </body>

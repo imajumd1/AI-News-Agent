@@ -93,26 +93,25 @@ Summary:"""
         
         articles_text = "\n".join(article_info)
         
-        prompt = f"""You are an AI news analyst. Analyze the following articles about {category} and create a comprehensive bird's-eye view summary (4-6 sentences) that captures:
+        prompt = f"""You are an AI news analyst. Analyze the following articles about {category} and create a succinct, professional summary (2-3 sentences) that captures:
 
 1. The main themes and trends
 2. Key developments and breakthroughs
 3. Important implications or impacts
-4. Overall direction of the field
 
 Articles:
 {articles_text}
 
-Provide a cohesive summary that gives readers a comprehensive understanding of what's happening in {category} based on these articles:"""
+Provide a concise, professional summary that gives readers a clear understanding of what's happening in {category} based on these articles. Be direct and informative:"""
         
         try:
             response = self.client.chat.completions.create(
                 model=self.model,
                 messages=[
-                    {"role": "system", "content": "You are an expert AI news analyst. Create comprehensive, insightful category-level summaries that synthesize multiple articles into a cohesive narrative."},
+                    {"role": "system", "content": "You are an expert AI news analyst. Create succinct, professional category-level summaries that are concise yet informative. Write in a clear, journalistic style."},
                     {"role": "user", "content": prompt}
                 ],
-                max_tokens=400,
+                max_tokens=250,
                 temperature=0.7
             )
             
