@@ -587,7 +587,7 @@ HTML_TEMPLATE = """
             // Update loading message
             const loadingText = loading.querySelector('p');
             const originalText = loadingText.textContent;
-            loadingText.textContent = 'Scraping 31 sources... This may take 40-60 seconds. Please wait...';
+            loadingText.textContent = 'Scraping 54 sources... This may take 60-90 seconds. Please wait...';
             
             try {
                 const response = await fetch('/run', {
