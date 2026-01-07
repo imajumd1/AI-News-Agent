@@ -17,6 +17,10 @@ NEWS_SOURCES = {
         "url": "https://techcrunch.com/tag/artificial-intelligence/feed/",
         "type": "rss"
     },
+    "crunchbase_news": {
+        "url": "https://news.crunchbase.com/feed/",
+        "type": "rss"
+    },
     "the_verge_ai": {
         "url": "https://www.theverge.com/ai-artificial-intelligence/rss/index.xml",
         "type": "rss"
@@ -167,6 +171,16 @@ NEWS_SOURCES = {
     },
     "the_information_tech": {
         "url": "https://www.theinformation.com/feed",
+        "type": "rss"
+    },
+    
+    # Business & AI Newsletters
+    "axios_ai": {
+        "url": "https://www.axios.com/feeds/axios-ai.rss",
+        "type": "rss"
+    },
+    "axios_pro_rata": {
+        "url": "https://www.axios.com/feeds/axios-pro-rata.rss",
         "type": "rss"
     }
 }
