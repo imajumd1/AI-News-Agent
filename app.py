@@ -627,14 +627,15 @@ HTML_TEMPLATE = """
     </div>
 
     <script>
-        // Make functions globally accessible
-        window.runAgent = async function() {
+        const categoryConfig = {
             "GPU and AI Infra": { icon: "🏗️", color: "#667eea" },
             "AI Frontier models": { icon: "🚀", color: "#f093fb" },
             "AI Builder tools": { icon: "🛠️", color: "#4facfe" },
             "AI startups to watch": { icon: "⭐", color: "#fa709a" }
         };
 
+        // Make runAgent globally accessible
+        window.runAgent = async function() {
             console.log('runAgent() called');
             const submitBtn = document.getElementById('submitBtn');
             const loading = document.getElementById('loading');
@@ -1021,6 +1022,31 @@ HTML_TEMPLATE = """
                 modal.style.display = 'none';
             }
         }
+        
+        // Ensure button is clickable on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, setting up button...');
+            const submitBtn = document.getElementById('submitBtn');
+            if (submitBtn) {
+                console.log('✅ Submit button found');
+                // Remove any disabled attribute
+                submitBtn.disabled = false;
+                // Add event listener as backup to onclick
+                submitBtn.addEventListener('click', function(e) {
+                    console.log('Button clicked via event listener');
+                    e.preventDefault();
+                    if (window.runAgent) {
+                        window.runAgent();
+                    } else {
+                        console.error('window.runAgent is not defined!');
+                        alert('Error: runAgent function not found. Please refresh the page.');
+                    }
+                });
+                console.log('✅ Event listener added to button');
+            } else {
+                console.error('❌ Submit button not found!');
+            }
+        });
     </script>
 </body>
 </html>
