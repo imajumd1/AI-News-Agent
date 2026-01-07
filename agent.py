@@ -49,7 +49,7 @@ class AINewsAgent:
         # Step 4: Generate summaries (optional)
         # Ensure all categories are present
         results = {
-            "AI Infrastructure": [],
+            "GPU and AI Infra": [],
             "AI Frontier models": [],
             "AI Builder tools": [],
             "AI startups to watch": []

@@ -29,6 +29,13 @@ wheels/
 # Reports
 ai_news_report_*.json
 
+# Feedback data
+feedback.csv
+
+# API key files (if accidentally created)
+.env*
+!.env.example
+
 # IDE
 .vscode/
 .idea/

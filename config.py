@@ -146,16 +146,53 @@ NEWS_SOURCES = {
     "anthropic_blog": {
         "url": "https://www.anthropic.com/index.xml",
         "type": "rss"
+    },
+    
+    # GPU & Hardware Specific Sources
+    "nvidia_blog": {
+        "url": "https://blogs.nvidia.com/feed/",
+        "type": "rss"
+    },
+    "tomshardware": {
+        "url": "https://www.tomshardware.com/feeds/all",
+        "type": "rss"
+    },
+    "anandtech": {
+        "url": "https://www.anandtech.com/rss/",
+        "type": "rss"
+    },
+    "techspot": {
+        "url": "https://www.techspot.com/backend.xml",
+        "type": "rss"
+    },
+    "the_information_tech": {
+        "url": "https://www.theinformation.com/feed",
+        "type": "rss"
     }
 }
 
 # Category Keywords
 CATEGORY_KEYWORDS = {
-    "AI Infrastructure": [
-        "infrastructure", "compute", "gpu", "datacenter", "cloud", "training infrastructure",
-        "hardware", "chips", "processors", "servers", "distributed training", "scaling",
-        "mlops", "deployment", "inference", "serving", "kubernetes", "orchestration",
-        "data pipeline", "storage", "networking", "optimization", "efficiency", "compute cluster"
+    "GPU and AI Infra": [
+        # Core AI Infrastructure
+        "ai infrastructure",
+        "ai stack",
+        "ai platforms",
+        "ml infrastructure",
+        "machine learning platforms",
+        "ai systems architecture",
+        # GPU Computing & Hardware
+        "gpu computing",
+        "ai accelerators",
+        "nvidia cuda",
+        "tensor cores",
+        "tpu infrastructure",
+        "ai chips",
+        "edge ai hardware",
+        "heterogeneous computing",
+        # Infrastructure & Deployment
+        "ai compute infrastructure",
+        "ai deployment infrastructure"
     ],
     "AI Frontier models": [
         "frontier model", "large language model", "llm", "gpt", "claude", "gemini",

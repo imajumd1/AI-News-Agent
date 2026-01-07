@@ -7,6 +7,7 @@ import json
 from datetime import datetime
 import os
 import html
+import csv
 
 app = Flask(__name__)
 
@@ -20,7 +21,7 @@ def after_request(response):
 
 # Category configuration with icons and colors
 CATEGORY_CONFIG = {
-    "AI Infrastructure": {
+    "GPU and AI Infra": {
         "icon": "🏗️",
         "color": "#667eea",
         "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
@@ -376,6 +377,114 @@ HTML_TEMPLATE = """
         .results.visible {
             display: block;
         }
+        .feedback-section {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border: 2px solid #e0e0e0;
+        }
+        .feedback-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .feedback-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .feedback-btn {
+            flex: 1;
+            padding: 15px 30px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .feedback-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .feedback-btn.thumbs-up {
+            border-color: #4caf50;
+            color: #4caf50;
+        }
+        .feedback-btn.thumbs-up:hover,
+        .feedback-btn.thumbs-up.active {
+            background: #4caf50;
+            color: white;
+        }
+        .feedback-btn.thumbs-down {
+            border-color: #f44336;
+            color: #f44336;
+        }
+        .feedback-btn.thumbs-down:hover,
+        .feedback-btn.thumbs-down.active {
+            background: #f44336;
+            color: white;
+        }
+        .feedback-comment {
+            margin-top: 20px;
+        }
+        .feedback-comment textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1em;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 100px;
+            box-sizing: border-box;
+        }
+        .feedback-comment textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .feedback-submit {
+            margin-top: 15px;
+            padding: 12px 30px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .feedback-submit:hover {
+            background: #5568d3;
+        }
+        .feedback-submit:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .feedback-message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            display: none;
+        }
+        .feedback-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .feedback-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
         @media (max-width: 768px) {
             .categories-grid {
                 grid-template-columns: 1fr;
@@ -423,12 +532,32 @@ HTML_TEMPLATE = """
 
         <div class="results" id="results">
             <div class="categories-grid" id="categoriesGrid"></div>
+            
+            <!-- Feedback Section -->
+            <div class="feedback-section" id="feedbackSection" style="display: none;">
+                <div class="feedback-title">💬 How was your experience?</div>
+                <div class="feedback-buttons">
+                    <button class="feedback-btn thumbs-up" onclick="selectFeedback('thumbs_up')">
+                        👍 Thumbs Up
+                    </button>
+                    <button class="feedback-btn thumbs-down" onclick="selectFeedback('thumbs_down')">
+                        👎 Thumbs Down
+                    </button>
+                </div>
+                <div class="feedback-comment">
+                    <textarea id="feedbackComment" placeholder="Optional: Tell us more about your experience..."></textarea>
+                </div>
+                <button class="feedback-submit" id="feedbackSubmit" onclick="submitFeedback()" disabled>
+                    Submit Feedback
+                </button>
+                <div class="feedback-message" id="feedbackMessage"></div>
+            </div>
         </div>
     </div>
 
     <script>
         const categoryConfig = {
-            "AI Infrastructure": { icon: "🏗️", color: "#667eea" },
+            "GPU and AI Infra": { icon: "🏗️", color: "#667eea" },
             "AI Frontier models": { icon: "🚀", color: "#f093fb" },
             "AI Builder tools": { icon: "🛠️", color: "#4facfe" },
             "AI startups to watch": { icon: "⭐", color: "#fa709a" }
@@ -521,7 +650,7 @@ HTML_TEMPLATE = """
             
             // Create category boxes
             const categoryOrder = [
-                "AI Infrastructure",
+                "GPU and AI Infra",
                 "AI Frontier models", 
                 "AI Builder tools",
                 "AI startups to watch"
@@ -573,38 +702,42 @@ HTML_TEMPLATE = """
                 if (articles.length === 0) {
                     content.innerHTML = '<div class="empty-state">No articles found in this category</div>';
                 } else {
-                    // Category Overview Section - Show FIRST and prominently
-                    const overviewDiv = document.createElement('div');
-                    overviewDiv.className = 'category-overview';
-                    overviewDiv.style.borderLeftColor = config.color;
-                    if (categorySummary) {
-                        overviewDiv.innerHTML = `
-                            <div class="category-overview-title">
-                                <span>📊</span>
-                                <span>AI-Generated Category Summary</span>
-                            </div>
-                            <div class="category-overview-text">${escapeHtml(categorySummary)}</div>
-                        `;
-                    } else {
-                        overviewDiv.innerHTML = `
-                            <div class="category-overview-title">
-                                <span>📊</span>
-                                <span>Category Overview</span>
-                            </div>
-                            <div class="category-overview-text" style="color: #d32f2f; font-weight: 500; padding: 15px; background: #ffebee; border-radius: 8px; border-left: 3px solid #d32f2f;">
-                                <strong>⚠️ API Key Required</strong><br><br>
-                                Category summaries require a valid OpenAI API key.<br><br>
-                                <strong>To fix this:</strong><br>
-                                1. Open <code>~/ai_news_agent/.env</code> in a text editor<br>
-                                2. Replace <code>your_openai_api_key_here</code> with your actual OpenAI API key<br>
-                                3. Your key should start with <code>sk-</code><br>
-                                4. Restart the server and try Full Mode again<br><br>
-                                <small>Get your API key at: <a href="https://platform.openai.com/account/api-keys" target="_blank">platform.openai.com/account/api-keys</a></small>
-                            </div>
-                        `;
+                    // Category Overview Section - Only show in Full Mode or if summary exists
+                    const isFullMode = data.mode === 'full';
+                    if (isFullMode || categorySummary) {
+                        const overviewDiv = document.createElement('div');
+                        overviewDiv.className = 'category-overview';
+                        overviewDiv.style.borderLeftColor = config.color;
+                        if (categorySummary) {
+                            overviewDiv.innerHTML = `
+                                <div class="category-overview-title">
+                                    <span>📊</span>
+                                    <span>AI-Generated Category Summary</span>
+                                </div>
+                                <div class="category-overview-text">${escapeHtml(categorySummary)}</div>
+                            `;
+                        } else {
+                            // Only show API key error in Full Mode when summary is missing
+                            overviewDiv.innerHTML = `
+                                <div class="category-overview-title">
+                                    <span>📊</span>
+                                    <span>Category Overview</span>
+                                </div>
+                                <div class="category-overview-text" style="color: #d32f2f; font-weight: 500; padding: 15px; background: #ffebee; border-radius: 8px; border-left: 3px solid #d32f2f;">
+                                    <strong>⚠️ API Key Required</strong><br><br>
+                                    Category summaries require a valid OpenAI API key.<br><br>
+                                    <strong>To fix this:</strong><br>
+                                    1. Open <code>~/ai_news_agent/.env</code> in a text editor<br>
+                                    2. Replace <code>your_openai_api_key_here</code> with your actual OpenAI API key<br>
+                                    3. Your key should start with <code>sk-</code><br>
+                                    4. Restart the server and try Full Mode again<br><br>
+                                    <small>Get your API key at: <a href="https://platform.openai.com/account/api-keys" target="_blank">platform.openai.com/account/api-keys</a></small>
+                                </div>
+                            `;
+                        }
+                        // Add overview FIRST
+                        content.appendChild(overviewDiv);
                     }
-                    // Add overview FIRST
-                    content.appendChild(overviewDiv);
                     
                     // Articles Section (expandable) - Show AFTER overview
                     const articlesSection = document.createElement('div');
@@ -673,6 +806,90 @@ HTML_TEMPLATE = """
             });
             
             results.classList.add('visible');
+            
+            // Show feedback section after results are displayed
+            const feedbackSection = document.getElementById('feedbackSection');
+            if (feedbackSection) {
+                feedbackSection.style.display = 'block';
+            }
+        }
+        
+        let selectedFeedback = null;
+        
+        function selectFeedback(type) {
+            selectedFeedback = type;
+            
+            // Update button states
+            document.querySelectorAll('.feedback-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            const btn = type === 'thumbs_up' 
+                ? document.querySelector('.thumbs-up')
+                : document.querySelector('.thumbs-down');
+            if (btn) {
+                btn.classList.add('active');
+            }
+            
+            // Enable submit button
+            const submitBtn = document.getElementById('feedbackSubmit');
+            if (submitBtn) {
+                submitBtn.disabled = false;
+            }
+        }
+        
+        async function submitFeedback() {
+            if (!selectedFeedback) {
+                return;
+            }
+            
+            const comment = document.getElementById('feedbackComment').value.trim();
+            const submitBtn = document.getElementById('feedbackSubmit');
+            const messageDiv = document.getElementById('feedbackMessage');
+            
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+            
+            try {
+                const response = await fetch('/feedback', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        feedback: selectedFeedback,
+                        comment: comment
+                    })
+                });
+                
+                if (response.ok) {
+                    // Show success message
+                    messageDiv.className = 'feedback-message success';
+                    messageDiv.textContent = '✅ Thank you for your feedback!';
+                    messageDiv.style.display = 'block';
+                    
+                    // Reset form after 3 seconds
+                    setTimeout(() => {
+                        selectedFeedback = null;
+                        document.getElementById('feedbackComment').value = '';
+                        document.querySelectorAll('.feedback-btn').forEach(btn => {
+                            btn.classList.remove('active');
+                        });
+                        submitBtn.disabled = true;
+                        submitBtn.textContent = 'Submit Feedback';
+                        messageDiv.style.display = 'none';
+                    }, 3000);
+                } else {
+                    throw new Error('Failed to submit feedback');
+                }
+            } catch (error) {
+                messageDiv.className = 'feedback-message error';
+                messageDiv.textContent = '❌ Error submitting feedback. Please try again.';
+                messageDiv.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Feedback';
+            }
         }
         
         function escapeHtml(text) {
@@ -713,7 +930,7 @@ def run_agent():
         
         # Ensure all 4 categories are present
         all_categories = {
-            "AI Infrastructure": [],
+            "GPU and AI Infra": [],
             "AI Frontier models": [],
             "AI Builder tools": [],
             "AI startups to watch": []
@@ -722,6 +939,7 @@ def run_agent():
         # Prepare response
         response_data = {
             "generated_at": datetime.now().isoformat(),
+            "mode": mode,  # Include mode so frontend knows if it's Fast or Full
             "categories": {}
         }
         
@@ -771,6 +989,51 @@ def run_agent():
         import traceback
         error_trace = traceback.format_exc()
         print(f"Error in /run endpoint: {e}")
+        print(error_trace)
+        return jsonify({
+            "error": str(e),
+            "traceback": error_trace
+        }), 500
+
+@app.route('/feedback', methods=['POST'])
+def submit_feedback():
+    """Save user feedback to CSV file."""
+    try:
+        data = request.json
+        feedback_type = data.get('feedback', '')
+        comment = data.get('comment', '')
+        
+        if not feedback_type:
+            return jsonify({"error": "Feedback type is required"}), 400
+        
+        # Get the directory where the app is running
+        app_dir = os.path.dirname(os.path.abspath(__file__))
+        csv_file = os.path.join(app_dir, 'feedback.csv')
+        
+        # Check if file exists to determine if we need to write headers
+        file_exists = os.path.isfile(csv_file)
+        
+        # Write to CSV
+        with open(csv_file, 'a', newline='', encoding='utf-8') as f:
+            writer = csv.writer(f)
+            
+            # Write header if file is new
+            if not file_exists:
+                writer.writerow(['timestamp', 'feedback', 'comment'])
+            
+            # Write feedback data
+            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            writer.writerow([timestamp, feedback_type, comment])
+        
+        return jsonify({
+            "success": True,
+            "message": "Feedback saved successfully"
+        })
+        
+    except Exception as e:
+        import traceback
+        error_trace = traceback.format_exc()
+        print(f"Error saving feedback: {e}")
         print(error_trace)
         return jsonify({
             "error": str(e),

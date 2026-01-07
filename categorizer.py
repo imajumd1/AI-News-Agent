@@ -1,4 +1,4 @@
-"""Categorizes articles into AI Infrastructure and AI Frontier models."""
+"""Categorizes articles into GPU and AI Infra, AI Frontier models, AI Builder tools, and AI startups."""
 
 from typing import Dict, List, Optional
 from config import CATEGORY_KEYWORDS
@@ -21,12 +21,22 @@ class ArticleCategorizer:
         if not keywords:
             return 0.0
         
+        # Count keyword matches (case-insensitive)
         matches = sum(1 for keyword in keywords if keyword.lower() in text_lower)
-        score = matches / len(keywords)
         
-        # Boost score if multiple keywords found
-        if matches > 1:
-            score *= 1.2
+        # For GPU and AI Infra, use a more lenient scoring
+        if category == "GPU and AI Infra":
+            # Lower threshold - any match is significant
+            if matches > 0:
+                score = 0.3 + (matches * 0.2)  # Start at 0.3 for 1 match, add 0.2 per additional match
+            else:
+                score = 0.0
+        else:
+            # Original scoring for other categories
+            score = matches / len(keywords)
+            # Boost score if multiple keywords found
+            if matches > 1:
+                score *= 1.2
         
         return min(score, 1.0)
     
@@ -51,8 +61,11 @@ class ArticleCategorizer:
         # Find the category with the highest score
         best_category = max(scores.items(), key=lambda x: x[1])
         
+        # Lower threshold for GPU and AI Infra category to catch more articles
+        threshold = 0.05 if best_category[0] == "GPU and AI Infra" else 0.1
+        
         # Only categorize if score is above threshold
-        if best_category[1] > 0.1:
+        if best_category[1] > threshold:
             return best_category[0]
         
         return None
@@ -60,7 +73,7 @@ class ArticleCategorizer:
     def categorize_articles(self, articles: List[Dict]) -> Dict[str, List[Dict]]:
         """Categorize multiple articles."""
         categorized = {
-            "AI Infrastructure": [],
+            "GPU and AI Infra": [],
             "AI Frontier models": [],
             "AI Builder tools": [],
             "AI startups to watch": []
