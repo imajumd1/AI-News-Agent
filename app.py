@@ -788,6 +788,10 @@ HTML_TEMPLATE = """
                                 : categorySummary.substring(0, 200) + '...';
                             const showReadMore = categorySummary.length > previewText.length;
                             
+                            // Store full summary in data attribute
+                            overviewDiv.setAttribute('data-full-summary', categorySummary);
+                            overviewDiv.setAttribute('data-category-name', categoryName);
+                            
                             overviewDiv.innerHTML = `
                                 <div class="category-overview-title">
                                     <span>📊</span>
@@ -795,7 +799,7 @@ HTML_TEMPLATE = """
                                 </div>
                                 <div class="category-overview-text">
                                     ${escapeHtml(previewText)}
-                                    ${showReadMore ? `<span class="read-more-link" onclick="showFullSummary('${categoryName}', ${JSON.stringify(categorySummary).replace(/'/g, "&#39;")})">Read more</span>` : ''}
+                                    ${showReadMore ? `<span class="read-more-link" onclick="showFullSummaryFromElement(this)">Read more</span>` : ''}
                                 </div>
                             `;
                         } else {
@@ -978,6 +982,13 @@ HTML_TEMPLATE = """
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
+        }
+        
+        function showFullSummaryFromElement(element) {
+            const overviewDiv = element.closest('.category-overview');
+            const categoryName = overviewDiv.getAttribute('data-category-name');
+            const fullSummary = overviewDiv.getAttribute('data-full-summary');
+            showFullSummary(categoryName, fullSummary);
         }
         
         function showFullSummary(categoryName, fullSummary) {
