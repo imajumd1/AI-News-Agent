@@ -114,27 +114,25 @@ class StartupFetcher:
         
         startups_text = "\n".join(startup_info)
         
-        prompt = f"""You are an AI industry analyst. Analyze the following top 10 AI enterprise startups and create a comprehensive summary (5-7 sentences) that covers:
+        prompt = f"""You are an AI industry analyst. Analyze the following top 10 AI enterprise startups and create a succinct, professional summary (2-3 sentences) that covers:
 
 1. The overall landscape and trends in AI enterprise startups
 2. Key focus areas and market segments these startups are targeting
 3. Notable innovations or differentiators
-4. The direction of enterprise AI adoption
-5. What makes these companies stand out in the market
 
 Top AI Enterprise Startups:
 {startups_text}
 
-Provide an insightful, cohesive summary that gives readers a comprehensive understanding of the current state of AI enterprise startups:"""
+Provide a concise, professional summary that gives readers a clear understanding of the current state of AI enterprise startups. Be direct and informative:"""
         
         try:
             response = self.summarizer.client.chat.completions.create(
                 model=self.summarizer.model,
                 messages=[
-                    {"role": "system", "content": "You are an expert AI industry analyst. Create comprehensive, insightful summaries about AI enterprise startups that synthesize information into a cohesive narrative."},
+                    {"role": "system", "content": "You are an expert AI industry analyst. Create succinct, professional summaries about AI enterprise startups that are concise yet informative. Write in a clear, journalistic style."},
                     {"role": "user", "content": prompt}
                 ],
-                max_tokens=500,
+                max_tokens=250,
                 temperature=0.7
             )
             
