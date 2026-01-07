@@ -35,6 +35,7 @@ feedback.csv
 # API key files (if accidentally created)
 .env*
 !.env.example
+.envsk-proj-*
 
 # IDE
 .vscode/
