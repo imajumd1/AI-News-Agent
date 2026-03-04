@@ -1227,6 +1227,11 @@ HTML_TEMPLATE = """
 </html>
 """
 
+@app.route('/health')
+def health():
+    """Health check endpoint for Railway."""
+    return jsonify({"status": "healthy", "service": "AI News Agent"}), 200
+
 @app.route('/')
 def index():
     """Render the main page."""
@@ -1583,6 +1588,10 @@ if __name__ == '__main__':
     print("="*60)
     print(f"\nStarting server on {HOST}:{PORT}")
     print(f"Debug mode: {DEBUG}")
+    print(f"OpenAI API Key configured: {'Yes' if os.environ.get('OPENAI_API_KEY') else 'No (will use Fast Mode only)'}")
+    print(f"Email configured: {'Yes' if MAIL_USERNAME else 'No'}")
     print("Press Ctrl+C to stop\n")
+    print("Health check available at /health")
+    print("="*60 + "\n")
     # For Railway, use threaded=True for better performance
     app.run(host=HOST, port=PORT, debug=DEBUG, threaded=True)
