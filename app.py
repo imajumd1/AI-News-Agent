@@ -1,15 +1,55 @@
 #!/usr/bin/env python3
 """Web application for AI News Agent."""
 
-from flask import Flask, render_template_string, request, jsonify
-from flask_mail import Mail, Message
-from agent import AINewsAgent
+import sys
+import os
+import traceback
+
+# Add startup logging
+print("=" * 80)
+print("AI News Agent - Starting Application")
+print("=" * 80)
+print(f"Python version: {sys.version}")
+print(f"Working directory: {os.getcwd()}")
+
+try:
+    from flask import Flask, render_template_string, request, jsonify
+    print("✓ Flask imported successfully")
+except Exception as e:
+    print(f"✗ Failed to import Flask: {e}")
+    sys.exit(1)
+
+try:
+    from flask_mail import Mail, Message
+    print("✓ Flask-Mail imported successfully")
+except Exception as e:
+    print(f"✗ Failed to import Flask-Mail: {e}")
+    sys.exit(1)
+
 import json
 from datetime import datetime
-import os
 import html
 import csv
-from config import MAIL_SERVER, MAIL_PORT, MAIL_USE_TLS, MAIL_USERNAME, MAIL_PASSWORD, MAIL_FROM
+
+try:
+    from config import MAIL_SERVER, MAIL_PORT, MAIL_USE_TLS, MAIL_USERNAME, MAIL_PASSWORD, MAIL_FROM
+    print("✓ Config imported successfully")
+except Exception as e:
+    print(f"✗ Failed to import config: {e}")
+    traceback.print_exc()
+    sys.exit(1)
+
+try:
+    from agent import AINewsAgent
+    print("✓ AINewsAgent imported successfully")
+except Exception as e:
+    print(f"✗ Failed to import AINewsAgent: {e}")
+    traceback.print_exc()
+    sys.exit(1)
+
+print("=" * 80)
+print("All imports successful - Starting Flask app")
+print("=" * 80)
 
 app = Flask(__name__)
 
