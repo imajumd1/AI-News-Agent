@@ -53,13 +53,24 @@ print("=" * 80)
 
 app = Flask(__name__)
 
+print("Creating Flask app...")
+print(f"MAIL_SERVER: {MAIL_SERVER}")
+print(f"MAIL_USERNAME configured: {'Yes' if MAIL_USERNAME else 'No'}")
+
 # Configure Flask-Mail
-app.config['MAIL_SERVER'] = MAIL_SERVER
-app.config['MAIL_PORT'] = MAIL_PORT
-app.config['MAIL_USE_TLS'] = MAIL_USE_TLS
-app.config['MAIL_USERNAME'] = MAIL_USERNAME
-app.config['MAIL_PASSWORD'] = MAIL_PASSWORD
-mail = Mail(app)
+try:
+    app.config['MAIL_SERVER'] = MAIL_SERVER
+    app.config['MAIL_PORT'] = MAIL_PORT
+    app.config['MAIL_USE_TLS'] = MAIL_USE_TLS
+    app.config['MAIL_USERNAME'] = MAIL_USERNAME or ''
+    app.config['MAIL_PASSWORD'] = MAIL_PASSWORD or ''
+    mail = Mail(app)
+    print("✓ Flask-Mail configured successfully")
+except Exception as e:
+    print(f"✗ Flask-Mail configuration failed: {e}")
+    traceback.print_exc()
+    # Create a dummy mail object to prevent crashes
+    mail = None
 
 # Enable CORS manually (for localhost, CORS isn't strictly needed, but helps)
 @app.after_request
@@ -1272,10 +1283,20 @@ def health():
     """Health check endpoint for Railway."""
     return jsonify({"status": "healthy", "service": "AI News Agent"}), 200
 
+@app.route('/test')
+def test():
+    """Simple test endpoint."""
+    return "AI News Agent is running!", 200
+
 @app.route('/')
 def index():
     """Render the main page."""
-    return render_template_string(HTML_TEMPLATE)
+    try:
+        return render_template_string(HTML_TEMPLATE)
+    except Exception as e:
+        print(f"Error rendering template: {e}")
+        traceback.print_exc()
+        return f"Error: {str(e)}", 500
 
 @app.route('/run', methods=['POST'])
 def run_agent():
@@ -1578,7 +1599,7 @@ def send_email():
         if not email:
             return jsonify({"error": "Email address is required"}), 400
         
-        if not MAIL_USERNAME or not MAIL_PASSWORD:
+        if not MAIL_USERNAME or not MAIL_PASSWORD or mail is None:
             return jsonify({
                 "error": "Email not configured. Please set MAIL_USERNAME and MAIL_PASSWORD in .env file.",
                 "config_help": "Add to .env: MAIL_USERNAME=your_email@gmail.com, MAIL_PASSWORD=your_app_password"
