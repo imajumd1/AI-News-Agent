@@ -1,1 +1,1 @@
-web: gunicorn test_wsgi:app --bind 0.0.0.0:5001 --log-level debug
+web: gunicorn wsgi:app --bind 0.0.0.0:5001 --workers 1 --timeout 120 --log-level info
