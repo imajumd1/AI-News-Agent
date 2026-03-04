@@ -52,6 +52,7 @@ print("All imports successful - Starting Flask app")
 print("=" * 80)
 
 app = Flask(__name__)
+app.config['PROPAGATE_EXCEPTIONS'] = True
 
 print("Creating Flask app...")
 print(f"MAIL_SERVER: {MAIL_SERVER}")
@@ -71,6 +72,18 @@ except Exception as e:
     traceback.print_exc()
     # Create a dummy mail object to prevent crashes
     mail = None
+
+# Add global error handler
+@app.errorhandler(Exception)
+def handle_exception(e):
+    """Log all unhandled exceptions."""
+    print(f"!!! UNHANDLED EXCEPTION: {type(e).__name__}: {str(e)}")
+    traceback.print_exc()
+    import sys
+    sys.stdout.flush()
+    return f"Internal Server Error: {str(e)}", 500
+
+print("✓ Error handlers registered")
 
 # Enable CORS manually (for localhost, CORS isn't strictly needed, but helps)
 @app.after_request
