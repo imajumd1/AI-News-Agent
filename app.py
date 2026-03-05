@@ -1110,7 +1110,12 @@ HTML_TEMPLATE = """
                 <div class="header-tagline">
                     The latest breakthroughs across <span class="highlight">AI infrastructure</span>, 
                     <span class="highlight">applications</span>, <span class="highlight">tools</span> and 
-                    <span class="highlight">startups</span> — curated, synthesized, and delivered before your morning coffee. 
+                    <span class="highlight">startups</span>.
+                </div>
+                <div class="header-tagline">
+                    Curated, synthesized, and delivered before your morning coffee.
+                </div>
+                <div class="header-tagline">
                     No noise. Just signal.
                 </div>
                 
@@ -1129,11 +1134,6 @@ HTML_TEMPLATE = """
                     </div>
                 </div>
                 
-                <div class="hero-buttons">
-                    <button class="btn-hero btn-hero-primary" onclick="document.querySelector('.controls').scrollIntoView({behavior: 'smooth', block: 'center'})">
-                        ⚡ Get the Brief
-                    </button>
-                </div>
             </div>
             
             <div class="hero-right">
