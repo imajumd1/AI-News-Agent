@@ -219,32 +219,6 @@ HTML_TEMPLATE = """
             line-height: 1.7;
             margin-bottom: 30px;
         }
-        .hero-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            margin-bottom: 35px;
-        }
-        .stat-item {
-            text-align: left;
-        }
-        .stat-value {
-            font-size: 2em;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffffff 0%, #a9a3ff 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 5px;
-            display: block;
-        }
-        .stat-label {
-            font-size: 0.75em;
-            color: #6b7280;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
-        }
         .hero-buttons {
             display: flex;
             gap: 15px;
@@ -328,12 +302,6 @@ HTML_TEMPLATE = """
             }
             .hero-left {
                 text-align: center;
-            }
-            .hero-stats {
-                justify-content: center;
-            }
-            .hero-buttons {
-                justify-content: center;
             }
             .hero-character-container {
                 width: 300px;
@@ -1123,22 +1091,6 @@ HTML_TEMPLATE = """
                 <div class="header-tagline">
                     No noise. Just signal.
                 </div>
-                
-                <div class="hero-stats">
-                    <div class="stat-item">
-                        <span class="stat-value">85</span>
-                        <span class="stat-label">Vetted Sources Monitored</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-value">24/7</span>
-                        <span class="stat-label">Real-Time Coverage</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-value">98%</span>
-                        <span class="stat-label">Signal Accuracy</span>
-                    </div>
-                </div>
-                
             </div>
             
             <div class="hero-right">
