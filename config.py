@@ -420,9 +420,30 @@ CATEGORY_KEYWORDS = {
         "ai partnership", "ai collaboration", "ai deal", "ai agreement"
     ],
     "AI Builder tools": [
-        "developer tool", "sdk", "api", "framework", "library", "platform", "toolkit",
-        "development", "programming", "code", "software", "build", "create", "tool",
-        "ide", "editor", "assistant", "copilot", "autocomplete", "generation", "studio"
+        # AI Development Frameworks & Tools
+        "langchain", "llamaindex", "hugging face", "transformers", "pytorch", "tensorflow",
+        "keras", "onnx", "mlflow", "wandb", "weights & biases", "gradio", "streamlit",
+        # AI Code Assistants & IDEs
+        "github copilot", "cursor", "replit", "codeium", "tabnine", "codex", "code assistant",
+        "ai coding", "code generation", "pair programming",
+        # Vector DBs & RAG Tools
+        "pinecone", "weaviate", "qdrant", "chroma", "milvus", "vector database", "vector db",
+        "embeddings", "rag", "retrieval augmented", "semantic search",
+        # AI Development Platforms
+        "openai api", "anthropic api", "cohere", "replicate", "modal", "beam", "banana",
+        "together ai", "fireworks ai", "anyscale", "baseten", "inference api",
+        # Model Training & Fine-tuning
+        "fine-tuning", "fine tuning", "model training", "model optimization", "lora", "qlora",
+        "peft", "parameter efficient", "model deployment", "model serving",
+        # AI Agent Frameworks
+        "autogpt", "babyagi", "agent", "langflow", "flowise", "ai agent framework",
+        "autonomous agent", "tool calling", "function calling",
+        # Prompt Engineering & Testing
+        "prompt engineering", "prompt playground", "langsmith", "helicone", "promptfoo",
+        "ai testing", "llm evaluation", "prompt optimization",
+        # General AI Dev Terms
+        "ai sdk", "llm api", "generative ai tool", "ai developer", "ai framework",
+        "machine learning tool", "ml platform", "ai builder", "no-code ai", "low-code ai"
     ],
     "AI startups to watch": [
         "startup", "funding", "raise", "series a", "series b", "seed", "venture", "capital",
