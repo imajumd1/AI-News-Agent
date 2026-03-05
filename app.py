@@ -31,9 +31,22 @@ from datetime import datetime
 import html
 import csv
 
+# Initialize SendGrid availability flag
+SENDGRID_AVAILABLE = False
+
 try:
     from config import MAIL_SERVER, MAIL_PORT, MAIL_USE_TLS, MAIL_USERNAME, MAIL_PASSWORD, MAIL_FROM
     print("✓ Config imported successfully")
+    
+    # Try to import SendGrid
+    try:
+        from sendgrid import SendGridAPIClient
+        from sendgrid.helpers.mail import Mail as SendGridMail, Email, To, Content
+        SENDGRID_AVAILABLE = True
+        print("✓ SendGrid library available")
+    except ImportError:
+        SENDGRID_AVAILABLE = False
+        print("⚠ SendGrid library not available")
 except Exception as e:
     print(f"✗ Failed to import config: {e}")
     traceback.print_exc()
@@ -2400,7 +2413,7 @@ def generate_email_html(results_data, app_url="http://localhost:5001"):
 
 @app.route('/send-email', methods=['POST'])
 def send_email():
-    """Send news summary via email."""
+    """Send news summary via email using SendGrid API (no SMTP)."""
     try:
         # Log the request
         print("\n" + "="*60)
@@ -2422,25 +2435,69 @@ def send_email():
         if not email:
             return jsonify({"error": "Email address is required"}), 400
         
+        if not results_data:
+            return jsonify({"error": "No results to send"}), 400
+        
+        # Check for SendGrid API key (preferred method - no SMTP needed)
+        sendgrid_api_key = os.environ.get('SENDGRID_API_KEY')
+        
+        if sendgrid_api_key and SENDGRID_AVAILABLE:
+            print("Using SendGrid API (no SMTP)")
+            try:
+                # Generate email HTML
+                app_url = request.host_url.rstrip('/')
+                email_html = generate_email_html(results_data, app_url)
+                print("✓ Email HTML generated")
+                
+                # Create SendGrid email
+                from_email = Email(MAIL_FROM or "noreply@anya-ai.com", "Anya AI News Agent")
+                to_email = To(email)
+                subject = "🤖 Your AI News Summary from Anya"
+                content = Content("text/html", email_html)
+                
+                mail_message = SendGridMail(from_email, to_email, subject, content)
+                
+                # Send via SendGrid API
+                sg = SendGridAPIClient(sendgrid_api_key)
+                response = sg.send(mail_message)
+                
+                print(f"✅ SendGrid response: {response.status_code}")
+                print(f"✅ Email sent successfully to {email} via SendGrid")
+                
+                return jsonify({
+                    "success": True,
+                    "message": "Email sent successfully! Check your inbox."
+                }), 200
+                
+            except Exception as sg_error:
+                print(f"ERROR with SendGrid: {sg_error}")
+                import traceback
+                print(traceback.format_exc())
+                return jsonify({
+                    "error": f"SendGrid API error: {str(sg_error)}",
+                    "hint": "Check SENDGRID_API_KEY is correct"
+                }), 500
+        
+        # Fallback to SMTP (will likely fail on Railway due to port blocking)
+        print("⚠ SendGrid not available, attempting SMTP (may timeout on Railway)")
+        
         # Check mail configuration
         print(f"MAIL_USERNAME configured: {bool(MAIL_USERNAME)}")
         print(f"MAIL_PASSWORD configured: {bool(MAIL_PASSWORD)}")
         print(f"Flask-Mail object: {bool(mail)}")
         
         if not MAIL_USERNAME or not MAIL_PASSWORD or mail is None:
-            error_msg = "Email service not configured on server. Please contact administrator."
+            error_msg = "Email service not configured. Please add SENDGRID_API_KEY to Railway environment variables."
             print(f"ERROR: {error_msg}")
             return jsonify({
                 "error": error_msg,
-                "config_help": "Server needs MAIL_USERNAME and MAIL_PASSWORD environment variables"
+                "config_help": "Get free API key from sendgrid.com (100 emails/day free)"
             }), 500
-        
-        if not results_data:
-            return jsonify({"error": "No results to send"}), 400
         
         print(f"Using MAIL_USERNAME: {MAIL_USERNAME}")
         print(f"MAIL_SERVER: {MAIL_SERVER}:{MAIL_PORT}")
         print(f"TLS: {MAIL_USE_TLS}")
+        print("⚠ WARNING: SMTP connections are often blocked on Railway/cloud platforms")
         
         # Generate email HTML
         try:
@@ -2464,8 +2521,8 @@ def send_email():
             print(f"ERROR creating message: {msg_error}")
             return jsonify({"error": "Failed to create email message"}), 500
         
-        # Send email
-        print("Attempting to send email...")
+        # Send email via SMTP
+        print("Attempting to send email via SMTP (this will likely timeout)...")
         try:
             mail.send(msg)
             print(f"✅ Email sent successfully to {email}")
@@ -2476,19 +2533,21 @@ def send_email():
             }), 200
             
         except Exception as send_error:
-            print(f"ERROR sending email: {send_error}")
+            print(f"ERROR sending email via SMTP: {send_error}")
             import traceback
             print(traceback.format_exc())
             
             # Detailed error messages
             error_str = str(send_error).lower()
-            if "authentication" in error_str or "username" in error_str or "password" in error_str:
+            if "timeout" in error_str or "connection" in error_str:
                 return jsonify({
-                    "error": "Email authentication failed. Server credentials may be incorrect."
+                    "error": "SMTP connection blocked by Railway. Please use SendGrid instead.",
+                    "solution": "Add SENDGRID_API_KEY environment variable to Railway",
+                    "get_key": "Sign up at sendgrid.com for free API key (100 emails/day)"
                 }), 500
-            elif "connection" in error_str or "refused" in error_str or "timeout" in error_str:
+            elif "authentication" in error_str:
                 return jsonify({
-                    "error": "Could not connect to email server. Network issue or server configuration problem."
+                    "error": "Email authentication failed."
                 }), 500
             else:
                 return jsonify({
