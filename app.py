@@ -96,22 +96,22 @@ def after_request(response):
 # Category configuration with icons and colors
 CATEGORY_CONFIG = {
     "GPU and AI Infra": {
-        "icon": "🏗️",
+        "icon": "🖥️",
         "color": "#667eea",
         "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
     },
     "AI Applications": {
-        "icon": "🚀",
-        "color": "#f093fb",
-        "gradient": "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
-    },
-    "AI Builder tools": {
-        "icon": "🛠️",
+        "icon": "🤖",
         "color": "#4facfe",
         "gradient": "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
     },
+    "AI Builder tools": {
+        "icon": "🧠",
+        "color": "#f093fb",
+        "gradient": "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
+    },
     "AI startups to watch": {
-        "icon": "⭐",
+        "icon": "🚀",
         "color": "#fa709a",
         "gradient": "linear-gradient(135deg, #fa709a 0%, #fee140 100%)"
     }
@@ -133,37 +133,101 @@ HTML_TEMPLATE = """
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #0a0a0f;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.15) 0%, transparent 50%),
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px);
             min-height: 100vh;
             padding: 20px;
+            color: #ffffff;
         }
         .container {
             max-width: 1400px;
             margin: 0 auto;
         }
         .header {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            margin-bottom: 30px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 60px 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 100px rgba(102, 126, 234, 0.2);
+            margin-bottom: 40px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+            animation: glow 8s ease-in-out infinite;
+        }
+        @keyframes glow {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(20px, 20px); }
         }
         .header h1 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 2.5em;
+            color: #ffffff;
+            margin-bottom: 15px;
+            font-size: 3.5em;
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 0 30px rgba(102, 126, 234, 0.5), 0 0 60px rgba(102, 126, 234, 0.3);
+            letter-spacing: -1px;
+        }
+        .header h1 .robot-icon {
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
         }
         .header p {
-            color: #666;
-            font-size: 1.1em;
+            color: #b4b4c8;
+            font-size: 1.3em;
+            position: relative;
+            z-index: 1;
+            font-weight: 400;
+        }
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+            padding: 8px 16px;
+            background: rgba(76, 175, 80, 0.15);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            border-radius: 20px;
+            font-size: 0.9em;
+            color: #4caf50;
+        }
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #4caf50;
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.2); }
         }
         .controls {
-            background: white;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 30px;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            margin-bottom: 40px;
             display: flex;
             gap: 20px;
             align-items: flex-end;
@@ -174,45 +238,71 @@ HTML_TEMPLATE = """
             min-width: 200px;
         }
         .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            color: #b4b4c8;
             font-weight: 600;
             font-size: 14px;
         }
+        .form-group label::before {
+            font-size: 18px;
+        }
+        .form-group.days-group label::before {
+            content: '📅';
+        }
+        .form-group.mode-group label::before {
+            content: '⚙️';
+        }
         .form-group input, .form-group select {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 14px;
-            transition: border-color 0.3s;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            font-size: 15px;
+            color: #ffffff;
+            transition: all 0.3s;
         }
         .form-group input:focus, .form-group select:focus {
             outline: none;
             border-color: #667eea;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+        }
+        .form-group select option {
+            background: #1a1a24;
+            color: #ffffff;
         }
         .btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 12px 40px;
+            padding: 14px 40px;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
             white-space: nowrap;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn::before {
+            content: '🚀 ';
+            margin-right: 8px;
         }
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6), 0 0 30px rgba(102, 126, 234, 0.4);
         }
         .btn:active {
-            transform: translateY(0);
+            transform: translateY(-1px);
         }
         .btn:disabled {
-            opacity: 0.6;
+            opacity: 0.5;
             cursor: not-allowed;
             transform: none;
         }
@@ -220,10 +310,13 @@ HTML_TEMPLATE = """
             display: none;
             text-align: center;
             padding: 60px;
-            background: white;
-            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+            color: #ffffff;
         }
         .spinner {
             border: 5px solid #f3f3f3;
@@ -245,20 +338,23 @@ HTML_TEMPLATE = """
             margin-bottom: 30px;
         }
         .category-box {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
             overflow: hidden;
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
-            border: 3px solid transparent;
         }
         .category-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 40px rgba(102, 126, 234, 0.3);
+            border-color: currentColor;
         }
         .category-box.expanded {
             border-color: currentColor;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 50px currentColor;
         }
         .category-header {
             padding: 30px;
@@ -291,10 +387,21 @@ HTML_TEMPLATE = """
             z-index: 1;
         }
         .category-count {
-            font-size: 0.9em;
-            color: #666;
+            font-size: 0.95em;
+            color: #b4b4c8;
             position: relative;
             z-index: 1;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .category-count::before {
+            content: '●';
+            font-size: 12px;
         }
         .category-content {
             max-height: 0;
@@ -434,33 +541,39 @@ HTML_TEMPLATE = """
             padding: 20px;
         }
         .article-card {
-            background: #f8f9fa;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
             padding: 20px;
             margin-bottom: 15px;
-            border-radius: 12px;
+            border-radius: 16px;
+            border-left: 4px solid;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-left: 4px solid;
             transition: all 0.3s;
         }
         .article-card:hover {
-            transform: translateX(5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateX(8px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            background: rgba(255, 255, 255, 0.08);
         }
         .article-title {
             font-size: 1.1em;
             font-weight: 600;
-            color: #333;
+            color: #ffffff;
             margin-bottom: 10px;
-            line-height: 1.4;
+            line-height: 1.5;
         }
         .article-title a {
-            color: inherit;
+            color: #ffffff;
             text-decoration: none;
+            transition: color 0.3s;
         }
         .article-title a:hover {
-            text-decoration: underline;
+            color: #667eea;
+            text-decoration: none;
         }
         .article-meta {
-            color: #666;
+            color: #8a8a9e;
             font-size: 0.85em;
             margin-bottom: 12px;
             display: flex;
@@ -468,8 +581,8 @@ HTML_TEMPLATE = """
             flex-wrap: wrap;
         }
         .article-summary {
-            color: #555;
-            line-height: 1.7;
+            color: #b4b4c8;
+            line-height: 1.8;
             margin-bottom: 15px;
             font-size: 0.95em;
         }
@@ -701,16 +814,20 @@ HTML_TEMPLATE = """
 <body>
     <div class="container">
         <div class="header">
-            <h1>🤖 AI News Agent</h1>
-            <p>Stay updated with the latest AI developments</p>
+            <h1><span class="robot-icon">🤖</span> Anya - Your AI News Agent</h1>
+            <p>Stay updated with the latest breakthroughs in AI, infrastructure, and startups</p>
+            <div class="live-indicator">
+                <div class="live-dot"></div>
+                <span>Scanning 54 sources in real-time</span>
+            </div>
         </div>
 
         <div class="controls">
-            <div class="form-group">
+            <div class="form-group days-group">
                 <label for="days">Days to look back</label>
                 <input type="number" id="days" name="days" value="7" min="1" max="30">
             </div>
-            <div class="form-group">
+            <div class="form-group mode-group">
                 <label for="mode">Mode</label>
                 <select id="mode" name="mode">
                     <option value="fast">Fast Mode (RSS summaries)</option>
@@ -777,10 +894,10 @@ HTML_TEMPLATE = """
 
     <script>
         const categoryConfig = {
-            "GPU and AI Infra": { icon: "🏗️", color: "#667eea" },
-            "AI Applications": { icon: "🚀", color: "#f093fb" },
-            "AI Builder tools": { icon: "🛠️", color: "#4facfe" },
-            "AI startups to watch": { icon: "⭐", color: "#fa709a" }
+            "GPU and AI Infra": { icon: "🖥️", color: "#667eea" },
+            "AI Applications": { icon: "🤖", color: "#4facfe" },
+            "AI Builder tools": { icon: "🧠", color: "#f093fb" },
+            "AI startups to watch": { icon: "🚀", color: "#fa709a" }
         };
 
         // Make runAgent globally accessible (both ways for compatibility)
