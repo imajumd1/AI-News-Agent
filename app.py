@@ -1382,7 +1382,7 @@ HTML_TEMPLATE = """
 
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <p style="font-size: 1.1em; margin-top: 20px;">Scraping 54 sources to get you the most relevant and current AI news. This may take a minute or two. Please wait...</p>
+            <p style="font-size: 1.1em; margin-top: 20px;">Curating 54 sources to get you the most relevant and current AI news. This may take a minute or two. Please wait...</p>
         </div>
 
         <div id="errorContainer"></div>
@@ -1507,7 +1507,7 @@ HTML_TEMPLATE = """
             console.log('Starting agent...');
             // Reset UI
             submitBtn.disabled = true;
-            submitBtn.textContent = 'Scraping...';
+            submitBtn.textContent = 'Curating...';
             loading.style.display = 'block';
             results.classList.remove('visible');
             errorContainer.innerHTML = '';
@@ -1522,7 +1522,7 @@ HTML_TEMPLATE = """
             // Update loading message
             const loadingText = loading.querySelector('p');
             const originalText = loadingText.textContent;
-            loadingText.textContent = 'Scraping 54 sources to get you the most relevant and current AI news. This may take a minute or two. Please wait...';
+            loadingText.textContent = 'Curating 54 sources to get you the most relevant and current AI news. This may take a minute or two. Please wait...';
             
             try {
                 const response = await fetch('/run', {

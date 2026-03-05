@@ -387,11 +387,10 @@ CATEGORY_KEYWORDS = {
         "smart home", "ai home", "home ai", "iot ai", "ai iot",
         "ai wearable", "wearable ai", "ai gadget", "ai gadgets",
         
-        # Popular AI Models & Services (when used in applications)
-        "chatgpt", "gpt", "gpt-", "claude", "gemini", "bard",
-        "copilot", "github copilot", "microsoft copilot",
+        # Popular AI Models & Services (when used in end-user applications)
+        "chatgpt", "gpt-4", "claude", "gemini", "bard",
+        "microsoft copilot", "windows copilot",
         "ai agent", "ai agents", "intelligent agent", "smart agent",
-        "openai", "anthropic", "google ai", "microsoft ai",
         
         # AI Technologies (application-focused)
         "computer vision", "image recognition", "face recognition", "object detection",
@@ -408,16 +407,10 @@ CATEGORY_KEYWORDS = {
         "ai innovation", "ai breakthrough", "ai development", "developing ai",
         "ai research", "ai study", "ai study shows",
         
-        # Real-World Application Phrases
-        "how ai", "ai can", "ai will", "ai is", "ai has", "ai does",
-        "ai to", "ai that", "ai which", "ai when", "ai where",
-        "using ai", "with ai", "via ai", "through ai", "by ai",
-        "ai helps", "ai enables", "ai allows", "ai makes",
-        
-        # Common Article Patterns
-        "new ai", "latest ai", "ai news", "ai update", "ai announcement",
-        "ai launch", "ai release", "ai unveils", "ai introduces",
-        "ai partnership", "ai collaboration", "ai deal", "ai agreement"
+        # Application-Specific Phrases (more selective)
+        "ai application", "ai use case", "ai solution",
+        "ai powered", "powered by ai", "ai-powered",
+        "ai feature", "ai features", "ai capability"
     ],
     "AI Builder tools": [
         # AI Development Frameworks & Tools
