@@ -131,8 +131,10 @@ HTML_TEMPLATE = """
             padding: 0;
             box-sizing: border-box;
         }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #0a0a0f;
             background-image: 
                 radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
@@ -180,15 +182,15 @@ HTML_TEMPLATE = """
         }
         .hero-badge {
             display: inline-block;
-            padding: 6px 14px;
+            padding: 8px 16px;
             background: rgba(139, 132, 255, 0.15);
             border: 1px solid rgba(139, 132, 255, 0.3);
             border-radius: 20px;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
             color: #8b84ff;
-            letter-spacing: 1px;
-            margin-bottom: 20px;
+            letter-spacing: 2px;
+            margin-bottom: 35px;
             text-transform: uppercase;
         }
         .header h1 {
@@ -196,28 +198,35 @@ HTML_TEMPLATE = """
             background: linear-gradient(135deg, #a9a3ff 0%, #d4b3ff 100%);
             -webkit-background-clip: text;
             background-clip: text;
-            margin-bottom: 15px;
-            font-size: 4em;
+            margin-bottom: 25px;
+            font-size: 5.5em;
             font-weight: 800;
-            line-height: 1.1;
-            letter-spacing: -2px;
+            line-height: 1;
+            letter-spacing: -3px;
+            font-family: 'Space Grotesk', sans-serif;
         }
         .header-subtitle {
-            color: #d1d5db;
-            font-size: 1.2em;
-            line-height: 1.8;
-            margin-bottom: 30px;
+            color: #b4b4c8;
+            font-size: 1.5em;
+            line-height: 1.4;
+            margin-bottom: 45px;
             font-weight: 400;
-        }
-        .header-subtitle .highlight {
-            color: #4fffb0;
-            font-weight: 600;
+            letter-spacing: -0.5px;
         }
         .header-tagline {
-            color: #9ca3af;
-            font-size: 0.95em;
-            line-height: 1.7;
-            margin-bottom: 30px;
+            color: #8a8a9e;
+            font-size: 1.15em;
+            line-height: 1.9;
+            margin-bottom: 25px;
+            font-weight: 400;
+            letter-spacing: 0.2px;
+        }
+        .header-tagline:last-of-type {
+            margin-bottom: 0;
+        }
+        .header-tagline .highlight {
+            color: #4fffb0;
+            font-weight: 500;
         }
         .hero-buttons {
             display: flex;
@@ -302,6 +311,15 @@ HTML_TEMPLATE = """
             }
             .hero-left {
                 text-align: center;
+            }
+            .header h1 {
+                font-size: 4em;
+            }
+            .header-subtitle {
+                font-size: 1.2em;
+            }
+            .header-tagline {
+                font-size: 1em;
             }
             .hero-character-container {
                 width: 300px;
@@ -1080,16 +1098,17 @@ HTML_TEMPLATE = """
                 <span class="hero-badge">• AI-POWERED INTELLIGENCE</span>
                 <h1>Anya</h1>
                 <div class="header-subtitle">Your AI News Agent — Always On</div>
+                
                 <div class="header-tagline">
-                    The latest breakthroughs across <span class="highlight">AI infrastructure</span>, 
-                    <span class="highlight">applications</span>, <span class="highlight">tools</span> and 
-                    <span class="highlight">startups</span>.
+                    The latest breakthroughs across <span class="highlight">AI infrastructure</span>, <span class="highlight">applications</span>, <span class="highlight">tools</span> and <span class="highlight">startups</span>.
                 </div>
+                
                 <div class="header-tagline">
                     Curated, synthesized, and delivered before your morning coffee.
                 </div>
+                
                 <div class="header-tagline">
-                    No noise. Just signal.
+                    <strong style="color: #ffffff;">No noise. Just signal.</strong>
                 </div>
             </div>
             
