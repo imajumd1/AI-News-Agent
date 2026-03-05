@@ -289,56 +289,36 @@ HTML_TEMPLATE = """
         }
         .hero-character-container {
             position: relative;
-            width: 400px;
-            height: 400px;
-        }
-        .floating-badge {
-            position: absolute;
-            padding: 6px 12px;
-            background: rgba(10, 14, 26, 0.9);
-            border: 1px solid rgba(139, 132, 255, 0.3);
-            border-radius: 8px;
-            font-size: 10px;
-            font-weight: 600;
-            color: #8b84ff;
-            white-space: nowrap;
-            animation: float-badge 3s ease-in-out infinite;
-            backdrop-filter: blur(10px);
-        }
-        .floating-badge:nth-child(1) {
-            top: 10%;
-            right: -10%;
-            animation-delay: 0s;
-        }
-        .floating-badge:nth-child(2) {
-            top: 50%;
-            right: -15%;
-            animation-delay: 1s;
-        }
-        .floating-badge:nth-child(3) {
-            bottom: 20%;
-            right: 5%;
-            animation-delay: 2s;
-        }
-        .floating-badge:nth-child(4) {
-            top: 5%;
-            left: 50%;
-            animation-delay: 1.5s;
-        }
-        @keyframes float-badge {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+            width: 350px;
+            height: 480px;
         }
         .anya-character {
-            width: 300px;
-            height: 300px;
+            width: 100%;
+            height: 100%;
             position: relative;
             margin: 0 auto;
-            animation: gentle-float 4s ease-in-out infinite;
+            animation: gentle-float 6s ease-in-out infinite;
+            filter: drop-shadow(0 20px 60px rgba(124,106,255,0.4));
         }
         @keyframes gentle-float {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
+            50% { transform: translateY(-14px); }
+        }
+        .cursor-blink {
+            animation: blink 1.1s step-end infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .screen-glow {
+            animation: screenFlicker 4s ease-in-out infinite;
+        }
+        @keyframes screenFlicker {
+            0%, 100% { opacity: 1; }
+            45% { opacity: 0.85; }
+            50% { opacity: 1; }
+            90% { opacity: 0.9; }
         }
         @media (max-width: 1024px) {
             .header {
@@ -1076,134 +1056,222 @@ HTML_TEMPLATE = """
             
             <div class="hero-right">
                 <div class="hero-character-container">
-                    <div class="floating-badge">⚡ GPT-5 Released</div>
-                    <div class="floating-badge">🔗 RAG Pipeline</div>
-                    <div class="floating-badge">💾 DNYA.AI</div>
-                    <div class="floating-badge">🚀 #120M Seed Round</div>
-                    
-                    <svg class="anya-character" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Background glow -->
-                        <defs>
-                            <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
-                                <stop offset="0%" style="stop-color:#8b84ff;stop-opacity:0.2" />
-                                <stop offset="100%" style="stop-color:#8b84ff;stop-opacity:0" />
-                            </radialGradient>
-                            <linearGradient id="hairGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" style="stop-color:#b39dff" />
-                                <stop offset="100%" style="stop-color:#8b7fd9" />
-                            </linearGradient>
-                            <linearGradient id="skinGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" style="stop-color:#ffd9b3" />
-                                <stop offset="100%" style="stop-color:#ffcca3" />
-                            </linearGradient>
-                        </defs>
-                        
-                        <!-- Background circle -->
-                        <circle cx="150" cy="150" r="140" fill="url(#bgGlow)"/>
-                        
-                        <!-- Screen/Laptop background -->
-                        <rect x="75" y="190" width="150" height="100" rx="8" fill="#1a1f35" stroke="#8b84ff" stroke-width="2" opacity="0.8"/>
-                        
-                        <!-- Code on screen -->
-                        <text x="85" y="210" font-family="monospace" font-size="8" fill="#4fffb0">function main() {</text>
-                        <text x="95" y="220" font-family="monospace" font-size="8" fill="#8b84ff">fetchNews();</text>
-                        <text x="95" y="230" font-family="monospace" font-size="8" fill="#8b84ff">summarize();</text>
-                        <text x="95" y="240" font-family="monospace" font-size="8" fill="#4fffb0">sendTo(you);</text>
-                        <text x="85" y="250" font-family="monospace" font-size="8" fill="#4fffb0">}</text>
-                        
-                        <!-- Terminal cursor blink -->
-                        <rect x="155" y="243" width="6" height="10" fill="#4fffb0">
-                            <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>
-                        </rect>
-                        
-                        <!-- Long hair back layer -->
-                        <ellipse cx="150" cy="135" rx="60" ry="75" fill="url(#hairGradient)" opacity="0.9"/>
-                        
-                        <!-- Character head -->
-                        <ellipse cx="150" cy="115" rx="42" ry="48" fill="url(#skinGradient)"/>
-                        
-                        <!-- Neck -->
-                        <rect x="140" y="155" width="20" height="20" fill="url(#skinGradient)" rx="5"/>
-                        
-                        <!-- Hair front -->
-                        <ellipse cx="150" cy="85" rx="55" ry="45" fill="url(#hairGradient)"/>
-                        
-                        <!-- Hair side strands -->
-                        <ellipse cx="110" cy="120" rx="18" ry="35" fill="url(#hairGradient)"/>
-                        <ellipse cx="190" cy="120" rx="18" ry="35" fill="url(#hairGradient)"/>
-                        
-                        <!-- Bangs -->
-                        <path d="M 100 85 Q 105 75 115 80 L 115 90 Q 110 88 105 90 Z" fill="url(#hairGradient)"/>
-                        <path d="M 120 75 Q 125 68 135 72 L 135 85 Q 130 82 125 85 Z" fill="url(#hairGradient)"/>
-                        <path d="M 140 70 Q 145 65 155 68 L 155 82 Q 150 78 145 82 Z" fill="url(#hairGradient)"/>
-                        <path d="M 165 72 Q 170 68 180 75 L 180 85 Q 175 82 170 85 Z" fill="url(#hairGradient)"/>
-                        <path d="M 185 80 Q 190 75 200 85 L 195 90 Q 192 88 190 90 Z" fill="url(#hairGradient)"/>
-                        
-                        <!-- Ears -->
-                        <ellipse cx="108" cy="120" rx="6" ry="10" fill="url(#skinGradient)"/>
-                        <ellipse cx="192" cy="120" rx="6" ry="10" fill="url(#skinGradient)"/>
-                        
-                        <!-- Eyes (larger, more expressive) -->
-                        <ellipse cx="135" cy="115" rx="10" ry="14" fill="white"/>
-                        <ellipse cx="165" cy="115" rx="10" ry="14" fill="white"/>
-                        
-                        <!-- Iris -->
-                        <circle cx="135" cy="117" r="7" fill="#6b5fd1">
-                            <animate attributeName="cy" values="117;118;117" dur="4s" repeatCount="indefinite"/>
-                        </circle>
-                        <circle cx="165" cy="117" r="7" fill="#6b5fd1">
-                            <animate attributeName="cy" values="117;118;117" dur="4s" repeatCount="indefinite"/>
-                        </circle>
-                        
-                        <!-- Pupils -->
-                        <circle cx="135" cy="117" r="4" fill="#2d3748"/>
-                        <circle cx="165" cy="117" r="4" fill="#2d3748"/>
-                        
-                        <!-- Eye highlights -->
-                        <circle cx="133" cy="114" r="2.5" fill="white"/>
-                        <circle cx="163" cy="114" r="2.5" fill="white"/>
-                        <circle cx="137" cy="119" r="1.5" fill="white" opacity="0.6"/>
-                        <circle cx="167" cy="119" r="1.5" fill="white" opacity="0.6"/>
-                        
-                        <!-- Eyelashes -->
-                        <line x1="125" y1="108" x2="122" y2="104" stroke="#2d3748" stroke-width="1.5" stroke-linecap="round"/>
-                        <line x1="130" y1="106" x2="128" y2="101" stroke="#2d3748" stroke-width="1.5" stroke-linecap="round"/>
-                        <line x1="140" y1="106" x2="140" y2="101" stroke="#2d3748" stroke-width="1.5" stroke-linecap="round"/>
-                        <line x1="160" y1="106" x2="160" y2="101" stroke="#2d3748" stroke-width="1.5" stroke-linecap="round"/>
-                        <line x1="170" y1="106" x2="172" y2="101" stroke="#2d3748" stroke-width="1.5" stroke-linecap="round"/>
-                        <line x1="175" y1="108" x2="178" y2="104" stroke="#2d3748" stroke-width="1.5" stroke-linecap="round"/>
-                        
-                        <!-- Eyebrows -->
-                        <path d="M 120 105 Q 135 102 145 103" fill="none" stroke="#6b5fd1" stroke-width="2" stroke-linecap="round"/>
-                        <path d="M 155 103 Q 165 102 180 105" fill="none" stroke="#6b5fd1" stroke-width="2" stroke-linecap="round"/>
-                        
-                        <!-- Glasses (cat-eye style) -->
-                        <path d="M 120 115 Q 120 108 127 107 L 143 107 Q 145 107 145 115 Q 145 123 143 123 L 127 123 Q 120 123 120 115" 
-                              fill="none" stroke="#2d3748" stroke-width="2.5" opacity="0.7"/>
-                        <path d="M 155 115 Q 155 108 162 107 L 178 107 Q 180 107 180 115 Q 180 123 178 123 L 162 123 Q 155 123 155 115" 
-                              fill="none" stroke="#2d3748" stroke-width="2.5" opacity="0.7"/>
-                        <line x1="145" y1="111" x2="155" y2="111" stroke="#2d3748" stroke-width="2" opacity="0.7"/>
-                        
-                        <!-- Nose (petite) -->
-                        <ellipse cx="150" cy="125" rx="3" ry="4" fill="#ffb88c" opacity="0.6"/>
-                        
-                        <!-- Smile (softer) -->
-                        <path d="M 135 135 Q 150 142 165 135" fill="none" stroke="#ff9a8c" stroke-width="2.5" stroke-linecap="round"/>
-                        
-                        <!-- Blush -->
-                        <ellipse cx="120" cy="128" rx="8" ry="5" fill="#ff9a8c" opacity="0.3"/>
-                        <ellipse cx="180" cy="128" rx="8" ry="5" fill="#ff9a8c" opacity="0.3"/>
-                        
-                        <!-- Body/Shoulders -->
-                        <ellipse cx="150" cy="190" rx="55" ry="30" fill="#9b8fff"/>
-                        
-                        <!-- Collar -->
-                        <path d="M 130 175 L 140 185 L 150 180 L 160 185 L 170 175" fill="none" stroke="#b39dff" stroke-width="3"/>
-                        
-                        <!-- Coding badge on shirt -->
-                        <circle cx="150" cy="185" r="12" fill="#4fffb0" opacity="0.2" stroke="#4fffb0" stroke-width="1"/>
-                        <text x="143" y="191" font-size="14" fill="#4fffb0" font-weight="bold">{ }</text>
-                    </svg>
+                    <svg class="anya-character" width="320" height="440" viewBox="0 0 320 440" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="bgGrad" x1="0" y1="0" x2="320" y2="440" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#1a1f3a"/>
+              <stop offset="100%" stop-color="#0d1225"/>
+            </linearGradient>
+            <linearGradient id="skinGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#FDDBB4"/>
+              <stop offset="100%" stop-color="#F5C49A"/>
+            </linearGradient>
+            <linearGradient id="hairGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#2D1B6E"/>
+              <stop offset="100%" stop-color="#1a0f45"/>
+            </linearGradient>
+            <linearGradient id="shirtGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1e2d5e"/>
+              <stop offset="100%" stop-color="#0f1a3a"/>
+            </linearGradient>
+            <linearGradient id="laptopGrad" x1="0" y1="0" x2="320" y2="440" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#2a2a3e"/>
+              <stop offset="100%" stop-color="#1a1a2e"/>
+            </linearGradient>
+            <linearGradient id="screenGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#0a0f2e"/>
+              <stop offset="100%" stop-color="#060914"/>
+            </linearGradient>
+            <linearGradient id="glassesGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#7c6aff"/>
+              <stop offset="100%" stop-color="#00f5c4"/>
+            </linearGradient>
+            <filter id="softGlow">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+              <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="screenGlowFilter">
+              <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+              <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <clipPath id="screenClip">
+              <rect x="88" y="268" width="144" height="90" rx="4"/>
+            </clipPath>
+          </defs>
+
+          <!-- Background card -->
+          <rect x="20" y="20" width="280" height="400" rx="24" fill="url(#bgGrad)" opacity="0.9"/>
+          <rect x="20" y="20" width="280" height="400" rx="24" stroke="rgba(124,106,255,0.3)" stroke-width="1"/>
+
+          <!-- ── BODY / CHAIR ── -->
+          <rect x="110" y="330" width="100" height="80" rx="10" fill="#1a1f3a" stroke="rgba(124,106,255,0.2)" stroke-width="1"/>
+          <ellipse cx="160" cy="380" rx="60" ry="12" fill="rgba(0,0,0,0.3)"/>
+
+          <!-- ── TORSO / SHIRT ── -->
+          <path d="M105 280 Q90 310 85 370 L235 370 Q230 310 215 280 Q190 295 160 295 Q130 295 105 280Z" fill="url(#shirtGrad)"/>
+          <line x1="148" y1="295" x2="145" y2="330" stroke="#7c6aff" stroke-width="2" stroke-linecap="round"/>
+          <line x1="172" y1="295" x2="175" y2="330" stroke="#7c6aff" stroke-width="2" stroke-linecap="round"/>
+          <text x="145" y="325" font-family="monospace" font-size="11" fill="rgba(0,245,196,0.6)" text-anchor="middle">{ AI }</text>
+
+          <!-- ── ARMS ── -->
+          <path d="M105 285 Q75 310 78 345 Q82 355 90 350 Q95 330 110 310Z" fill="url(#skinGrad)"/>
+          <path d="M215 285 Q245 310 242 345 Q238 355 230 350 Q225 330 210 310Z" fill="url(#skinGrad)"/>
+          <ellipse cx="84" cy="348" rx="9" ry="6" fill="#FDDBB4" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>
+          <ellipse cx="236" cy="348" rx="9" ry="6" fill="#FDDBB4" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>
+
+          <!-- Hands on laptop -->
+          <ellipse cx="110" cy="360" rx="18" ry="10" fill="url(#skinGrad)" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+          <path d="M96 356 Q94 350 97 348 Q100 347 101 353" fill="url(#skinGrad)" stroke="rgba(200,150,100,0.3)" stroke-width="0.5"/>
+          <path d="M103 354 Q101 347 104 345 Q107 344 108 351" fill="url(#skinGrad)" stroke="rgba(200,150,100,0.3)" stroke-width="0.5"/>
+          <path d="M111 354 Q110 346 113 344 Q116 343 117 350" fill="url(#skinGrad)" stroke="rgba(200,150,100,0.3)" stroke-width="0.5"/>
+          <path d="M119 355 Q119 348 122 347 Q125 347 125 353" fill="url(#skinGrad)" stroke="rgba(200,150,100,0.3)" stroke-width="0.5"/>
+          <ellipse cx="210" cy="360" rx="18" ry="10" fill="url(#skinGrad)" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+          <path d="M196 356 Q194 349 197 347 Q200 346 201 353" fill="url(#skinGrad)" stroke="rgba(200,150,100,0.3)" stroke-width="0.5"/>
+          <path d="M204 354 Q202 347 205 345 Q208 344 209 351" fill="url(#skinGrad)" stroke="rgba(200,150,100,0.3)" stroke-width="0.5"/>
+          <path d="M212 354 Q211 346 214 344 Q217 343 218 350" fill="url(#skinGrad)" stroke="rgba(200,150,100,0.3)" stroke-width="0.5"/>
+          <path d="M220 355 Q220 348 223 347 Q226 347 226 353" fill="url(#skinGrad)" stroke="rgba(200,150,100,0.3)" stroke-width="0.5"/>
+
+          <!-- ── LAPTOP ── -->
+          <rect x="75" y="355" width="170" height="22" rx="6" fill="url(#laptopGrad)" stroke="rgba(124,106,255,0.4)" stroke-width="1"/>
+          <rect x="84" y="360" width="152" height="3" rx="1.5" fill="rgba(124,106,255,0.12)"/>
+          <rect x="84" y="365" width="152" height="3" rx="1.5" fill="rgba(124,106,255,0.10)"/>
+          <rect x="84" y="370" width="152" height="3" rx="1.5" fill="rgba(124,106,255,0.08)"/>
+          <rect x="140" y="373" width="40" height="6" rx="2" fill="rgba(124,106,255,0.15)"/>
+
+          <rect x="82" y="260" width="156" height="100" rx="8" fill="url(#laptopGrad)" stroke="rgba(124,106,255,0.5)" stroke-width="1.5"/>
+          <rect x="88" y="268" width="144" height="90" rx="4" fill="url(#screenGrad)" class="screen-glow"/>
+
+          <!-- Screen content -->
+          <g clip-path="url(#screenClip)" class="screen-glow">
+            <text x="93" y="281" font-family="monospace" font-size="6" fill="rgba(124,106,255,0.5)">01</text>
+            <text x="93" y="290" font-family="monospace" font-size="6" fill="rgba(124,106,255,0.5)">02</text>
+            <text x="93" y="299" font-family="monospace" font-size="6" fill="rgba(124,106,255,0.5)">03</text>
+            <text x="93" y="308" font-family="monospace" font-size="6" fill="rgba(124,106,255,0.5)">04</text>
+            <text x="93" y="317" font-family="monospace" font-size="6" fill="rgba(124,106,255,0.5)">05</text>
+            <text x="93" y="326" font-family="monospace" font-size="6" fill="rgba(124,106,255,0.5)">06</text>
+            <text x="93" y="335" font-family="monospace" font-size="6" fill="rgba(124,106,255,0.5)">07</text>
+            <text x="93" y="344" font-family="monospace" font-size="6" fill="rgba(124,106,255,0.5)">08</text>
+            <text x="108" y="281" font-family="monospace" font-size="6.5" fill="#7c6aff">import</text>
+            <text x="133" y="281" font-family="monospace" font-size="6.5" fill="#e8eaf6"> anya</text>
+            <text x="108" y="290" font-family="monospace" font-size="6.5" fill="#00f5c4">fetch</text>
+            <text x="127" y="290" font-family="monospace" font-size="6.5" fill="#e8eaf6">(news.ai)</text>
+            <text x="108" y="299" font-family="monospace" font-size="6.5" fill="#ff6b9d">filter</text>
+            <text x="128" y="299" font-family="monospace" font-size="6.5" fill="#e8eaf6">(signal)</text>
+            <text x="108" y="308" font-family="monospace" font-size="6.5" fill="#00f5c4">rank</text>
+            <text x="122" y="308" font-family="monospace" font-size="6.5" fill="#e8eaf6">(impact)</text>
+            <text x="108" y="317" font-family="monospace" font-size="6.5" fill="#7c6aff">deliver</text>
+            <text x="131" y="317" font-family="monospace" font-size="6.5" fill="#e8eaf6">(you)</text>
+            <text x="108" y="326" font-family="monospace" font-size="6.5" fill="#e8eaf6">// ✓ 54 sources</text>
+            <text x="108" y="335" font-family="monospace" font-size="6.5" fill="rgba(255,255,255,0.3)">// ✓ realtime</text>
+            <rect x="108" y="340" width="5" height="8" rx="1" fill="#00f5c4" class="cursor-blink">
+              <animate attributeName="opacity" values="1;0;1" dur="1.1s" repeatCount="indefinite"/>
+            </rect>
+          </g>
+
+          <path d="M90 270 L170 270 L155 280 L90 280Z" fill="rgba(255,255,255,0.03)"/>
+          <circle cx="160" cy="256" r="5" fill="none" stroke="rgba(124,106,255,0.3)" stroke-width="1"/>
+
+          <!-- ── NECK ── -->
+          <rect x="150" y="220" width="20" height="30" rx="8" fill="url(#skinGrad)"/>
+
+          <!-- ── HEAD ── -->
+          <ellipse cx="160" cy="195" rx="52" ry="58" fill="url(#skinGrad)"/>
+
+          <!-- ── HAIR ── -->
+          <ellipse cx="160" cy="170" rx="56" ry="62" fill="url(#hairGrad)"/>
+          <path d="M108 185 Q95 200 100 230 Q108 250 118 245 Q110 220 112 195Z" fill="url(#hairGrad)"/>
+          <path d="M212 185 Q225 200 220 230 Q212 250 202 245 Q210 220 208 195Z" fill="url(#hairGrad)"/>
+          <path d="M108 155 Q120 120 160 115 Q200 120 212 155 Q195 135 160 132 Q125 135 108 155Z" fill="#3d2fa0"/>
+          <path d="M130 125 Q140 118 150 120" stroke="#7c6aff" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+          <path d="M155 117 Q165 113 175 116" stroke="#7c6aff" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+          <path d="M108 155 Q115 140 125 135" stroke="rgba(61,47,160,0.8)" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M212 155 Q205 140 195 135" stroke="rgba(61,47,160,0.8)" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M108 185 Q106 200 108 215 Q114 205 116 195Z" fill="#2D1B6E"/>
+          <path d="M212 185 Q214 200 212 215 Q206 205 204 195Z" fill="#2D1B6E"/>
+
+          <!-- ── EARS ── -->
+          <ellipse cx="109" cy="200" rx="7" ry="9" fill="url(#skinGrad)"/>
+          <ellipse cx="211" cy="200" rx="7" ry="9" fill="url(#skinGrad)"/>
+          <path d="M110 195 Q108 200 110 205" stroke="rgba(200,150,100,0.4)" stroke-width="1" fill="none"/>
+          <path d="M210 195 Q212 200 210 205" stroke="rgba(200,150,100,0.4)" stroke-width="1" fill="none"/>
+          <circle cx="109" cy="208" r="3" fill="#7c6aff" filter="url(#softGlow)"/>
+          <circle cx="211" cy="208" r="3" fill="#7c6aff" filter="url(#softGlow)"/>
+
+          <!-- ── FACE ── -->
+          <ellipse cx="160" cy="200" rx="48" ry="52" fill="url(#skinGrad)"/>
+
+          <!-- ── GLASSES ── -->
+          <line x1="145" y1="193" x2="175" y2="193" stroke="url(#glassesGrad)" stroke-width="2"/>
+          <rect x="118" y="183" width="27" height="20" rx="8" fill="rgba(124,106,255,0.1)" stroke="url(#glassesGrad)" stroke-width="2" filter="url(#softGlow)"/>
+          <rect x="175" y="183" width="27" height="20" rx="8" fill="rgba(124,106,255,0.1)" stroke="url(#glassesGrad)" stroke-width="2" filter="url(#softGlow)"/>
+          <path d="M121 186 Q126 184 130 186" stroke="rgba(255,255,255,0.4)" stroke-width="1" stroke-linecap="round"/>
+          <path d="M178 186 Q183 184 187 186" stroke="rgba(255,255,255,0.4)" stroke-width="1" stroke-linecap="round"/>
+          <path d="M118 190 Q108 190 107 188" stroke="url(#glassesGrad)" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M202 190 Q212 190 213 188" stroke="url(#glassesGrad)" stroke-width="2" stroke-linecap="round" fill="none"/>
+
+          <!-- ── EYES ── -->
+          <ellipse cx="131" cy="193" rx="7" ry="7" fill="#1a0f3a"/>
+          <ellipse cx="131" cy="193" rx="5" ry="5" fill="#4a2fa0"/>
+          <ellipse cx="131" cy="193" rx="3" ry="3" fill="#1a0a2e"/>
+          <circle cx="131" cy="193" r="3" fill="#2d1b6e"/>
+          <circle cx="131" cy="193" r="1.5" fill="#060914"/>
+          <circle cx="133" cy="191" r="1.2" fill="white" opacity="0.9"/>
+          <circle cx="129" cy="194" r="0.7" fill="white" opacity="0.5"/>
+
+          <ellipse cx="189" cy="193" rx="7" ry="7" fill="#1a0f3a"/>
+          <ellipse cx="189" cy="193" rx="5" ry="5" fill="#4a2fa0"/>
+          <ellipse cx="189" cy="193" rx="3" ry="3" fill="#1a0a2e"/>
+          <circle cx="189" cy="193" r="3" fill="#2d1b6e"/>
+          <circle cx="189" cy="193" r="1.5" fill="#060914"/>
+          <circle cx="191" cy="191" r="1.2" fill="white" opacity="0.9"/>
+          <circle cx="187" cy="194" r="0.7" fill="white" opacity="0.5"/>
+
+          <!-- Eyelashes -->
+          <path d="M124 189 Q122 185 121 184" stroke="#1a0f3a" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M127 187 Q126 183 126 182" stroke="#1a0f3a" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M131 186 Q131 182 132 181" stroke="#1a0f3a" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M135 187 Q136 183 137 183" stroke="#1a0f3a" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M138 189 Q140 186 141 186" stroke="#1a0f3a" stroke-width="1.5" stroke-linecap="round"/>
+
+          <path d="M182 189 Q180 185 179 184" stroke="#1a0f3a" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M185 187 Q184 183 184 182" stroke="#1a0f3a" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M189 186 Q189 182 190 181" stroke="#1a0f3a" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M193 187 Q194 183 195 183" stroke="#1a0f3a" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M196 189 Q198 186 199 186" stroke="#1a0f3a" stroke-width="1.5" stroke-linecap="round"/>
+
+          <path d="M121 182 Q131 177 141 180" stroke="#2D1B6E" stroke-width="3" stroke-linecap="round" fill="none"/>
+          <path d="M179 180 Q189 177 199 182" stroke="#2D1B6E" stroke-width="3" stroke-linecap="round" fill="none"/>
+
+          <!-- ── NOSE ── -->
+          <path d="M157 200 Q155 212 152 215 Q157 218 163 215 Q168 212 163 200Z" fill="rgba(200,140,90,0.3)" stroke="none"/>
+          <path d="M153 215 Q157 218 163 215" stroke="rgba(180,120,80,0.5)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+
+          <!-- ── MOUTH ── -->
+          <path d="M147 228 Q160 240 173 228" stroke="#c67b5e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M148 228 Q160 235 172 228 Q160 233 148 228Z" fill="rgba(198,123,94,0.3)"/>
+          <path d="M152 229 Q160 235 168 229" stroke="rgba(255,255,255,0.2)" stroke-width="1" fill="none"/>
+
+          <ellipse cx="122" cy="218" rx="12" ry="7" fill="rgba(255,107,157,0.12)"/>
+          <ellipse cx="198" cy="218" rx="12" ry="7" fill="rgba(255,107,157,0.12)"/>
+
+          <!-- ── HEADPHONES ── -->
+          <path d="M112 175 Q110 140 160 132 Q210 140 208 175" stroke="#2a2a4e" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <path d="M112 175 Q110 140 160 132 Q210 140 208 175" stroke="rgba(124,106,255,0.4)" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <rect x="104" y="172" width="16" height="22" rx="7" fill="#1a1f3a" stroke="rgba(124,106,255,0.5)" stroke-width="1.5"/>
+          <rect x="107" y="176" width="10" height="14" rx="4" fill="#7c6aff" opacity="0.3"/>
+          <rect x="200" y="172" width="16" height="22" rx="7" fill="#1a1f3a" stroke="rgba(124,106,255,0.5)" stroke-width="1.5"/>
+          <rect x="203" y="176" width="10" height="14" rx="4" fill="#7c6aff" opacity="0.3"/>
+          <circle cx="112" cy="178" r="2.5" fill="#00f5c4" filter="url(#softGlow)" opacity="0.9"/>
+          <circle cx="208" cy="178" r="2.5" fill="#00f5c4" filter="url(#softGlow)" opacity="0.9"/>
+
+          <ellipse cx="160" cy="210" rx="40" ry="35" fill="rgba(0,245,196,0.04)" class="screen-glow"/>
+
+          <!-- ── NAME TAG ── -->
+          <rect x="105" y="385" width="110" height="24" rx="6" fill="rgba(124,106,255,0.15)" stroke="rgba(124,106,255,0.3)" stroke-width="1"/>
+          <text x="160" y="402" font-family="monospace" font-size="10" fill="#00f5c4" text-anchor="middle" font-weight="700">ANYA.AI</text>
+          <circle cx="115" cy="397" r="3" fill="#00f5c4"/>
+
+        </svg>
                 </div>
             </div>
         </div>
