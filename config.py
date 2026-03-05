@@ -414,29 +414,50 @@ CATEGORY_KEYWORDS = {
     ],
     "AI Builder tools": [
         # AI Development Frameworks & Tools
-        "langchain", "llamaindex", "hugging face", "transformers", "pytorch", "tensorflow",
-        "keras", "onnx", "mlflow", "wandb", "weights & biases", "gradio", "streamlit",
-        # AI Code Assistants & IDEs
-        "github copilot", "cursor", "replit", "codeium", "tabnine", "codex", "code assistant",
-        "ai coding", "code generation", "pair programming",
+        "langchain", "llamaindex", "llama index", "hugging face", "huggingface", "transformers",
+        "pytorch", "tensorflow", "keras", "onnx", "mlflow", "wandb", "weights & biases", 
+        "gradio", "streamlit", "fastapi", "flask ai",
+        
+        # AI Code Assistants & IDEs  
+        "github copilot", "copilot", "cursor", "replit", "codeium", "tabnine", "codex", 
+        "code assistant", "ai coding", "code generation", "pair programming", "ai code",
+        "coding assistant", "code completion",
+        
         # Vector DBs & RAG Tools
-        "pinecone", "weaviate", "qdrant", "chroma", "milvus", "vector database", "vector db",
-        "embeddings", "rag", "retrieval augmented", "semantic search",
-        # AI Development Platforms
-        "openai api", "anthropic api", "cohere", "replicate", "modal", "beam", "banana",
-        "together ai", "fireworks ai", "anyscale", "baseten", "inference api",
+        "pinecone", "weaviate", "qdrant", "chroma", "chromadb", "milvus", "vector database", 
+        "vector db", "embeddings", "embedding", "rag", "retrieval augmented", "semantic search",
+        "vector store", "vector search",
+        
+        # AI Development Platforms & APIs
+        "openai api", "gpt api", "anthropic api", "claude api", "cohere", "replicate", 
+        "modal", "beam", "together ai", "fireworks ai", "anyscale", "baseten", 
+        "inference api", "ai api", "llm api", "api key", "api integration",
+        
         # Model Training & Fine-tuning
-        "fine-tuning", "fine tuning", "model training", "model optimization", "lora", "qlora",
-        "peft", "parameter efficient", "model deployment", "model serving",
+        "fine-tuning", "fine tuning", "finetune", "model training", "train model",
+        "model optimization", "lora", "qlora", "peft", "parameter efficient", 
+        "model deployment", "deploy model", "model serving", "serve model",
+        
         # AI Agent Frameworks
-        "autogpt", "babyagi", "agent", "langflow", "flowise", "ai agent framework",
-        "autonomous agent", "tool calling", "function calling",
+        "autogpt", "babyagi", "agent framework", "langflow", "flowise", 
+        "autonomous agent", "ai agent", "tool calling", "function calling",
+        "langchain agent", "agent toolkit",
+        
         # Prompt Engineering & Testing
-        "prompt engineering", "prompt playground", "langsmith", "helicone", "promptfoo",
-        "ai testing", "llm evaluation", "prompt optimization",
-        # General AI Dev Terms
-        "ai sdk", "llm api", "generative ai tool", "ai developer", "ai framework",
-        "machine learning tool", "ml platform", "ai builder", "no-code ai", "low-code ai"
+        "prompt engineering", "prompt", "prompting", "prompt playground", "langsmith", 
+        "helicone", "promptfoo", "ai testing", "llm evaluation", "prompt optimization",
+        "prompt template", "few shot",
+        
+        # Development Terms
+        "ai sdk", "sdk", "developer", "developer tool", "development", "build with ai",
+        "ai framework", "framework", "library", "package", "tool", "toolkit",
+        "machine learning tool", "ml tool", "ml platform", "mlops",
+        "ai builder", "no-code ai", "low-code ai", "ai development",
+        
+        # Common Dev Patterns
+        "integration", "integrate", "build", "create", "develop", "implementation",
+        "tutorial", "guide", "documentation", "docs", "api reference",
+        "getting started", "quickstart", "example", "sample code"
     ],
     "AI startups to watch": [
         "startup", "funding", "raise", "series a", "series b", "seed", "venture", "capital",
