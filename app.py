@@ -2269,10 +2269,10 @@ def generate_email_html(results_data, app_url="http://localhost:5001"):
     # Build category sections
     category_html = ""
     category_config = {
-        "GPU and AI Infra": {"icon": "🏗️", "color": "#667eea"},
-        "AI Applications": {"icon": "🚀", "color": "#f093fb"},
-        "AI Builder tools": {"icon": "🛠️", "color": "#4facfe"},
-        "AI startups to watch": {"icon": "⭐", "color": "#fa709a"}
+        "GPU and AI Infra": {"icon": "⚙️", "color": "#667eea"},
+        "AI Applications": {"icon": "✨", "color": "#4facfe"},
+        "AI Builder tools": {"icon": "🔨", "color": "#f093fb"},
+        "AI startups to watch": {"icon": "🚀", "color": "#fa709a"}
     }
     
     for category_name, cat_data in categories.items():
@@ -2299,13 +2299,13 @@ def generate_email_html(results_data, app_url="http://localhost:5001"):
         
         category_html += f"""
         <tr>
-            <td style="padding: 30px; background: linear-gradient(135deg, {config['color']}15 0%, {config['color']}25 100%); border-radius: 15px; margin-bottom: 20px;">
-                <h2 style="margin: 0 0 15px 0; color: {config['color']}; font-size: 24px;">
+            <td style="padding: 25px; background: linear-gradient(135deg, rgba({int(config['color'][1:3], 16)}, {int(config['color'][3:5], 16)}, {int(config['color'][5:7], 16)}, 0.08) 0%, rgba({int(config['color'][1:3], 16)}, {int(config['color'][3:5], 16)}, {int(config['color'][5:7], 16)}, 0.15) 100%); border-radius: 16px; border: 1px solid rgba({int(config['color'][1:3], 16)}, {int(config['color'][3:5], 16)}, {int(config['color'][5:7], 16)}, 0.3); margin-bottom: 20px;">
+                <h2 style="margin: 0 0 12px 0; color: {config['color']}; font-size: 20px; font-weight: 700; font-family: 'Space Grotesk', sans-serif;">
                     {config['icon']} {category_name}
                 </h2>
-                {f'<p style="color: #555; line-height: 1.6; margin-bottom: 20px; font-size: 16px;">{html.escape(summary_preview)}</p>' if summary_preview else ''}
-                <p style="color: #666; margin: 10px 0; font-weight: 600;">📰 {len(articles)} Article{'' if len(articles) == 1 else 's'}</p>
-                <ul style="list-style: none; padding: 0; margin: 15px 0;">
+                {f'<p style="color: #b4b4c8; line-height: 1.7; margin-bottom: 18px; font-size: 14px;">{html.escape(summary_preview)}</p>' if summary_preview else ''}
+                <p style="color: #8a8a9e; margin: 10px 0; font-weight: 600; font-size: 13px;">● {len(articles)} Article{'' if len(articles) == 1 else 's'}</p>
+                <ul style="list-style: none; padding: 0; margin: 15px 0 0 0;">
         """
         
         for article in articles[:5]:  # Show top 5 articles
@@ -2313,18 +2313,18 @@ def generate_email_html(results_data, app_url="http://localhost:5001"):
             link = article.get('link', '#')
             source = article.get('source', 'Unknown')
             category_html += f"""
-                    <li style="margin-bottom: 15px; padding: 15px; background: white; border-radius: 8px; border-left: 4px solid {config['color']};">
-                        <a href="{link}" style="color: {config['color']}; text-decoration: none; font-weight: 600; font-size: 16px; display: block; margin-bottom: 5px;">
+                    <li style="margin-bottom: 12px; padding: 16px; background: rgba(255, 255, 255, 0.03); border-radius: 10px; border-left: 3px solid {config['color']}; backdrop-filter: blur(10px);">
+                        <a href="{link}" style="color: #e0e0e8; text-decoration: none; font-weight: 600; font-size: 15px; display: block; margin-bottom: 6px; line-height: 1.4;">
                             {html.escape(title)}
                         </a>
-                        <span style="color: #999; font-size: 14px;">Source: {html.escape(source)}</span>
+                        <span style="color: #8a8a9e; font-size: 13px;">📰 {html.escape(source)}</span>
                     </li>
             """
         
         if len(articles) > 5:
             category_html += f"""
-                    <li style="text-align: center; margin-top: 10px;">
-                        <span style="color: #999; font-size: 14px;">... and {len(articles) - 5} more articles</span>
+                    <li style="text-align: center; margin-top: 15px; padding: 10px;">
+                        <span style="color: #6b7280; font-size: 13px;">... and {len(articles) - 5} more articles in full report</span>
                     </li>
             """
         
@@ -2340,37 +2340,42 @@ def generate_email_html(results_data, app_url="http://localhost:5001"):
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>AI News Summary</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+        <title>Your AI News Summary from Anya</title>
     </head>
-    <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
-        <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; padding: 40px 0;">
+    <body style="margin: 0; padding: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background-color: #0a0a0f;">
+        <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #0a0a0f; padding: 40px 20px;">
             <tr>
                 <td align="center">
-                    <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                    <table width="600" cellpadding="0" cellspacing="0" style="background-color: #0d1225; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5); border: 1px solid rgba(139, 132, 255, 0.2);">
                         <!-- Header -->
                         <tr>
-                            <td style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 30px; text-align: center;">
-                                <h1 style="margin: 0; color: white; font-size: 32px; font-weight: 700;">
-                                    🤖 AI News Summary
+                            <td style="background: linear-gradient(135deg, #0a0e1a 0%, #1a1f3a 100%); padding: 50px 30px; text-align: center; position: relative;">
+                                <div style="display: inline-block; padding: 6px 14px; background: rgba(139, 132, 255, 0.2); border: 1px solid rgba(139, 132, 255, 0.4); border-radius: 20px; font-size: 11px; font-weight: 600; color: #8b84ff; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase;">
+                                    • AI-POWERED INTELLIGENCE
+                                </div>
+                                <h1 style="margin: 0 0 15px 0; color: transparent; background: linear-gradient(135deg, #a9a3ff 0%, #d4b3ff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 48px; font-weight: 800; font-family: 'Space Grotesk', sans-serif; letter-spacing: -2px;">
+                                    Anya
                                 </h1>
-                                <p style="margin: 10px 0 0 0; color: rgba(255,255,255,0.9); font-size: 16px;">
-                                    Your curated AI news digest
+                                <p style="margin: 0 0 10px 0; color: #b4b4c8; font-size: 18px; font-weight: 500;">
+                                    Your AI News Agent — Always On
+                                </p>
+                                <p style="margin: 0; color: #8a8a9e; font-size: 14px; line-height: 1.6;">
+                                    Curated from 85 vetted sources
                                 </p>
                             </td>
                         </tr>
                         
                         <!-- Intro -->
                         <tr>
-                            <td style="padding: 40px 30px; text-align: center; background: white;">
-                                <p style="margin: 0 0 20px 0; color: #333; font-size: 18px; line-height: 1.6;">
-                                    Hello! 👋
+                            <td style="padding: 40px 30px; text-align: center; background: #0d1225;">
+                                <p style="margin: 0 0 20px 0; color: #e0e0e8; font-size: 16px; line-height: 1.8;">
+                                    Here's your personalized AI news summary. The latest breakthroughs across AI infrastructure, applications, tools and startups.
                                 </p>
-                                <p style="margin: 0 0 30px 0; color: #666; font-size: 16px; line-height: 1.8;">
-                                    Here's your personalized AI news summary, curated from 54+ trusted sources. 
-                                    Stay ahead of the latest developments in AI infrastructure, AI applications, 
-                                    builder tools, and startups to watch.
+                                <p style="margin: 0 0 30px 0; color: #8a8a9e; font-size: 14px; line-height: 1.6;">
+                                    Curated, synthesized, and delivered. No noise. Just signal.
                                 </p>
-                                <a href="{app_url}" style="display: inline-block; padding: 14px 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 16px; margin: 10px 0;">
+                                <a href="{app_url}" style="display: inline-block; padding: 14px 28px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 15px; margin: 10px 0; box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);">
                                     🚀 View Full Report
                                 </a>
                             </td>
@@ -2378,7 +2383,7 @@ def generate_email_html(results_data, app_url="http://localhost:5001"):
                         
                         <!-- Categories -->
                         <tr>
-                            <td style="padding: 30px;">
+                            <td style="padding: 20px 30px 40px 30px; background: #0d1225;">
                                 <table width="100%" cellpadding="0" cellspacing="0">
                                     {category_html}
                                 </table>
@@ -2387,18 +2392,16 @@ def generate_email_html(results_data, app_url="http://localhost:5001"):
                         
                         <!-- Footer -->
                         <tr>
-                            <td style="padding: 30px; background: #f8f9fa; text-align: center; border-top: 2px solid #e0e0e0;">
-                                <p style="margin: 0 0 10px 0; color: #999; font-size: 14px;">
+                            <td style="padding: 30px; background: #0a0e1a; text-align: center; border-top: 1px solid rgba(139, 132, 255, 0.2);">
+                                <p style="margin: 0 0 10px 0; color: #6b7280; font-size: 13px;">
                                     Generated on {formatted_date}
                                 </p>
-                                <p style="margin: 0; color: #999; font-size: 12px;">
-                                    This summary was generated by the AI News Agent
+                                <p style="margin: 0 0 15px 0; color: #6b7280; font-size: 12px;">
+                                    Powered by Anya • Your AI News Agent
                                 </p>
-                                <p style="margin: 15px 0 0 0;">
-                                    <a href="{app_url}" style="color: #667eea; text-decoration: none; font-size: 14px; font-weight: 600;">
-                                        Visit AI News Agent →
-                                    </a>
-                                </p>
+                                <a href="{app_url}" style="color: #8b84ff; text-decoration: none; font-size: 14px; font-weight: 600;">
+                                    Visit anya-ai-news.railway.app →
+                                </a>
                             </td>
                         </tr>
                     </table>
