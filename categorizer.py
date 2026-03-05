@@ -24,21 +24,13 @@ class ArticleCategorizer:
         # Count keyword matches (case-insensitive)
         matches = sum(1 for keyword in keywords if keyword.lower() in text_lower)
         
-        # For GPU and AI Infra and AI Applications, use a more lenient scoring
-        if category == "GPU and AI Infra" or category == "AI Applications":
-            # Very lenient - any match gets a good score
-            if matches > 0:
-                # Start at 0.2 for 1 match, add 0.15 per additional match
-                # This ensures even single keyword matches get categorized
-                score = 0.2 + (matches * 0.15)
-            else:
-                score = 0.0
+        # Use lenient scoring for all categories to ensure fair competition
+        if matches > 0:
+            # Start at 0.2 for 1 match, add 0.15 per additional match
+            # This ensures even single keyword matches get categorized
+            score = 0.2 + (matches * 0.15)
         else:
-            # Original scoring for other categories
-            score = matches / len(keywords)
-            # Boost score if multiple keywords found
-            if matches > 1:
-                score *= 1.2
+            score = 0.0
         
         return min(score, 1.0)
     
@@ -63,9 +55,8 @@ class ArticleCategorizer:
         # Find the category with the highest score
         best_category = max(scores.items(), key=lambda x: x[1])
         
-        # Lower threshold for GPU and AI Infra and AI Applications categories to catch more articles
-        # Very lenient threshold - any match above 0.01 is accepted
-        threshold = 0.01 if best_category[0] in ["GPU and AI Infra", "AI Applications"] else 0.1
+        # Use same lenient threshold for all categories to ensure fair competition
+        threshold = 0.01
         
         # Only categorize if score is above threshold
         if best_category[1] > threshold:
