@@ -1051,8 +1051,8 @@ HTML_TEMPLATE = """
                 
                 <div class="hero-stats">
                     <div class="stat-item">
-                        <span class="stat-value">1.2K+</span>
-                        <span class="stat-label">Sources Monitored</span>
+                        <span class="stat-value">54</span>
+                        <span class="stat-label">Vetted Sources Monitored</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-value">24/7</span>
@@ -1065,11 +1065,11 @@ HTML_TEMPLATE = """
                 </div>
                 
                 <div class="hero-buttons">
-                    <button class="btn-hero btn-hero-primary" onclick="document.getElementById('days').focus()">
+                    <button class="btn-hero btn-hero-primary" onclick="document.querySelector('.controls').scrollIntoView({behavior: 'smooth', block: 'center'})">
                         ⚡ Get the Brief
                     </button>
-                    <button class="btn-hero btn-hero-secondary" onclick="window.scrollTo({top: document.querySelector('.categories').offsetTop, behavior: 'smooth'})">
-                        ▶ Watch Demo
+                    <button class="btn-hero btn-hero-secondary" onclick="document.querySelector('.email-section').scrollIntoView({behavior: 'smooth', block: 'center'})">
+                        ✉️ Subscribe
                     </button>
                 </div>
             </div>
@@ -1089,12 +1089,12 @@ HTML_TEMPLATE = """
                                 <stop offset="100%" style="stop-color:#8b84ff;stop-opacity:0" />
                             </radialGradient>
                             <linearGradient id="hairGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" style="stop-color:#9b8fff" />
-                                <stop offset="100%" style="stop-color:#6b5fd1" />
+                                <stop offset="0%" style="stop-color:#b39dff" />
+                                <stop offset="100%" style="stop-color:#8b7fd9" />
                             </linearGradient>
                             <linearGradient id="skinGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" style="stop-color:#ffd4a3" />
-                                <stop offset="100%" style="stop-color:#ffb88c" />
+                                <stop offset="0%" style="stop-color:#ffd9b3" />
+                                <stop offset="100%" style="stop-color:#ffcca3" />
                             </linearGradient>
                         </defs>
                         
@@ -1102,56 +1102,107 @@ HTML_TEMPLATE = """
                         <circle cx="150" cy="150" r="140" fill="url(#bgGlow)"/>
                         
                         <!-- Screen/Laptop background -->
-                        <rect x="75" y="180" width="150" height="100" rx="8" fill="#1a1f35" stroke="#8b84ff" stroke-width="2" opacity="0.8"/>
+                        <rect x="75" y="190" width="150" height="100" rx="8" fill="#1a1f35" stroke="#8b84ff" stroke-width="2" opacity="0.8"/>
                         
                         <!-- Code on screen -->
-                        <text x="85" y="200" font-family="monospace" font-size="8" fill="#4fffb0">function main() {</text>
-                        <text x="95" y="210" font-family="monospace" font-size="8" fill="#8b84ff">fetchNews();</text>
-                        <text x="95" y="220" font-family="monospace" font-size="8" fill="#8b84ff">summarize();</text>
-                        <text x="95" y="230" font-family="monospace" font-size="8" fill="#4fffb0">sendTo(you);</text>
-                        <text x="85" y="240" font-family="monospace" font-size="8" fill="#4fffb0">}</text>
+                        <text x="85" y="210" font-family="monospace" font-size="8" fill="#4fffb0">function main() {</text>
+                        <text x="95" y="220" font-family="monospace" font-size="8" fill="#8b84ff">fetchNews();</text>
+                        <text x="95" y="230" font-family="monospace" font-size="8" fill="#8b84ff">summarize();</text>
+                        <text x="95" y="240" font-family="monospace" font-size="8" fill="#4fffb0">sendTo(you);</text>
+                        <text x="85" y="250" font-family="monospace" font-size="8" fill="#4fffb0">}</text>
                         
                         <!-- Terminal cursor blink -->
-                        <rect x="155" y="233" width="6" height="10" fill="#4fffb0">
+                        <rect x="155" y="243" width="6" height="10" fill="#4fffb0">
                             <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>
                         </rect>
                         
+                        <!-- Long hair back layer -->
+                        <ellipse cx="150" cy="135" rx="60" ry="75" fill="url(#hairGradient)" opacity="0.9"/>
+                        
                         <!-- Character head -->
-                        <ellipse cx="150" cy="110" rx="45" ry="50" fill="url(#skinGradient)"/>
+                        <ellipse cx="150" cy="115" rx="42" ry="48" fill="url(#skinGradient)"/>
                         
-                        <!-- Hair -->
-                        <path d="M 105 90 Q 105 60 130 65 Q 140 50 150 55 Q 160 50 170 65 Q 195 60 195 90 Q 195 110 185 120 L 185 100 Q 180 90 170 95 L 170 110 Q 165 100 160 105 L 160 120 Q 155 110 150 110 Q 145 110 140 120 L 140 105 Q 135 100 130 110 L 130 95 Q 120 90 115 100 L 115 120 Q 110 110 105 90 Z" 
-                              fill="url(#hairGradient)" stroke="#5a4daf" stroke-width="2"/>
+                        <!-- Neck -->
+                        <rect x="140" y="155" width="20" height="20" fill="url(#skinGradient)" rx="5"/>
                         
-                        <!-- Eyes -->
-                        <ellipse cx="135" cy="110" rx="8" ry="12" fill="white"/>
-                        <ellipse cx="165" cy="110" rx="8" ry="12" fill="white"/>
-                        <circle cx="135" cy="112" r="6" fill="#3b82f6">
-                            <animate attributeName="cy" values="112;113;112" dur="3s" repeatCount="indefinite"/>
+                        <!-- Hair front -->
+                        <ellipse cx="150" cy="85" rx="55" ry="45" fill="url(#hairGradient)"/>
+                        
+                        <!-- Hair side strands -->
+                        <ellipse cx="110" cy="120" rx="18" ry="35" fill="url(#hairGradient)"/>
+                        <ellipse cx="190" cy="120" rx="18" ry="35" fill="url(#hairGradient)"/>
+                        
+                        <!-- Bangs -->
+                        <path d="M 100 85 Q 105 75 115 80 L 115 90 Q 110 88 105 90 Z" fill="url(#hairGradient)"/>
+                        <path d="M 120 75 Q 125 68 135 72 L 135 85 Q 130 82 125 85 Z" fill="url(#hairGradient)"/>
+                        <path d="M 140 70 Q 145 65 155 68 L 155 82 Q 150 78 145 82 Z" fill="url(#hairGradient)"/>
+                        <path d="M 165 72 Q 170 68 180 75 L 180 85 Q 175 82 170 85 Z" fill="url(#hairGradient)"/>
+                        <path d="M 185 80 Q 190 75 200 85 L 195 90 Q 192 88 190 90 Z" fill="url(#hairGradient)"/>
+                        
+                        <!-- Ears -->
+                        <ellipse cx="108" cy="120" rx="6" ry="10" fill="url(#skinGradient)"/>
+                        <ellipse cx="192" cy="120" rx="6" ry="10" fill="url(#skinGradient)"/>
+                        
+                        <!-- Eyes (larger, more expressive) -->
+                        <ellipse cx="135" cy="115" rx="10" ry="14" fill="white"/>
+                        <ellipse cx="165" cy="115" rx="10" ry="14" fill="white"/>
+                        
+                        <!-- Iris -->
+                        <circle cx="135" cy="117" r="7" fill="#6b5fd1">
+                            <animate attributeName="cy" values="117;118;117" dur="4s" repeatCount="indefinite"/>
                         </circle>
-                        <circle cx="165" cy="112" r="6" fill="#3b82f6">
-                            <animate attributeName="cy" values="112;113;112" dur="3s" repeatCount="indefinite"/>
+                        <circle cx="165" cy="117" r="7" fill="#6b5fd1">
+                            <animate attributeName="cy" values="117;118;117" dur="4s" repeatCount="indefinite"/>
                         </circle>
-                        <circle cx="133" cy="110" r="2" fill="white"/>
-                        <circle cx="163" cy="110" r="2" fill="white"/>
                         
-                        <!-- Glasses -->
-                        <circle cx="135" cy="110" r="12" fill="none" stroke="#2d3748" stroke-width="2" opacity="0.6"/>
-                        <circle cx="165" cy="110" r="12" fill="none" stroke="#2d3748" stroke-width="2" opacity="0.6"/>
-                        <line x1="147" y1="110" x2="153" y2="110" stroke="#2d3748" stroke-width="2" opacity="0.6"/>
+                        <!-- Pupils -->
+                        <circle cx="135" cy="117" r="4" fill="#2d3748"/>
+                        <circle cx="165" cy="117" r="4" fill="#2d3748"/>
                         
-                        <!-- Nose -->
-                        <line x1="150" y1="115" x2="150" y2="122" stroke="#ffb88c" stroke-width="2" stroke-linecap="round"/>
+                        <!-- Eye highlights -->
+                        <circle cx="133" cy="114" r="2.5" fill="white"/>
+                        <circle cx="163" cy="114" r="2.5" fill="white"/>
+                        <circle cx="137" cy="119" r="1.5" fill="white" opacity="0.6"/>
+                        <circle cx="167" cy="119" r="1.5" fill="white" opacity="0.6"/>
                         
-                        <!-- Smile -->
-                        <path d="M 138 130 Q 150 138 162 130" fill="none" stroke="#ff9a8c" stroke-width="2.5" stroke-linecap="round"/>
+                        <!-- Eyelashes -->
+                        <line x1="125" y1="108" x2="122" y2="104" stroke="#2d3748" stroke-width="1.5" stroke-linecap="round"/>
+                        <line x1="130" y1="106" x2="128" y2="101" stroke="#2d3748" stroke-width="1.5" stroke-linecap="round"/>
+                        <line x1="140" y1="106" x2="140" y2="101" stroke="#2d3748" stroke-width="1.5" stroke-linecap="round"/>
+                        <line x1="160" y1="106" x2="160" y2="101" stroke="#2d3748" stroke-width="1.5" stroke-linecap="round"/>
+                        <line x1="170" y1="106" x2="172" y2="101" stroke="#2d3748" stroke-width="1.5" stroke-linecap="round"/>
+                        <line x1="175" y1="108" x2="178" y2="104" stroke="#2d3748" stroke-width="1.5" stroke-linecap="round"/>
+                        
+                        <!-- Eyebrows -->
+                        <path d="M 120 105 Q 135 102 145 103" fill="none" stroke="#6b5fd1" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M 155 103 Q 165 102 180 105" fill="none" stroke="#6b5fd1" stroke-width="2" stroke-linecap="round"/>
+                        
+                        <!-- Glasses (cat-eye style) -->
+                        <path d="M 120 115 Q 120 108 127 107 L 143 107 Q 145 107 145 115 Q 145 123 143 123 L 127 123 Q 120 123 120 115" 
+                              fill="none" stroke="#2d3748" stroke-width="2.5" opacity="0.7"/>
+                        <path d="M 155 115 Q 155 108 162 107 L 178 107 Q 180 107 180 115 Q 180 123 178 123 L 162 123 Q 155 123 155 115" 
+                              fill="none" stroke="#2d3748" stroke-width="2.5" opacity="0.7"/>
+                        <line x1="145" y1="111" x2="155" y2="111" stroke="#2d3748" stroke-width="2" opacity="0.7"/>
+                        
+                        <!-- Nose (petite) -->
+                        <ellipse cx="150" cy="125" rx="3" ry="4" fill="#ffb88c" opacity="0.6"/>
+                        
+                        <!-- Smile (softer) -->
+                        <path d="M 135 135 Q 150 142 165 135" fill="none" stroke="#ff9a8c" stroke-width="2.5" stroke-linecap="round"/>
+                        
+                        <!-- Blush -->
+                        <ellipse cx="120" cy="128" rx="8" ry="5" fill="#ff9a8c" opacity="0.3"/>
+                        <ellipse cx="180" cy="128" rx="8" ry="5" fill="#ff9a8c" opacity="0.3"/>
                         
                         <!-- Body/Shoulders -->
-                        <ellipse cx="150" cy="180" rx="50" ry="30" fill="#6b5fd1"/>
+                        <ellipse cx="150" cy="190" rx="55" ry="30" fill="#9b8fff"/>
+                        
+                        <!-- Collar -->
+                        <path d="M 130 175 L 140 185 L 150 180 L 160 185 L 170 175" fill="none" stroke="#b39dff" stroke-width="3"/>
                         
                         <!-- Coding badge on shirt -->
-                        <circle cx="150" cy="175" r="10" fill="#4fffb0" opacity="0.3"/>
-                        <text x="145" y="180" font-size="12">{ }</text>
+                        <circle cx="150" cy="185" r="12" fill="#4fffb0" opacity="0.2" stroke="#4fffb0" stroke-width="1"/>
+                        <text x="143" y="191" font-size="14" fill="#4fffb0" font-weight="bold">{ }</text>
                     </svg>
                 </div>
             </div>
