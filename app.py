@@ -1130,11 +1130,8 @@ HTML_TEMPLATE = """
                 </div>
                 
                 <div class="hero-buttons">
-                    <button class="btn-hero btn-hero-primary" onclick="openEmailModal()">
+                    <button class="btn-hero btn-hero-primary" onclick="document.querySelector('.controls').scrollIntoView({behavior: 'smooth', block: 'center'})">
                         ⚡ Get the Brief
-                    </button>
-                    <button class="btn-hero btn-hero-secondary" onclick="openEmailModal()">
-                        ✉️ Subscribe
                     </button>
                 </div>
             </div>
@@ -1768,7 +1765,8 @@ HTML_TEMPLATE = """
             
             results.classList.add('visible');
             
-            // Email and feedback are now available as modals (no auto-show)
+            // Automatically show email modal after results are displayed
+            openEmailModal();
         }
         
         let selectedFeedback = null;
