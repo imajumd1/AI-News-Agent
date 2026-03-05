@@ -797,14 +797,75 @@ HTML_TEMPLATE = """
         .results.visible {
             display: block;
         }
-        .email-section {
-            margin-top: 40px;
-            padding: 30px;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(102, 126, 234, 0.3);
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .modal-content {
+            background: linear-gradient(135deg, rgba(10, 10, 15, 0.95) 0%, rgba(26, 31, 58, 0.95) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(139, 132, 255, 0.3);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 100px rgba(102, 126, 234, 0.3);
+            position: relative;
+            animation: slideUp 0.4s ease;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            color: #ffffff;
+            transition: all 0.3s;
+        }
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+        .email-section {
+            padding: 0;
+            background: none;
+            backdrop-filter: none;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            margin-top: 0;
         }
         .email-title {
             font-size: 1.3em;
@@ -876,13 +937,37 @@ HTML_TEMPLATE = """
             border: 1px solid rgba(244, 67, 54, 0.4);
         }
         .feedback-section {
-            margin-top: 40px;
-            padding: 30px;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            padding: 0;
+            background: none;
+            backdrop-filter: none;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            margin-top: 0;
+        }
+        /* Permanent Feedback Button */
+        .feedback-float-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 16px 28px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        .feedback-float-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.6);
         }
         .feedback-title {
             font-size: 1.3em;
@@ -1045,10 +1130,10 @@ HTML_TEMPLATE = """
                 </div>
                 
                 <div class="hero-buttons">
-                    <button class="btn-hero btn-hero-primary" onclick="document.querySelector('.controls').scrollIntoView({behavior: 'smooth', block: 'center'})">
+                    <button class="btn-hero btn-hero-primary" onclick="openEmailModal()">
                         ⚡ Get the Brief
                     </button>
-                    <button class="btn-hero btn-hero-secondary" onclick="document.querySelector('.email-section').scrollIntoView({behavior: 'smooth', block: 'center'})">
+                    <button class="btn-hero btn-hero-secondary" onclick="openEmailModal()">
                         ✉️ Subscribe
                     </button>
                 </div>
@@ -1313,9 +1398,14 @@ HTML_TEMPLATE = """
 
         <div class="results" id="results">
             <div class="categories-grid" id="categoriesGrid"></div>
-            
-            <!-- Email Section -->
-            <div class="email-section" id="emailSection" style="display: none;">
+        </div>
+    </div>
+    
+    <!-- Email Modal -->
+    <div class="modal-overlay" id="emailModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeEmailModal()">×</button>
+            <div class="email-section">
                 <div class="email-title">📧 Send Summary via Email</div>
                 <div class="email-form">
                     <input type="email" id="emailInput" placeholder="Enter your email address" class="email-input">
@@ -1323,9 +1413,14 @@ HTML_TEMPLATE = """
                 </div>
                 <div class="email-message" id="emailMessage"></div>
             </div>
-            
-            <!-- Feedback Section -->
-            <div class="feedback-section" id="feedbackSection" style="display: none;">
+        </div>
+    </div>
+    
+    <!-- Feedback Modal -->
+    <div class="modal-overlay" id="feedbackModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeFeedbackModal()">×</button>
+            <div class="feedback-section">
                 <div class="feedback-title">💬 How was your experience?</div>
                 <div class="feedback-buttons">
                     <button class="feedback-btn thumbs-up" onclick="selectFeedback('thumbs_up')">
@@ -1345,6 +1440,11 @@ HTML_TEMPLATE = """
             </div>
         </div>
     </div>
+    
+    <!-- Permanent Feedback Button -->
+    <button class="feedback-float-btn" onclick="openFeedbackModal()">
+        💬 Feedback
+    </button>
 
     <script>
         const categoryConfig = {
@@ -1353,6 +1453,44 @@ HTML_TEMPLATE = """
             "AI Builder tools": { icon: "🔨", color: "#f093fb" },
             "AI startups to watch": { icon: "🚀", color: "#fa709a" }
         };
+
+        // Modal Functions
+        function openEmailModal() {
+            document.getElementById('emailModal').classList.add('active');
+        }
+        
+        function closeEmailModal() {
+            document.getElementById('emailModal').classList.remove('active');
+        }
+        
+        function openFeedbackModal() {
+            document.getElementById('feedbackModal').classList.add('active');
+        }
+        
+        function closeFeedbackModal() {
+            document.getElementById('feedbackModal').classList.remove('active');
+        }
+        
+        // Close modals when clicking outside
+        document.addEventListener('click', function(event) {
+            const emailModal = document.getElementById('emailModal');
+            const feedbackModal = document.getElementById('feedbackModal');
+            
+            if (event.target === emailModal) {
+                closeEmailModal();
+            }
+            if (event.target === feedbackModal) {
+                closeFeedbackModal();
+            }
+        });
+        
+        // Close modals with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeEmailModal();
+                closeFeedbackModal();
+            }
+        });
 
         // Make runAgent globally accessible (both ways for compatibility)
         async function runAgent() {
@@ -1630,16 +1768,7 @@ HTML_TEMPLATE = """
             
             results.classList.add('visible');
             
-            // Show email and feedback sections after results are displayed
-            const emailSection = document.getElementById('emailSection');
-            if (emailSection) {
-                emailSection.style.display = 'block';
-            }
-            
-            const feedbackSection = document.getElementById('feedbackSection');
-            if (feedbackSection) {
-                feedbackSection.style.display = 'block';
-            }
+            // Email and feedback are now available as modals (no auto-show)
         }
         
         let selectedFeedback = null;
