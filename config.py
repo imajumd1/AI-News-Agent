@@ -258,6 +258,148 @@ NEWS_SOURCES = {
     "superhuman_newsletter": {
         "url": "https://superhuman.com/blog/rss",
         "type": "rss"
+    },
+    
+    # Additional AI-Specific Sources
+    "marktechpost": {
+        "url": "https://www.marktechpost.com/feed/",
+        "type": "rss"
+    },
+    "machine_learning_mastery": {
+        "url": "https://machinelearningmastery.com/feed/",
+        "type": "rss"
+    },
+    "papers_with_code": {
+        "url": "https://paperswithcode.com/latest",
+        "type": "rss"
+    },
+    "distill_pub": {
+        "url": "https://distill.pub/rss.xml",
+        "type": "rss"
+    },
+    
+    # Developer & AI Tools Focus
+    "hugging_face_blog": {
+        "url": "https://huggingface.co/blog/feed.xml",
+        "type": "rss"
+    },
+    "pytorch_blog": {
+        "url": "https://pytorch.org/blog/feed.xml",
+        "type": "rss"
+    },
+    "tensorflow_blog": {
+        "url": "https://blog.tensorflow.org/feeds/posts/default",
+        "type": "rss"
+    },
+    "databricks_blog": {
+        "url": "https://www.databricks.com/blog/rss.xml",
+        "type": "rss"
+    },
+    "weights_biases_blog": {
+        "url": "https://wandb.ai/fully-connected/rss",
+        "type": "rss"
+    },
+    
+    # More Startup & VC Sources
+    "product_hunt_ai": {
+        "url": "https://www.producthunt.com/feed/ai",
+        "type": "rss"
+    },
+    "betalist": {
+        "url": "https://betalist.com/feed",
+        "type": "rss"
+    },
+    "techfundingnews": {
+        "url": "https://techfundingnews.com/feed/",
+        "type": "rss"
+    },
+    
+    # International AI News
+    "the_ai_report": {
+        "url": "https://theaireport.com/feed/",
+        "type": "rss"
+    },
+    "ai_business": {
+        "url": "https://aibusiness.com/rss.xml",
+        "type": "rss"
+    },
+    "ventureburn": {
+        "url": "https://ventureburn.com/feed/",
+        "type": "rss"
+    },
+    
+    # More Tech Publications
+    "fast_company_tech": {
+        "url": "https://www.fastcompany.com/technology/rss",
+        "type": "rss"
+    },
+    "hackernoon_ai": {
+        "url": "https://hackernoon.com/tagged/ai/feed",
+        "type": "rss"
+    },
+    "dev_to_ai": {
+        "url": "https://dev.to/feed/tag/ai",
+        "type": "rss"
+    },
+    "medium_ai": {
+        "url": "https://medium.com/feed/tag/artificial-intelligence",
+        "type": "rss"
+    },
+    
+    # AI Ethics & Policy
+    "ai_now": {
+        "url": "https://ainowinstitute.org/feed",
+        "type": "rss"
+    },
+    "future_of_life": {
+        "url": "https://futureoflife.org/feed/",
+        "type": "rss"
+    },
+    
+    # Industry Analysis
+    "cb_insights": {
+        "url": "https://www.cbinsights.com/research/feed/",
+        "type": "rss"
+    },
+    "protocol": {
+        "url": "https://www.protocol.com/feed",
+        "type": "rss"
+    },
+    
+    # More Hardware & Infrastructure
+    "serve_the_home": {
+        "url": "https://www.servethehome.com/feed/",
+        "type": "rss"
+    },
+    "data_center_knowledge": {
+        "url": "https://www.datacenterknowledge.com/feed",
+        "type": "rss"
+    },
+    
+    # Additional Company Blogs
+    "microsoft_ai_blog": {
+        "url": "https://blogs.microsoft.com/ai/feed/",
+        "type": "rss"
+    },
+    "meta_ai_blog": {
+        "url": "https://ai.facebook.com/blog/rss/",
+        "type": "rss"
+    },
+    "deepmind_blog": {
+        "url": "https://deepmind.com/blog/feed/basic/",
+        "type": "rss"
+    },
+    "cohere_blog": {
+        "url": "https://cohere.com/blog/rss.xml",
+        "type": "rss"
+    },
+    "stability_ai_blog": {
+        "url": "https://stability.ai/blog/rss",
+        "type": "rss"
+    },
+    "mistral_blog": {
+        "url": "https://mistral.ai/news/rss/",
+        "type": "rss"
     }
 }
 

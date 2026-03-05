@@ -1126,7 +1126,7 @@ HTML_TEMPLATE = """
                 
                 <div class="hero-stats">
                     <div class="stat-item">
-                        <span class="stat-value">54</span>
+                        <span class="stat-value">85</span>
                         <span class="stat-label">Vetted Sources Monitored</span>
                     </div>
                     <div class="stat-item">
@@ -1248,7 +1248,7 @@ HTML_TEMPLATE = """
             <text x="122" y="308" font-family="monospace" font-size="6.5" fill="#e8eaf6">(impact)</text>
             <text x="108" y="317" font-family="monospace" font-size="6.5" fill="#7c6aff">deliver</text>
             <text x="131" y="317" font-family="monospace" font-size="6.5" fill="#e8eaf6">(you)</text>
-            <text x="108" y="326" font-family="monospace" font-size="6.5" fill="#e8eaf6">// ✓ 54 sources</text>
+            <text x="108" y="326" font-family="monospace" font-size="6.5" fill="#e8eaf6">// ✓ 85 sources</text>
             <text x="108" y="335" font-family="monospace" font-size="6.5" fill="rgba(255,255,255,0.3)">// ✓ realtime</text>
             <rect x="108" y="340" width="5" height="8" rx="1" fill="#00f5c4" class="cursor-blink">
               <animate attributeName="opacity" values="1;0;1" dur="1.1s" repeatCount="indefinite"/>
@@ -1382,7 +1382,7 @@ HTML_TEMPLATE = """
 
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <p style="font-size: 1.1em; margin-top: 20px;">Curating 54 sources to get you the most relevant and current AI news. This may take a minute or two. Please wait...</p>
+            <p style="font-size: 1.1em; margin-top: 20px;">Curating 85 sources to get you the most relevant and current AI news. This may take a minute or two. Please wait...</p>
         </div>
 
         <div id="errorContainer"></div>
@@ -1522,7 +1522,7 @@ HTML_TEMPLATE = """
             // Update loading message
             const loadingText = loading.querySelector('p');
             const originalText = loadingText.textContent;
-            loadingText.textContent = 'Curating 54 sources to get you the most relevant and current AI news. This may take a minute or two. Please wait...';
+            loadingText.textContent = 'Curating 85 sources to get you the most relevant and current AI news. This may take a minute or two. Please wait...';
             
             try {
                 const response = await fetch('/run', {
