@@ -93,25 +93,25 @@ def after_request(response):
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
     return response
 
-# Category configuration with icons and colors
+# Category configuration with icons and colors  
 CATEGORY_CONFIG = {
     "GPU and AI Infra": {
-        "icon": "🖥️",
+        "icon": "⚡",  # Lightning/power symbol for infrastructure
         "color": "#667eea",
         "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
     },
     "AI Applications": {
-        "icon": "🤖",
+        "icon": "✨",  # Sparkles for AI magic/applications
         "color": "#4facfe",
         "gradient": "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
     },
     "AI Builder tools": {
-        "icon": "🧠",
+        "icon": "🔧",  # Tools/wrench for builder tools
         "color": "#f093fb",
         "gradient": "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
     },
     "AI startups to watch": {
-        "icon": "🚀",
+        "icon": "🚀",  # Rocket for startups
         "color": "#fa709a",
         "gradient": "linear-gradient(135deg, #fa709a 0%, #fee140 100%)"
     }
@@ -373,15 +373,26 @@ HTML_TEMPLATE = """
             background: currentColor;
         }
         .category-icon {
-            font-size: 3em;
+            font-size: 3.5em;
             margin-bottom: 15px;
             position: relative;
             z-index: 1;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
         .category-title {
             font-size: 1.4em;
             font-weight: 700;
-            color: #333;
+            color: #ffffff;
             margin-bottom: 10px;
             position: relative;
             z-index: 1;
@@ -424,14 +435,14 @@ HTML_TEMPLATE = """
             font-size: 1.4em;
             font-weight: 700;
             margin-bottom: 20px;
-            color: #333;
+            color: #ffffff;
             display: flex;
             align-items: center;
             gap: 10px;
         }
         .category-overview-text {
             line-height: 1.8;
-            color: #444;
+            color: #e0e0e8;
             font-size: 1.05em;
             font-weight: 400;
         }
@@ -500,7 +511,7 @@ HTML_TEMPLATE = """
         }
         .articles-toggle {
             padding: 15px 20px;
-            background: #f8f9fa;
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 10px;
             cursor: pointer;
             display: flex;
@@ -511,12 +522,12 @@ HTML_TEMPLATE = """
             border: 2px solid transparent;
         }
         .articles-toggle:hover {
-            background: #e9ecef;
+            background: rgba(255, 255, 255, 0.08);
             border-color: currentColor;
         }
         .articles-toggle-title {
             font-weight: 600;
-            color: #333;
+            color: #ffffff;
         }
         .articles-toggle-icon {
             transition: transform 0.3s;
@@ -608,7 +619,7 @@ HTML_TEMPLATE = """
         .empty-state {
             text-align: center;
             padding: 40px;
-            color: #999;
+            color: #8a8a9e;
         }
         .error {
             background: #fee;
@@ -894,9 +905,9 @@ HTML_TEMPLATE = """
 
     <script>
         const categoryConfig = {
-            "GPU and AI Infra": { icon: "🖥️", color: "#667eea" },
-            "AI Applications": { icon: "🤖", color: "#4facfe" },
-            "AI Builder tools": { icon: "🧠", color: "#f093fb" },
+            "GPU and AI Infra": { icon: "⚡", color: "#667eea" },
+            "AI Applications": { icon: "✨", color: "#4facfe" },
+            "AI Builder tools": { icon: "🔧", color: "#f093fb" },
             "AI startups to watch": { icon: "🚀", color: "#fa709a" }
         };
 
