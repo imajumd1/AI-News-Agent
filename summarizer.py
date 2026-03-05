@@ -2,6 +2,7 @@
 
 from typing import List, Dict, Optional
 from openai import OpenAI
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from config import OPENAI_API_KEY, OPENAI_BASE_URL, OPENAI_MODEL
 
 
@@ -63,16 +64,40 @@ Summary:"""
             print(f"Error generating summary: {e}")
             return None
     
-    def generate_summaries(self, articles: List[Dict], category: str) -> List[Dict]:
-        """Generate summaries for multiple articles."""
+    def generate_summaries(self, articles: List[Dict], category: str, max_workers: int = 5) -> List[Dict]:
+        """Generate summaries for multiple articles in parallel for faster processing."""
+        if not articles:
+            return []
+        
         summarized_articles = []
         
-        for article in articles:
-            print(f"  Summarizing: {article['title'][:50]}...")
-            summary = self.generate_summary(article, category)
-            if summary:
-                article["ai_summary"] = summary
-                summarized_articles.append(article)
+        # Use ThreadPoolExecutor for parallel API calls
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            # Submit all summary generation jobs
+            future_to_article = {
+                executor.submit(self.generate_summary, article, category): article
+                for article in articles
+            }
+            
+            completed = 0
+            total = len(articles)
+            
+            # Process results as they complete
+            for future in as_completed(future_to_article):
+                article = future_to_article[future]
+                completed += 1
+                
+                try:
+                    summary = future.result(timeout=30)
+                    if summary:
+                        article["ai_summary"] = summary
+                        print(f"  [{completed}/{total}] ✓ {article['title'][:50]}")
+                    else:
+                        print(f"  [{completed}/{total}] ⚠ No summary: {article['title'][:50]}")
+                    summarized_articles.append(article)
+                except Exception as e:
+                    print(f"  [{completed}/{total}] ✗ Error: {article['title'][:50]} - {str(e)[:50]}")
+                    summarized_articles.append(article)
         
         return summarized_articles
     
