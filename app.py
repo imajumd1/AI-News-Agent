@@ -147,18 +147,18 @@ HTML_TEMPLATE = """
             margin: 0 auto;
         }
         .header {
-            background: 
-                linear-gradient(135deg, rgba(10, 10, 15, 0.85) 0%, rgba(10, 10, 15, 0.75) 100%),
-                url('https://images.pexels.com/photos/8438922/pexels-photo-8438922.jpeg?auto=compress&cs=tinysrgb&w=1920') center/cover;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 60px 40px;
+            background: #0a0e1a;
+            border: 1px solid rgba(139, 132, 255, 0.2);
+            padding: 60px;
             border-radius: 24px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 100px rgba(102, 126, 234, 0.2);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             margin-bottom: 40px;
-            text-align: center;
             position: relative;
-            overflow: hidden;
+            overflow: visible;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
         }
         .header::before {
             content: '';
@@ -168,77 +168,197 @@ HTML_TEMPLATE = """
             right: 0;
             bottom: 0;
             background: 
-                radial-gradient(circle at 20% 30%, rgba(102, 126, 234, 0.25) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(79, 172, 254, 0.25) 0%, transparent 50%);
+                radial-gradient(circle at 10% 20%, rgba(139, 132, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%);
             z-index: 0;
+            border-radius: 24px;
         }
-        .header::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                repeating-linear-gradient(90deg, rgba(102, 126, 234, 0.05) 0px, transparent 1px, transparent 40px, rgba(102, 126, 234, 0.05) 41px),
-                repeating-linear-gradient(0deg, rgba(102, 126, 234, 0.05) 0px, transparent 1px, transparent 40px, rgba(102, 126, 234, 0.05) 41px);
-            z-index: 0;
-            opacity: 0.3;
+        .hero-left {
+            position: relative;
+            z-index: 2;
+            text-align: left;
+        }
+        .hero-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background: rgba(139, 132, 255, 0.15);
+            border: 1px solid rgba(139, 132, 255, 0.3);
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #8b84ff;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
         }
         .header h1 {
-            color: #ffffff;
+            color: transparent;
+            background: linear-gradient(135deg, #a9a3ff 0%, #d4b3ff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
             margin-bottom: 15px;
-            font-size: 3.5em;
+            font-size: 4em;
             font-weight: 800;
-            position: relative;
-            z-index: 1;
-            text-shadow: 0 0 30px rgba(102, 126, 234, 0.5), 0 0 60px rgba(102, 126, 234, 0.3);
-            letter-spacing: -1px;
+            line-height: 1.1;
+            letter-spacing: -2px;
         }
-        .header h1 .robot-icon {
-            display: inline-block;
-            animation: float 3s ease-in-out infinite;
+        .header-subtitle {
+            color: #d1d5db;
             font-size: 1.2em;
-            filter: drop-shadow(0 0 20px rgba(240, 147, 251, 0.6));
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-        .header p {
-            color: #e0e0e8;
-            font-size: 1.2em;
-            position: relative;
-            z-index: 1;
+            line-height: 1.8;
+            margin-bottom: 30px;
             font-weight: 400;
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.6;
         }
-        .live-indicator {
+        .header-subtitle .highlight {
+            color: #4fffb0;
+            font-weight: 600;
+        }
+        .header-tagline {
+            color: #9ca3af;
+            font-size: 0.95em;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 35px;
+        }
+        .stat-item {
+            text-align: left;
+        }
+        .stat-value {
+            font-size: 2em;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, #a9a3ff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .stat-label {
+            font-size: 0.75em;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .btn-hero {
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            margin-top: 15px;
-            padding: 8px 16px;
-            background: rgba(76, 175, 80, 0.15);
-            border: 1px solid rgba(76, 175, 80, 0.3);
-            border-radius: 20px;
-            font-size: 0.9em;
-            color: #4caf50;
+        }
+        .btn-hero-primary {
+            background: linear-gradient(135deg, #4fffb0 0%, #3b82f6 100%);
+            color: #0a0e1a;
+            box-shadow: 0 4px 20px rgba(79, 255, 176, 0.3);
+        }
+        .btn-hero-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(79, 255, 176, 0.4);
+        }
+        .btn-hero-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .btn-hero-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        .hero-right {
             position: relative;
-            z-index: 1;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .live-dot {
-            width: 8px;
-            height: 8px;
-            background: #4caf50;
-            border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
+        .hero-character-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
         }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.6; transform: scale(1.2); }
+        .floating-badge {
+            position: absolute;
+            padding: 6px 12px;
+            background: rgba(10, 14, 26, 0.9);
+            border: 1px solid rgba(139, 132, 255, 0.3);
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 600;
+            color: #8b84ff;
+            white-space: nowrap;
+            animation: float-badge 3s ease-in-out infinite;
+            backdrop-filter: blur(10px);
+        }
+        .floating-badge:nth-child(1) {
+            top: 10%;
+            right: -10%;
+            animation-delay: 0s;
+        }
+        .floating-badge:nth-child(2) {
+            top: 50%;
+            right: -15%;
+            animation-delay: 1s;
+        }
+        .floating-badge:nth-child(3) {
+            bottom: 20%;
+            right: 5%;
+            animation-delay: 2s;
+        }
+        .floating-badge:nth-child(4) {
+            top: 5%;
+            left: 50%;
+            animation-delay: 1.5s;
+        }
+        @keyframes float-badge {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .anya-character {
+            width: 300px;
+            height: 300px;
+            position: relative;
+            margin: 0 auto;
+            animation: gentle-float 4s ease-in-out infinite;
+        }
+        @keyframes gentle-float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+        @media (max-width: 1024px) {
+            .header {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 40px;
+            }
+            .hero-left {
+                text-align: center;
+            }
+            .hero-stats {
+                justify-content: center;
+            }
+            .hero-buttons {
+                justify-content: center;
+            }
+            .hero-character-container {
+                width: 300px;
+                height: 300px;
+            }
         }
         .controls {
             background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
@@ -918,11 +1038,122 @@ HTML_TEMPLATE = """
 <body>
     <div class="container">
         <div class="header">
-            <h1><span class="robot-icon">👩‍💻</span> Anya - Your AI News Agent</h1>
-            <p>The latest breakthroughs in AI, across infrastructure, applications, tools and startups curated for you</p>
-            <div class="live-indicator">
-                <div class="live-dot"></div>
-                <span>Scanning 54 sources in real-time</span>
+            <div class="hero-left">
+                <span class="hero-badge">• AI-POWERED INTELLIGENCE</span>
+                <h1>Anya</h1>
+                <div class="header-subtitle">Your AI News Agent — Always On</div>
+                <div class="header-tagline">
+                    The latest breakthroughs across <span class="highlight">AI infrastructure</span>, 
+                    <span class="highlight">applications</span>, <span class="highlight">tools</span> and 
+                    <span class="highlight">startups</span> — curated, synthesized, and delivered before your morning coffee. 
+                    No noise. Just signal.
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-value">1.2K+</span>
+                        <span class="stat-label">Sources Monitored</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">24/7</span>
+                        <span class="stat-label">Real-Time Coverage</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">98%</span>
+                        <span class="stat-label">Signal Accuracy</span>
+                    </div>
+                </div>
+                
+                <div class="hero-buttons">
+                    <button class="btn-hero btn-hero-primary" onclick="document.getElementById('days').focus()">
+                        ⚡ Get the Brief
+                    </button>
+                    <button class="btn-hero btn-hero-secondary" onclick="window.scrollTo({top: document.querySelector('.categories').offsetTop, behavior: 'smooth'})">
+                        ▶ Watch Demo
+                    </button>
+                </div>
+            </div>
+            
+            <div class="hero-right">
+                <div class="hero-character-container">
+                    <div class="floating-badge">⚡ GPT-5 Released</div>
+                    <div class="floating-badge">🔗 RAG Pipeline</div>
+                    <div class="floating-badge">💾 DNYA.AI</div>
+                    <div class="floating-badge">🚀 #120M Seed Round</div>
+                    
+                    <svg class="anya-character" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Background glow -->
+                        <defs>
+                            <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" style="stop-color:#8b84ff;stop-opacity:0.2" />
+                                <stop offset="100%" style="stop-color:#8b84ff;stop-opacity:0" />
+                            </radialGradient>
+                            <linearGradient id="hairGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#9b8fff" />
+                                <stop offset="100%" style="stop-color:#6b5fd1" />
+                            </linearGradient>
+                            <linearGradient id="skinGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#ffd4a3" />
+                                <stop offset="100%" style="stop-color:#ffb88c" />
+                            </linearGradient>
+                        </defs>
+                        
+                        <!-- Background circle -->
+                        <circle cx="150" cy="150" r="140" fill="url(#bgGlow)"/>
+                        
+                        <!-- Screen/Laptop background -->
+                        <rect x="75" y="180" width="150" height="100" rx="8" fill="#1a1f35" stroke="#8b84ff" stroke-width="2" opacity="0.8"/>
+                        
+                        <!-- Code on screen -->
+                        <text x="85" y="200" font-family="monospace" font-size="8" fill="#4fffb0">function main() {</text>
+                        <text x="95" y="210" font-family="monospace" font-size="8" fill="#8b84ff">fetchNews();</text>
+                        <text x="95" y="220" font-family="monospace" font-size="8" fill="#8b84ff">summarize();</text>
+                        <text x="95" y="230" font-family="monospace" font-size="8" fill="#4fffb0">sendTo(you);</text>
+                        <text x="85" y="240" font-family="monospace" font-size="8" fill="#4fffb0">}</text>
+                        
+                        <!-- Terminal cursor blink -->
+                        <rect x="155" y="233" width="6" height="10" fill="#4fffb0">
+                            <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>
+                        </rect>
+                        
+                        <!-- Character head -->
+                        <ellipse cx="150" cy="110" rx="45" ry="50" fill="url(#skinGradient)"/>
+                        
+                        <!-- Hair -->
+                        <path d="M 105 90 Q 105 60 130 65 Q 140 50 150 55 Q 160 50 170 65 Q 195 60 195 90 Q 195 110 185 120 L 185 100 Q 180 90 170 95 L 170 110 Q 165 100 160 105 L 160 120 Q 155 110 150 110 Q 145 110 140 120 L 140 105 Q 135 100 130 110 L 130 95 Q 120 90 115 100 L 115 120 Q 110 110 105 90 Z" 
+                              fill="url(#hairGradient)" stroke="#5a4daf" stroke-width="2"/>
+                        
+                        <!-- Eyes -->
+                        <ellipse cx="135" cy="110" rx="8" ry="12" fill="white"/>
+                        <ellipse cx="165" cy="110" rx="8" ry="12" fill="white"/>
+                        <circle cx="135" cy="112" r="6" fill="#3b82f6">
+                            <animate attributeName="cy" values="112;113;112" dur="3s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="165" cy="112" r="6" fill="#3b82f6">
+                            <animate attributeName="cy" values="112;113;112" dur="3s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="133" cy="110" r="2" fill="white"/>
+                        <circle cx="163" cy="110" r="2" fill="white"/>
+                        
+                        <!-- Glasses -->
+                        <circle cx="135" cy="110" r="12" fill="none" stroke="#2d3748" stroke-width="2" opacity="0.6"/>
+                        <circle cx="165" cy="110" r="12" fill="none" stroke="#2d3748" stroke-width="2" opacity="0.6"/>
+                        <line x1="147" y1="110" x2="153" y2="110" stroke="#2d3748" stroke-width="2" opacity="0.6"/>
+                        
+                        <!-- Nose -->
+                        <line x1="150" y1="115" x2="150" y2="122" stroke="#ffb88c" stroke-width="2" stroke-linecap="round"/>
+                        
+                        <!-- Smile -->
+                        <path d="M 138 130 Q 150 138 162 130" fill="none" stroke="#ff9a8c" stroke-width="2.5" stroke-linecap="round"/>
+                        
+                        <!-- Body/Shoulders -->
+                        <ellipse cx="150" cy="180" rx="50" ry="30" fill="#6b5fd1"/>
+                        
+                        <!-- Coding badge on shirt -->
+                        <circle cx="150" cy="175" r="10" fill="#4fffb0" opacity="0.3"/>
+                        <text x="145" y="180" font-size="12">{ }</text>
+                    </svg>
+                </div>
             </div>
         </div>
 
