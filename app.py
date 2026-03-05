@@ -2029,6 +2029,14 @@ HTML_TEMPLATE = """
                     })
                 });
                 
+                // Check if response is JSON
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    const text = await response.text();
+                    console.error('Server returned non-JSON response:', text.substring(0, 200));
+                    throw new Error('Server error. Please check Railway logs or email configuration.');
+                }
+                
                 const data = await response.json();
                 
                 if (response.ok && data.success) {
@@ -2037,11 +2045,13 @@ HTML_TEMPLATE = """
                     messageDiv.style.display = 'block';
                     emailInput.value = '';
                 } else {
-                    throw new Error(data.error || 'Failed to send email');
+                    const errorMsg = data.error || data.details || 'Failed to send email';
+                    throw new Error(errorMsg);
                 }
             } catch (error) {
+                console.error('Email send error:', error);
                 messageDiv.className = 'email-message error';
-                messageDiv.textContent = `❌ Error: ${error.message}. Please check email configuration.`;
+                messageDiv.textContent = `❌ ${error.message}`;
                 messageDiv.style.display = 'block';
             } finally {
                 emailSendBtn.disabled = false;
@@ -2392,66 +2402,111 @@ def generate_email_html(results_data, app_url="http://localhost:5001"):
 def send_email():
     """Send news summary via email."""
     try:
+        # Log the request
+        print("\n" + "="*60)
+        print("EMAIL REQUEST RECEIVED")
+        print("="*60)
+        
+        # Check if request has JSON data
+        if not request.is_json:
+            print("ERROR: Request is not JSON")
+            return jsonify({"error": "Request must be JSON"}), 400
+        
         data = request.json
         email = data.get('email', '').strip()
         results_data = data.get('results', {})
         
+        print(f"Email recipient: {email}")
+        print(f"Results data size: {len(str(results_data))} chars")
+        
         if not email:
             return jsonify({"error": "Email address is required"}), 400
         
+        # Check mail configuration
+        print(f"MAIL_USERNAME configured: {bool(MAIL_USERNAME)}")
+        print(f"MAIL_PASSWORD configured: {bool(MAIL_PASSWORD)}")
+        print(f"Flask-Mail object: {bool(mail)}")
+        
         if not MAIL_USERNAME or not MAIL_PASSWORD or mail is None:
+            error_msg = "Email service not configured on server. Please contact administrator."
+            print(f"ERROR: {error_msg}")
             return jsonify({
-                "error": "Email not configured. Please set MAIL_USERNAME and MAIL_PASSWORD in .env file.",
-                "config_help": "Add to .env: MAIL_USERNAME=your_email@gmail.com, MAIL_PASSWORD=your_app_password"
+                "error": error_msg,
+                "config_help": "Server needs MAIL_USERNAME and MAIL_PASSWORD environment variables"
             }), 500
         
         if not results_data:
             return jsonify({"error": "No results to send"}), 400
         
-        print(f"Attempting to send email to: {email}")
         print(f"Using MAIL_USERNAME: {MAIL_USERNAME}")
         print(f"MAIL_SERVER: {MAIL_SERVER}:{MAIL_PORT}")
+        print(f"TLS: {MAIL_USE_TLS}")
         
         # Generate email HTML
-        app_url = request.host_url.rstrip('/')
-        email_html = generate_email_html(results_data, app_url)
+        try:
+            app_url = request.host_url.rstrip('/')
+            email_html = generate_email_html(results_data, app_url)
+            print("✓ Email HTML generated successfully")
+        except Exception as html_error:
+            print(f"ERROR generating HTML: {html_error}")
+            return jsonify({"error": "Failed to generate email content"}), 500
         
         # Create message
-        msg = Message(
-            subject='🤖 Your AI News Summary',
-            recipients=[email],
-            html=email_html,
-            sender=MAIL_FROM or MAIL_USERNAME
-        )
-        
-        print(f"Message created, attempting to send via Flask-Mail...")
+        try:
+            msg = Message(
+                subject='🤖 Your AI News Summary from Anya',
+                recipients=[email],
+                html=email_html,
+                sender=MAIL_FROM or MAIL_USERNAME
+            )
+            print("✓ Message object created")
+        except Exception as msg_error:
+            print(f"ERROR creating message: {msg_error}")
+            return jsonify({"error": "Failed to create email message"}), 500
         
         # Send email
-        mail.send(msg)
-        
-        print(f"✓ Email sent successfully to {email}")
-        
-        return jsonify({
-            "success": True,
-            "message": "Email sent successfully"
-        })
+        print("Attempting to send email...")
+        try:
+            mail.send(msg)
+            print(f"✅ Email sent successfully to {email}")
+            
+            return jsonify({
+                "success": True,
+                "message": "Email sent successfully! Check your inbox."
+            }), 200
+            
+        except Exception as send_error:
+            print(f"ERROR sending email: {send_error}")
+            import traceback
+            print(traceback.format_exc())
+            
+            # Detailed error messages
+            error_str = str(send_error).lower()
+            if "authentication" in error_str or "username" in error_str or "password" in error_str:
+                return jsonify({
+                    "error": "Email authentication failed. Server credentials may be incorrect."
+                }), 500
+            elif "connection" in error_str or "refused" in error_str or "timeout" in error_str:
+                return jsonify({
+                    "error": "Could not connect to email server. Network issue or server configuration problem."
+                }), 500
+            else:
+                return jsonify({
+                    "error": f"Failed to send email: {str(send_error)}"
+                }), 500
         
     except Exception as e:
         import traceback
         error_trace = traceback.format_exc()
-        print(f"!!! ERROR sending email: {e}")
+        print("\n!!! CRITICAL ERROR in send_email route:")
         print(f"Error type: {type(e).__name__}")
+        print(f"Error message: {str(e)}")
+        print("Full traceback:")
         print(error_trace)
-        
-        # Return user-friendly error messages
-        error_msg = str(e)
-        if "authentication" in error_msg.lower() or "username" in error_msg.lower():
-            error_msg = "Email authentication failed. Please check MAIL_USERNAME and MAIL_PASSWORD are correct. Use Gmail App Password, not regular password."
-        elif "connection" in error_msg.lower() or "refused" in error_msg.lower():
-            error_msg = "Could not connect to email server. Please check MAIL_SERVER and MAIL_PORT settings."
+        print("="*60 + "\n")
         
         return jsonify({
-            "error": error_msg,
+            "error": "Server error while processing email request",
             "details": str(e)
         }), 500
 
