@@ -374,12 +374,10 @@ CATEGORY_KEYWORDS = {
         
         # Enterprise & Business Applications
         "enterprise ai", "business ai", "ai business", "ai enterprise",
-        "ai solution", "ai solutions", "ai platform", "ai platforms",
-        "ai service", "ai services", "ai software", "ai tools", "ai tool",
-        "ai product", "ai products", "ai feature", "ai features",
-        "ai capability", "ai capabilities", "ai system", "ai systems",
-        "ai integration", "ai workflow", "ai process", "ai processes",
-        "ai company", "ai companies", "ai startup", "ai startups",
+        "ai service", "ai services", "ai software",
+        "ai product", "ai products",
+        "ai system", "ai systems",
+        "ai workflow", "ai process", "ai processes",
         
         # Consumer & Mobile Applications
         "ai app", "ai apps", "mobile ai", "ai mobile", "ai smartphone",
@@ -390,7 +388,6 @@ CATEGORY_KEYWORDS = {
         # Popular AI Models & Services (when used in end-user applications)
         "chatgpt", "gpt-4", "claude", "gemini", "bard",
         "microsoft copilot", "windows copilot",
-        "ai agent", "ai agents", "intelligent agent", "smart agent",
         
         # AI Technologies (application-focused)
         "computer vision", "image recognition", "face recognition", "object detection",
@@ -399,18 +396,15 @@ CATEGORY_KEYWORDS = {
         "multimodal", "multimodal ai", "ai multimodal",
         "generative ai", "gen ai", "generative", "ai generation",
         
-        # Application Context Terms
-        "ai adoption", "adopting ai", "ai deployment", "deploying ai",
-        "ai implementation", "implementing ai", "ai integration", "integrating ai",
-        "ai pilot", "ai trial", "ai test", "testing ai",
-        "ai project", "ai projects", "ai initiative", "ai program",
-        "ai innovation", "ai breakthrough", "ai development", "developing ai",
+        # Application Context Terms (end-user focused)
+        "ai adoption", "adopting ai",
+        "ai pilot", "ai trial",
+        "ai innovation", "ai breakthrough",
         "ai research", "ai study", "ai study shows",
         
         # Application-Specific Phrases (more selective)
-        "ai application", "ai use case", "ai solution",
-        "ai powered", "powered by ai", "ai-powered",
-        "ai feature", "ai features", "ai capability"
+        "ai application", "ai use case",
+        "ai powered", "powered by ai", "ai-powered"
     ],
     "AI Builder tools": [
         # AI Development Frameworks & Tools
