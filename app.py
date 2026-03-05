@@ -468,14 +468,15 @@ HTML_TEMPLATE = """
             background-color: rgba(0,0,0,0.5);
         }
         .modal-content {
-            background-color: #fefefe;
+            background: linear-gradient(135deg, rgba(26, 26, 36, 0.98) 0%, rgba(18, 18, 28, 0.98) 100%);
+            backdrop-filter: blur(20px);
             margin: 5% auto;
             padding: 30px;
-            border: 1px solid #888;
-            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
             width: 80%;
             max-width: 700px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
         }
         .modal-header {
             display: flex;
@@ -483,27 +484,28 @@ HTML_TEMPLATE = """
             align-items: center;
             margin-bottom: 20px;
             padding-bottom: 15px;
-            border-bottom: 2px solid #e0e0e0;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
         }
         .modal-title {
             font-size: 1.5em;
             font-weight: 700;
-            color: #333;
+            color: #ffffff;
         }
         .close-modal {
-            color: #aaa;
+            color: #8a8a9e;
             font-size: 28px;
             font-weight: bold;
             cursor: pointer;
             line-height: 1;
+            transition: color 0.3s;
         }
         .close-modal:hover,
         .close-modal:focus {
-            color: #000;
+            color: #ffffff;
         }
         .modal-body {
             line-height: 1.8;
-            color: #444;
+            color: #e0e0e8;
             font-size: 1.05em;
         }
         .articles-section {
@@ -622,12 +624,13 @@ HTML_TEMPLATE = """
             color: #8a8a9e;
         }
         .error {
-            background: #fee;
-            color: #c33;
+            background: rgba(244, 67, 54, 0.15);
+            color: #f44336;
             padding: 20px;
             border-radius: 12px;
             margin-bottom: 30px;
-            border-left: 4px solid #c33;
+            border-left: 4px solid #f44336;
+            border: 1px solid rgba(244, 67, 54, 0.3);
         }
         .results {
             display: none;
@@ -638,15 +641,17 @@ HTML_TEMPLATE = """
         .email-section {
             margin-top: 40px;
             padding: 30px;
-            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
-            border-radius: 15px;
-            border: 2px solid #667eea;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
         }
         .email-title {
             font-size: 1.3em;
             font-weight: 700;
             margin-bottom: 20px;
-            color: #333;
+            color: #ffffff;
         }
         .email-form {
             display: flex;
@@ -655,35 +660,45 @@ HTML_TEMPLATE = """
         }
         .email-input {
             flex: 1;
-            padding: 12px 20px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
+            padding: 14px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
             font-size: 1em;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+        }
+        .email-input::placeholder {
+            color: #8a8a9e;
         }
         .email-input:focus {
             outline: none;
             border-color: #667eea;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
         }
         .email-send-btn {
-            padding: 12px 30px;
+            padding: 14px 30px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 1em;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
         }
         .email-send-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.5);
         }
         .email-send-btn:disabled {
-            background: #ccc;
+            background: rgba(255, 255, 255, 0.1);
+            color: #8a8a9e;
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
         }
         .email-message {
             margin-top: 15px;
@@ -692,27 +707,29 @@ HTML_TEMPLATE = """
             display: none;
         }
         .email-message.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+            border: 1px solid rgba(76, 175, 80, 0.4);
         }
         .email-message.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+            border: 1px solid rgba(244, 67, 54, 0.4);
         }
         .feedback-section {
             margin-top: 40px;
             padding: 30px;
-            background: #f8f9fa;
-            border-radius: 15px;
-            border: 2px solid #e0e0e0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
         }
         .feedback-title {
             font-size: 1.3em;
             font-weight: 700;
             margin-bottom: 20px;
-            color: #333;
+            color: #ffffff;
         }
         .feedback-buttons {
             display: flex;
@@ -722,9 +739,9 @@ HTML_TEMPLATE = """
         .feedback-btn {
             flex: 1;
             padding: 15px 30px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            background: white;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
             cursor: pointer;
             font-size: 1.1em;
             font-weight: 600;
@@ -733,28 +750,32 @@ HTML_TEMPLATE = """
             align-items: center;
             justify-content: center;
             gap: 10px;
+            color: #ffffff;
         }
         .feedback-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            background: rgba(255, 255, 255, 0.1);
         }
         .feedback-btn.thumbs-up {
-            border-color: #4caf50;
-            color: #4caf50;
+            border-color: rgba(76, 175, 80, 0.5);
         }
         .feedback-btn.thumbs-up:hover,
         .feedback-btn.thumbs-up.active {
-            background: #4caf50;
-            color: white;
+            background: rgba(76, 175, 80, 0.2);
+            border-color: #4caf50;
+            color: #4caf50;
+            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
         }
         .feedback-btn.thumbs-down {
-            border-color: #f44336;
-            color: #f44336;
+            border-color: rgba(244, 67, 54, 0.5);
         }
         .feedback-btn.thumbs-down:hover,
         .feedback-btn.thumbs-down.active {
-            background: #f44336;
-            color: white;
+            background: rgba(244, 67, 54, 0.2);
+            border-color: #f44336;
+            color: #f44336;
+            box-shadow: 0 8px 20px rgba(244, 67, 54, 0.3);
         }
         .feedback-comment {
             margin-top: 20px;
@@ -762,36 +783,49 @@ HTML_TEMPLATE = """
         .feedback-comment textarea {
             width: 100%;
             padding: 15px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
             font-size: 1em;
             font-family: inherit;
             resize: vertical;
             min-height: 100px;
             box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            transition: all 0.3s;
+        }
+        .feedback-comment textarea::placeholder {
+            color: #8a8a9e;
         }
         .feedback-comment textarea:focus {
             outline: none;
             border-color: #667eea;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
         }
         .feedback-submit {
             margin-top: 15px;
             padding: 12px 30px;
-            background: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 1em;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
         }
         .feedback-submit:hover {
-            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.5);
         }
         .feedback-submit:disabled {
-            background: #ccc;
+            background: rgba(255, 255, 255, 0.1);
+            color: #8a8a9e;
             cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
         .feedback-message {
             margin-top: 15px;
@@ -800,14 +834,14 @@ HTML_TEMPLATE = """
             display: none;
         }
         .feedback-message.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+            border: 1px solid rgba(76, 175, 80, 0.4);
         }
         .feedback-message.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+            border: 1px solid rgba(244, 67, 54, 0.4);
         }
         @media (max-width: 768px) {
             .categories-grid {
