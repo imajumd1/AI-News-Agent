@@ -147,7 +147,9 @@ HTML_TEMPLATE = """
             margin: 0 auto;
         }
         .header {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            background: 
+                linear-gradient(135deg, rgba(10, 10, 15, 0.85) 0%, rgba(10, 10, 15, 0.75) 100%),
+                url('https://images.pexels.com/photos/8438922/pexels-photo-8438922.jpeg?auto=compress&cs=tinysrgb&w=1920') center/cover;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 60px 40px;
@@ -166,9 +168,8 @@ HTML_TEMPLATE = """
             right: 0;
             bottom: 0;
             background: 
-                radial-gradient(circle at 20% 30%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(79, 172, 254, 0.15) 0%, transparent 50%),
-                linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.02) 100%);
+                radial-gradient(circle at 20% 30%, rgba(102, 126, 234, 0.25) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(79, 172, 254, 0.25) 0%, transparent 50%);
             z-index: 0;
         }
         .header::after {
@@ -179,10 +180,10 @@ HTML_TEMPLATE = """
             right: 0;
             bottom: 0;
             background-image: 
-                repeating-linear-gradient(90deg, rgba(102, 126, 234, 0.03) 0px, transparent 1px, transparent 40px, rgba(102, 126, 234, 0.03) 41px),
-                repeating-linear-gradient(0deg, rgba(102, 126, 234, 0.03) 0px, transparent 1px, transparent 40px, rgba(102, 126, 234, 0.03) 41px);
+                repeating-linear-gradient(90deg, rgba(102, 126, 234, 0.05) 0px, transparent 1px, transparent 40px, rgba(102, 126, 234, 0.05) 41px),
+                repeating-linear-gradient(0deg, rgba(102, 126, 234, 0.05) 0px, transparent 1px, transparent 40px, rgba(102, 126, 234, 0.05) 41px);
             z-index: 0;
-            opacity: 0.5;
+            opacity: 0.3;
         }
         .header h1 {
             color: #ffffff;
@@ -392,7 +393,7 @@ HTML_TEMPLATE = """
             background: currentColor;
         }
         .category-icon {
-            font-size: 2em;
+            font-size: 0;
             margin-bottom: 15px;
             position: relative;
             z-index: 1;
@@ -403,28 +404,49 @@ HTML_TEMPLATE = """
             align-items: center;
             justify-content: center;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+            background-size: cover;
+            background-position: center;
             border-radius: 24px;
             backdrop-filter: blur(10px);
             border: 2px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             transition: all 0.3s;
+            overflow: hidden;
+        }
+        .category-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.5) 100%);
+            z-index: 1;
         }
         .category-box:hover .category-icon {
-            transform: scale(1.1);
+            transform: scale(1.05);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
         }
-        /* Custom icon backgrounds for each category */
+        /* Custom backgrounds for each category with Pexels images */
         .category-box[data-category="GPU and AI Infra"] .category-icon {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: 
+                linear-gradient(135deg, rgba(102, 126, 234, 0.4) 0%, rgba(118, 75, 162, 0.4) 100%),
+                url('https://images.pexels.com/photos/2582937/pexels-photo-2582937.jpeg?auto=compress&cs=tinysrgb&w=400') center/cover;
         }
         .category-box[data-category="AI Applications"] .category-icon {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            background: 
+                linear-gradient(135deg, rgba(79, 172, 254, 0.4) 0%, rgba(0, 242, 254, 0.4) 100%),
+                url('https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=400') center/cover;
         }
         .category-box[data-category="AI Builder tools"] .category-icon {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: 
+                linear-gradient(135deg, rgba(240, 147, 251, 0.4) 0%, rgba(245, 87, 108, 0.4) 100%),
+                url('https://images.pexels.com/photos/270348/pexels-photo-270348.jpeg?auto=compress&cs=tinysrgb&w=400') center/cover;
         }
         .category-box[data-category="AI startups to watch"] .category-icon {
-            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            background: 
+                linear-gradient(135deg, rgba(250, 112, 154, 0.4) 0%, rgba(254, 225, 64, 0.4) 100%),
+                url('https://images.pexels.com/photos/60132/pexels-photo-60132.jpeg?auto=compress&cs=tinysrgb&w=400') center/cover;
         }
         .category-title {
             font-size: 1.4em;
