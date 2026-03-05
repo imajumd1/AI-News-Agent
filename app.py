@@ -147,6 +147,14 @@ HTML_TEMPLATE = """
         .container {
             max-width: 1400px;
             margin: 0 auto;
+            padding: 0 40px;
+        }
+        
+        /* Ensure proper text sizing on mobile */
+        html {
+            -webkit-text-size-adjust: 100%;
+            -moz-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
         }
         .header {
             background: #0a0e1a;
@@ -225,7 +233,7 @@ HTML_TEMPLATE = """
             margin-bottom: 0;
         }
         .header-tagline .highlight {
-            color: #4fffb0;
+            color: #d1d5db;
             font-weight: 500;
         }
         .hero-buttons {
@@ -303,11 +311,12 @@ HTML_TEMPLATE = """
             50% { opacity: 1; }
             90% { opacity: 0.9; }
         }
+        /* Tablet and below */
         @media (max-width: 1024px) {
             .header {
                 grid-template-columns: 1fr;
                 gap: 40px;
-                padding: 40px;
+                padding: 40px 30px;
             }
             .hero-left {
                 text-align: center;
@@ -316,14 +325,119 @@ HTML_TEMPLATE = """
                 font-size: 4em;
             }
             .header-subtitle {
-                font-size: 1.2em;
+                font-size: 1.3em;
             }
             .header-tagline {
-                font-size: 1em;
+                font-size: 1.05em;
             }
             .hero-character-container {
-                width: 300px;
-                height: 300px;
+                width: 320px;
+                height: 400px;
+            }
+        }
+        
+        /* Mobile */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                max-width: 100%;
+            }
+            .header {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                padding: 30px 20px;
+                border-radius: 16px;
+            }
+            .hero-left {
+                text-align: center;
+            }
+            .hero-badge {
+                font-size: 10px;
+                padding: 6px 12px;
+                margin-bottom: 20px;
+            }
+            .header h1 {
+                font-size: 3em;
+                letter-spacing: -2px;
+                margin-bottom: 15px;
+            }
+            .header-subtitle {
+                font-size: 1.1em;
+                margin-bottom: 25px;
+            }
+            .header-tagline {
+                font-size: 0.95em;
+                line-height: 1.7;
+                margin-bottom: 15px;
+            }
+            .hero-character-container {
+                width: 280px;
+                height: 360px;
+                margin: 0 auto;
+            }
+            .anya-character {
+                width: 100%;
+                height: 100%;
+            }
+            .controls {
+                padding: 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+            .form-group {
+                min-width: 100%;
+            }
+            .btn {
+                width: 100%;
+                padding: 16px;
+                font-size: 16px;
+            }
+            .categories-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .category-box {
+                padding: 25px;
+            }
+            .email-section {
+                padding: 20px;
+                margin-top: 30px;
+            }
+            .email-form {
+                flex-direction: column;
+            }
+            .email-input {
+                width: 100%;
+            }
+            .email-send-btn {
+                width: 100%;
+            }
+            .modal-content {
+                width: 95%;
+                padding: 30px 20px;
+            }
+            .feedback-float-btn {
+                bottom: 20px;
+                right: 20px;
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+        }
+        
+        /* Small mobile */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2.5em;
+            }
+            .header-subtitle {
+                font-size: 1em;
+            }
+            .header-tagline {
+                font-size: 0.9em;
+            }
+            .hero-character-container {
+                width: 240px;
+                height: 310px;
             }
         }
         .controls {
