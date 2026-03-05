@@ -161,6 +161,7 @@ HTML_TEMPLATE = """
             max-width: 1400px;
             margin: 0 auto;
             padding: 0 40px;
+            position: relative;
         }
         
         /* Ensure proper text sizing on mobile */
@@ -430,8 +431,8 @@ HTML_TEMPLATE = """
                 padding: 30px 20px;
             }
             .feedback-float-btn {
-                bottom: 20px;
-                right: 20px;
+                top: 20px;
+                right: 40px;
                 padding: 12px 20px;
                 font-size: 14px;
             }
@@ -1065,9 +1066,9 @@ HTML_TEMPLATE = """
         }
         /* Permanent Feedback Button */
         .feedback-float-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
+            position: absolute;
+            top: 30px;
+            right: 60px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
@@ -1220,6 +1221,11 @@ HTML_TEMPLATE = """
 </head>
 <body>
     <div class="container">
+        <!-- Feedback Button -->
+        <button class="feedback-float-btn" onclick="openFeedbackModal()">
+            💬 Feedback
+        </button>
+        
         <div class="header">
             <div class="hero-left">
                 <span class="hero-badge">• AI-POWERED INTELLIGENCE</span>
@@ -1535,11 +1541,6 @@ HTML_TEMPLATE = """
             </div>
         </div>
     </div>
-    
-    <!-- Permanent Feedback Button -->
-    <button class="feedback-float-btn" onclick="openFeedbackModal()">
-        💬 Feedback
-    </button>
 
     <script>
         const categoryConfig = {
