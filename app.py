@@ -1621,6 +1621,10 @@ def send_email():
         if not results_data:
             return jsonify({"error": "No results to send"}), 400
         
+        print(f"Attempting to send email to: {email}")
+        print(f"Using MAIL_USERNAME: {MAIL_USERNAME}")
+        print(f"MAIL_SERVER: {MAIL_SERVER}:{MAIL_PORT}")
+        
         # Generate email HTML
         app_url = request.host_url.rstrip('/')
         email_html = generate_email_html(results_data, app_url)
@@ -1633,8 +1637,12 @@ def send_email():
             sender=MAIL_FROM or MAIL_USERNAME
         )
         
+        print(f"Message created, attempting to send via Flask-Mail...")
+        
         # Send email
         mail.send(msg)
+        
+        print(f"✓ Email sent successfully to {email}")
         
         return jsonify({
             "success": True,
@@ -1644,11 +1652,20 @@ def send_email():
     except Exception as e:
         import traceback
         error_trace = traceback.format_exc()
-        print(f"Error sending email: {e}")
+        print(f"!!! ERROR sending email: {e}")
+        print(f"Error type: {type(e).__name__}")
         print(error_trace)
+        
+        # Return user-friendly error messages
+        error_msg = str(e)
+        if "authentication" in error_msg.lower() or "username" in error_msg.lower():
+            error_msg = "Email authentication failed. Please check MAIL_USERNAME and MAIL_PASSWORD are correct. Use Gmail App Password, not regular password."
+        elif "connection" in error_msg.lower() or "refused" in error_msg.lower():
+            error_msg = "Could not connect to email server. Please check MAIL_SERVER and MAIL_PORT settings."
+        
         return jsonify({
-            "error": str(e),
-            "traceback": error_trace
+            "error": error_msg,
+            "details": str(e)
         }), 500
 
 if __name__ == '__main__':
