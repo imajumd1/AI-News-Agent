@@ -859,13 +859,18 @@ HTML_TEMPLATE = """
             transform: rotate(90deg);
         }
         .email-section {
-            padding: 0;
-            background: none;
-            backdrop-filter: none;
-            border: none;
-            border-radius: 0;
-            box-shadow: none;
-            margin-top: 0;
+            margin-top: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: slideIn 0.5s ease;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .email-title {
             font-size: 1.3em;
@@ -1395,14 +1400,9 @@ HTML_TEMPLATE = """
 
         <div class="results" id="results">
             <div class="categories-grid" id="categoriesGrid"></div>
-        </div>
-    </div>
-    
-    <!-- Email Modal -->
-    <div class="modal-overlay" id="emailModal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeEmailModal()">×</button>
-            <div class="email-section">
+            
+            <!-- Email Section (appears after results) -->
+            <div class="email-section" id="emailSection" style="display: none;">
                 <div class="email-title">📧 Send Summary via Email</div>
                 <div class="email-form">
                     <input type="email" id="emailInput" placeholder="Enter your email address" class="email-input">
@@ -1765,8 +1765,11 @@ HTML_TEMPLATE = """
             
             results.classList.add('visible');
             
-            // Automatically show email modal after results are displayed
-            openEmailModal();
+            // Show email section after results are displayed
+            const emailSection = document.getElementById('emailSection');
+            if (emailSection) {
+                emailSection.style.display = 'block';
+            }
         }
         
         let selectedFeedback = null;
