@@ -96,7 +96,7 @@ def after_request(response):
 # Category configuration with icons and colors  
 CATEGORY_CONFIG = {
     "GPU and AI Infra": {
-        "icon": "⚡",  # Lightning/power symbol for infrastructure
+        "icon": "⚙️",  # Gear for infrastructure/systems
         "color": "#667eea",
         "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
     },
@@ -106,12 +106,12 @@ CATEGORY_CONFIG = {
         "gradient": "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
     },
     "AI Builder tools": {
-        "icon": "🔧",  # Tools/wrench for builder tools
+        "icon": "🔨",  # Hammer for building/construction
         "color": "#f093fb",
         "gradient": "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
     },
     "AI startups to watch": {
-        "icon": "🚀",  # Rocket for startups
+        "icon": "🚀",  # Rocket for startups launching
         "color": "#fa709a",
         "gradient": "linear-gradient(135deg, #fa709a 0%, #fee140 100%)"
     }
@@ -161,16 +161,28 @@ HTML_TEMPLATE = """
         .header::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
-            animation: glow 8s ease-in-out infinite;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(79, 172, 254, 0.15) 0%, transparent 50%),
+                linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.02) 100%);
+            z-index: 0;
         }
-        @keyframes glow {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(20px, 20px); }
+        .header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(90deg, rgba(102, 126, 234, 0.03) 0px, transparent 1px, transparent 40px, rgba(102, 126, 234, 0.03) 41px),
+                repeating-linear-gradient(0deg, rgba(102, 126, 234, 0.03) 0px, transparent 1px, transparent 40px, rgba(102, 126, 234, 0.03) 41px);
+            z-index: 0;
+            opacity: 0.5;
         }
         .header h1 {
             color: #ffffff;
@@ -185,17 +197,22 @@ HTML_TEMPLATE = """
         .header h1 .robot-icon {
             display: inline-block;
             animation: float 3s ease-in-out infinite;
+            font-size: 1.2em;
+            filter: drop-shadow(0 0 20px rgba(240, 147, 251, 0.6));
         }
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
         }
         .header p {
-            color: #b4b4c8;
-            font-size: 1.3em;
+            color: #e0e0e8;
+            font-size: 1.2em;
             position: relative;
             z-index: 1;
             font-weight: 400;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
         }
         .live-indicator {
             display: inline-flex;
@@ -208,6 +225,8 @@ HTML_TEMPLATE = """
             border-radius: 20px;
             font-size: 0.9em;
             color: #4caf50;
+            position: relative;
+            z-index: 1;
         }
         .live-dot {
             width: 8px;
@@ -373,21 +392,39 @@ HTML_TEMPLATE = """
             background: currentColor;
         }
         .category-icon {
-            font-size: 3.5em;
+            font-size: 2em;
             margin-bottom: 15px;
             position: relative;
             z-index: 1;
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             margin: 0 auto 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border-radius: 24px;
             backdrop-filter: blur(10px);
             border: 2px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+        }
+        .category-box:hover .category-icon {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+        /* Custom icon backgrounds for each category */
+        .category-box[data-category="GPU and AI Infra"] .category-icon {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .category-box[data-category="AI Applications"] .category-icon {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        .category-box[data-category="AI Builder tools"] .category-icon {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        .category-box[data-category="AI startups to watch"] .category-icon {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
         }
         .category-title {
             font-size: 1.4em;
@@ -859,8 +896,8 @@ HTML_TEMPLATE = """
 <body>
     <div class="container">
         <div class="header">
-            <h1><span class="robot-icon">🤖</span> Anya - Your AI News Agent</h1>
-            <p>Stay updated with the latest breakthroughs in AI, infrastructure, and startups</p>
+            <h1><span class="robot-icon">👩‍💻</span> Anya - Your AI News Agent</h1>
+            <p>The latest breakthroughs in AI, across infrastructure, applications, tools and startups curated for you</p>
             <div class="live-indicator">
                 <div class="live-dot"></div>
                 <span>Scanning 54 sources in real-time</span>
@@ -939,9 +976,9 @@ HTML_TEMPLATE = """
 
     <script>
         const categoryConfig = {
-            "GPU and AI Infra": { icon: "⚡", color: "#667eea" },
+            "GPU and AI Infra": { icon: "⚙️", color: "#667eea" },
             "AI Applications": { icon: "✨", color: "#4facfe" },
-            "AI Builder tools": { icon: "🔧", color: "#f093fb" },
+            "AI Builder tools": { icon: "🔨", color: "#f093fb" },
             "AI startups to watch": { icon: "🚀", color: "#fa709a" }
         };
 
@@ -1080,6 +1117,7 @@ HTML_TEMPLATE = """
                 const categoryBox = document.createElement('div');
                 categoryBox.className = 'category-box';
                 categoryBox.style.borderColor = config.color;
+                categoryBox.setAttribute('data-category', categoryName);
                 
                 const header = document.createElement('div');
                 header.className = 'category-header';
