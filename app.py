@@ -2450,19 +2450,38 @@ def send_email():
                 print("✓ Email HTML generated")
                 
                 # Create SendGrid email
-                from_email = Email(MAIL_FROM or "noreply@anya-ai.com", "Anya AI News Agent")
+                from_email_address = MAIL_FROM or MAIL_USERNAME or "noreply@anya-ai.com"
+                from_email = Email(from_email_address, "Anya AI News Agent")
                 to_email = To(email)
-                subject = "🤖 Your AI News Summary from Anya"
-                content = Content("text/html", email_html)
+                subject = "Your AI News Summary from Anya"
+                html_content = Content("text/html", email_html)
                 
-                mail_message = SendGridMail(from_email, to_email, subject, content)
+                # Create plain text version as fallback
+                plain_text = f"Your AI News Summary from Anya\n\nView the full summary at: {request.host_url}"
+                text_content = Content("text/plain", plain_text)
+                
+                mail_message = SendGridMail(from_email, to_email, subject, text_content)
+                mail_message.add_content(html_content)
+                
+                print(f"From email: {from_email_address}")
+                print(f"To email: {email}")
+                print(f"Subject: {subject}")
                 
                 # Send via SendGrid API
                 sg = SendGridAPIClient(sendgrid_api_key)
                 response = sg.send(mail_message)
                 
-                print(f"✅ SendGrid response: {response.status_code}")
-                print(f"✅ Email sent successfully to {email} via SendGrid")
+                print(f"✅ SendGrid response status: {response.status_code}")
+                print(f"✅ SendGrid response body: {response.body}")
+                print(f"✅ SendGrid response headers: {response.headers}")
+                print(f"✅ Email queued successfully to {email} via SendGrid")
+                print(f"⚠️ CHECK SENDGRID DASHBOARD for delivery status and any blocks")
+                
+                # Check for common issues
+                if response.status_code == 202:
+                    print("✓ Email accepted by SendGrid (202 Accepted)")
+                elif response.status_code >= 400:
+                    print(f"⚠️ SendGrid returned error status: {response.status_code}")
                 
                 return jsonify({
                     "success": True,

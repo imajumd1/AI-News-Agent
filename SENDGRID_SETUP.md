@@ -15,14 +15,21 @@ SendGrid uses HTTP API instead of SMTP, which works perfectly on Railway!
 3. Sign up with your email
 4. **Free tier includes: 100 emails/day** (perfect for your needs!)
 
-### 2. Verify Your Sender Email
+### 2. Verify Your Sender Email (CRITICAL!)
+
+**This is the most important step! Emails won't deliver without verification.**
 
 1. In SendGrid dashboard, go to **Settings → Sender Authentication**
 2. Click **"Verify a Single Sender"**
 3. Fill in your details:
-   - From Email: `imajumd1@gmail.com`
+   - From Email: `imajumd1@gmail.com` (or the email in your MAIL_FROM variable)
    - From Name: `Anya AI News Agent`
-4. Check your email and click the verification link
+   - Reply-to: `imajumd1@gmail.com`
+4. **Check your email** (`imajumd1@gmail.com`) for verification link
+5. **Click the verification link** - this is required!
+6. Wait for "✓ Verified" status in SendGrid dashboard
+
+**⚠️ IMPORTANT**: If sender email is not verified, SendGrid will accept the email (200 response) but won't actually deliver it!
 
 ### 3. Create API Key
 
@@ -55,6 +62,26 @@ After Railway redeploys (1-2 minutes):
 2. Enter an email address
 3. Click "Send Email"
 4. Should work instantly! ⚡
+
+### 6. Check SendGrid Activity (If Email Not Received)
+
+**If the app says "Email sent successfully" but you didn't receive it:**
+
+1. Go to SendGrid dashboard → **Activity**
+2. Look for your recent email send
+3. Check the **Status** column:
+   - ✅ **Delivered** - Email arrived (check spam folder)
+   - ⚠️ **Processed** - Queued, waiting to send
+   - ❌ **Dropped** - Not sent (usually sender not verified)
+   - ❌ **Blocked** - Blocked by SendGrid (check reason)
+   - ❌ **Bounced** - Recipient email invalid or full
+
+4. Click on the email entry to see detailed delivery info
+
+**Common Issues:**
+- **"Dropped - Sender not verified"**: Go back to step 2 and verify your sender email
+- **"Blocked"**: Check if you hit daily limit or SendGrid flagged content
+- **Not showing up in Activity**: API key might not have Mail Send permissions
 
 ## How It Works
 
