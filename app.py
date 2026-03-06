@@ -1229,7 +1229,7 @@ HTML_TEMPLATE = """
         <div class="header">
             <div class="hero-left">
                 <span class="hero-badge">• AI-POWERED INTELLIGENCE</span>
-                <h1>Anya</h1>
+                <h1>Ask Anya</h1>
                 <div class="header-subtitle">Your AI News Agent — Always On</div>
                 
                 <div class="header-tagline">
@@ -2356,7 +2356,7 @@ def generate_email_html(results_data, app_url="http://localhost:5001"):
                                     • AI-POWERED INTELLIGENCE
                                 </div>
                                 <h1 style="margin: 0 0 15px 0; color: transparent; background: linear-gradient(135deg, #a9a3ff 0%, #d4b3ff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 48px; font-weight: 800; font-family: 'Space Grotesk', sans-serif; letter-spacing: -2px;">
-                                    Anya
+                                    Ask Anya
                                 </h1>
                                 <p style="margin: 0 0 10px 0; color: #b4b4c8; font-size: 18px; font-weight: 500;">
                                     Your AI News Agent — Always On
