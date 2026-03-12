@@ -122,31 +122,45 @@ class AINewsAgent:
                         startup_intelligence = self.summarizer.generate_startup_intelligence(all_startup_content)
                         if startup_intelligence:
                             print(f"  ✓ Startup intelligence generated (top 10 curated)")
-                            # Store the intelligence summary as category summary
-                            for item in all_startup_content:
+                            # Limit to top 10 articles only
+                            top_10_startups = all_startup_content[:10]
+                            for item in top_10_startups:
                                 item["category_summary"] = startup_intelligence
+                            results[startups_category] = top_10_startups
+                            print(f"  📊 Showing top 10 startups out of {len(all_startup_content)} candidates")
                         else:
-                            print(f"  ⚠ Startup intelligence returned None")
-                            for item in all_startup_content:
+                            print(f"  ⚠ Startup intelligence returned None, limiting to 10")
+                            top_10 = all_startup_content[:10]
+                            for item in top_10:
                                 item["category_summary"] = startup_summary
+                            results[startups_category] = top_10
                     except Exception as e:
                         print(f"  ⚠ Could not generate startup intelligence: {str(e)[:100]}")
-                        for item in all_startup_content:
+                        top_10 = all_startup_content[:10]
+                        for item in top_10:
                             item["category_summary"] = startup_summary
+                        results[startups_category] = top_10
                     
-                    results[startups_category] = all_startup_content
+                    # Always limit to 10
+                    if len(results[startups_category]) > 10:
+                        results[startups_category] = results[startups_category][:10]
                 else:
                     results[startups_category] = []
             else:
-                # Fallback to old method
-                for startup in startup_items:
+                # Fallback to old method - limit to 10
+                all_items = (categorized.get(startups_category, []) + startup_items)[:10]
+                for startup in all_items:
                     startup["category_summary"] = startup_summary
-                results[startups_category] = startup_items
+                results[startups_category] = all_items
+                print(f"  📊 Limited to top 10 startups (fallback mode)")
         else:
             # Just return categorized articles without summaries
             for category in results.keys():
                 if category == startups_category:
-                    results[category] = startup_items
+                    # Limit Cool Startups to 10 even in fast mode
+                    all_startup_items = startup_items + categorized.get(startups_category, [])
+                    results[category] = all_startup_items[:10]
+                    print(f"  📊 Limiting {startups_category} to top 10 (fast mode)")
                 else:
                     results[category] = categorized.get(category, [])
         
