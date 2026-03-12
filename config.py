@@ -300,13 +300,49 @@ NEWS_SOURCES = {
         "type": "rss"
     },
     
-    # More Startup & VC Sources
-    "product_hunt_ai": {
-        "url": "https://www.producthunt.com/feed/ai",
+    # Tier 1 — Cool Startups to Watch (Best Signal, Free)
+    "product_hunt": {
+        "url": "https://www.producthunt.com/feed",
         "type": "rss"
     },
+    "product_hunt_top": {
+        "url": "https://www.producthunt.com/feed/today",
+        "type": "rss"
+    },
+    "hacker_news_show": {
+        "url": "https://hnrss.org/show",
+        "type": "rss"
+    },
+    "yc_blog": {
+        "url": "https://www.ycombinator.com/blog/feed",
+        "type": "rss"
+    },
+    
+    # Tier 2 — Cool Startups (Great Content)
+    "techcrunch_startups": {
+        "url": "https://techcrunch.com/tag/startups/feed/",
+        "type": "rss"
+    },
+    "indie_hackers": {
+        "url": "https://www.indiehackers.com/feed",
+        "type": "rss"
+    },
+    
+    # Tier 3 — Cool Startups (Niche but High Quality)
     "betalist": {
         "url": "https://betalist.com/feed",
+        "type": "rss"
+    },
+    "wellfound": {
+        "url": "https://wellfound.com/feed",
+        "type": "rss"
+    },
+    "saastr": {
+        "url": "https://www.saastr.com/feed/",
+        "type": "rss"
+    },
+    "the_hustle": {
+        "url": "https://thehustle.co/feed/",
         "type": "rss"
     },
     "techfundingnews": {
@@ -595,10 +631,36 @@ CATEGORY_KEYWORDS = {
         "tutorial", "guide", "documentation", "docs", "api reference",
         "getting started", "quickstart", "example", "sample code"
     ],
-    "AI startups to watch": [
-        "startup", "funding", "raise", "series a", "series b", "seed", "venture", "capital",
-        "unicorn", "valuation", "ipo", "acquisition", "merger", "new company", "launch",
-        "announcement", "backed", "investor", "accelerator", "incubator"
+    "Cool Startups to watch": [
+        # Funding & Investment
+        "startup", "startups", "founder", "founders", "co-founder", "cofounder",
+        "funding", "raise", "raised", "series a", "series b", "series c", "seed", "pre-seed",
+        "venture", "capital", "vc", "venture capital", "investment", "invested", "investor",
+        "unicorn", "valuation", "ipo", "acquisition", "acquired", "merger", "exit",
+        
+        # Company Stage & Activity
+        "new company", "launch", "launched", "launches", "launching", "stealth", "coming out of stealth",
+        "announcement", "announces", "backed", "accelerator", "incubator", "yc", "y combinator",
+        "techstars", "500 startups", "backed by", "raised from",
+        
+        # Product & Growth
+        "product hunt", "show hn", "indie hacker", "bootstrapped", "self-funded",
+        "built by", "created by", "side project", "weekend project", "solo founder",
+        "revenue", "arr", "mrr", "monthly recurring", "annual recurring",
+        "growth", "traction", "users", "customers", "downloads", "signups",
+        "waitlist", "beta", "alpha", "early access", "pre-launch",
+        
+        # Startup Types & Themes
+        "saas", "b2b", "b2c", "marketplace", "platform", "app", "mobile app",
+        "web app", "productivity", "automation", "workflow", "collaboration",
+        "no-code", "low-code", "developer tools", "devtools", "api",
+        "fintech", "edtech", "healthtech", "proptech", "cleantech", "climatetech",
+        "crypto", "web3", "blockchain", "nft", "defi",
+        
+        # Founder Journey Terms
+        "building", "shipping", "launched today", "just launched", "we built",
+        "indie", "maker", "hacker", "builder", "entrepreneur", "entrepreneurship",
+        "small team", "remote team", "distributed team"
     ]
 }
 

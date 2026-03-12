@@ -52,12 +52,12 @@ class AINewsAgent:
             "GPU and AI Infra": [],
             "AI Applications": [],
             "AI Builder tools": [],
-            "AI startups to watch": []
+            "Cool Startups to watch": []
         }
         
-        # Special handling for "AI startups to watch" category
-        startups_category = "AI startups to watch"
-        print(f"\nStep 4a: Fetching top AI enterprise startups for '{startups_category}'...")
+        # Special handling for "Cool Startups to watch" category
+        startups_category = "Cool Startups to watch"
+        print(f"\nStep 4a: Fetching cool startups for '{startups_category}'...")
         startup_items, startup_summary = self.startup_fetcher.fetch_startups()
         
         # Merge startups with any articles already categorized as startups

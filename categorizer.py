@@ -70,7 +70,7 @@ class ArticleCategorizer:
             "GPU and AI Infra": [],
             "AI Applications": [],
             "AI Builder tools": [],
-            "AI startups to watch": []
+            "Cool Startups to watch": []
         }
         
         uncategorized = []

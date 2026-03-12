@@ -123,7 +123,7 @@ CATEGORY_CONFIG = {
         "color": "#f093fb",
         "gradient": "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
     },
-    "AI startups to watch": {
+    "Cool Startups to watch": {
         "icon": "🚀",  # Rocket for startups launching
         "color": "#fa709a",
         "gradient": "linear-gradient(135deg, #fa709a 0%, #fee140 100%)"
@@ -657,7 +657,7 @@ HTML_TEMPLATE = """
                 linear-gradient(135deg, rgba(240, 147, 251, 0.4) 0%, rgba(245, 87, 108, 0.4) 100%),
                 url('https://images.pexels.com/photos/270348/pexels-photo-270348.jpeg?auto=compress&cs=tinysrgb&w=400') center/cover;
         }
-        .category-box[data-category="AI startups to watch"] .category-icon {
+        .category-box[data-category="Cool Startups to watch"] .category-icon {
             background: 
                 linear-gradient(135deg, rgba(250, 112, 154, 0.4) 0%, rgba(254, 225, 64, 0.4) 100%),
                 url('https://images.pexels.com/photos/60132/pexels-photo-60132.jpeg?auto=compress&cs=tinysrgb&w=400') center/cover;
@@ -1352,7 +1352,7 @@ HTML_TEMPLATE = """
             <text x="122" y="308" font-family="monospace" font-size="6.5" fill="#e8eaf6">(impact)</text>
             <text x="108" y="317" font-family="monospace" font-size="6.5" fill="#7c6aff">deliver</text>
             <text x="131" y="317" font-family="monospace" font-size="6.5" fill="#e8eaf6">(you)</text>
-            <text x="108" y="326" font-family="monospace" font-size="6.5" fill="#e8eaf6">// ✓ 85 sources</text>
+            <text x="108" y="326" font-family="monospace" font-size="6.5" fill="#e8eaf6">// ✓ 93 sources</text>
             <text x="108" y="335" font-family="monospace" font-size="6.5" fill="rgba(255,255,255,0.3)">// ✓ realtime</text>
             <rect x="108" y="340" width="5" height="8" rx="1" fill="#00f5c4" class="cursor-blink">
               <animate attributeName="opacity" values="1;0;1" dur="1.1s" repeatCount="indefinite"/>
@@ -1486,7 +1486,7 @@ HTML_TEMPLATE = """
 
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <p style="font-size: 1.1em; margin-top: 20px;">Curating 85 sources to get you the most relevant and current AI news. This may take a minute or two. Please wait...</p>
+            <p style="font-size: 1.1em; margin-top: 20px;">Curating 93 sources to get you the most relevant and current AI news. This may take a minute or two. Please wait...</p>
         </div>
 
         <div id="errorContainer"></div>
@@ -1547,7 +1547,7 @@ HTML_TEMPLATE = """
             "GPU and AI Infra": { icon: "⚙️", color: "#667eea" },
             "AI Applications": { icon: "✨", color: "#4facfe" },
             "AI Builder tools": { icon: "🔨", color: "#f093fb" },
-            "AI startups to watch": { icon: "🚀", color: "#fa709a" }
+            "Cool Startups to watch": { icon: "🔥", color: "#fa709a" }
         };
 
         // Modal Functions
@@ -1621,7 +1621,7 @@ HTML_TEMPLATE = """
             // Update loading message
             const loadingText = loading.querySelector('p');
             const originalText = loadingText.textContent;
-            loadingText.textContent = 'Curating 85 sources to get you the most relevant and current AI news. This may take a minute or two. Please wait...';
+            loadingText.textContent = 'Curating 93 sources to get you the most relevant and current AI news. This may take a minute or two. Please wait...';
             
             try {
                 const response = await fetch('/run', {
@@ -2273,7 +2273,7 @@ def generate_email_html(results_data, app_url="http://localhost:5001"):
         "GPU and AI Infra": {"icon": "⚙️", "color": "#667eea"},
         "AI Applications": {"icon": "✨", "color": "#4facfe"},
         "AI Builder tools": {"icon": "🔨", "color": "#f093fb"},
-        "AI startups to watch": {"icon": "🚀", "color": "#fa709a"}
+        "Cool Startups to watch": {"icon": "🔥", "color": "#fa709a"}
     }
     
     for category_name, cat_data in categories.items():
@@ -2362,7 +2362,7 @@ def generate_email_html(results_data, app_url="http://localhost:5001"):
                                     Your AI News Agent — Always On
                                 </p>
                                 <p style="margin: 0; color: #8a8a9e; font-size: 14px; line-height: 1.6;">
-                                    Curated from 85 vetted sources
+                                    Curated from 93 vetted sources
                                 </p>
                             </td>
                         </tr>

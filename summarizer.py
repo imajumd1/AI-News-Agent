@@ -39,7 +39,20 @@ class ArticleSummarizer:
         if len(text) > 4000:
             text = text[:4000] + "..."
         
-        prompt = f"""You are an AI news analyst. Generate a concise, informative summary (2-3 sentences) of the following article about {category}.
+        # Adjust tone based on category
+        if category == "Cool Startups to watch":
+            system_prompt = "You are a warm, friendly tech writer speaking to college students who love startups. Write in an engaging, conversational tone that gets them excited about new companies and products."
+            user_prompt = f"""Check out this cool startup/product! Write a friendly, engaging summary (2-3 sentences) that would excite a techy college student.
+
+Title: {title}
+
+Content:
+{text}
+
+Write a warm, conversational summary that highlights what makes this startup cool or interesting:"""
+        else:
+            system_prompt = "You are a concise AI news analyst. Generate brief, informative summaries."
+            user_prompt = f"""You are an AI news analyst. Generate a concise, informative summary (2-3 sentences) of the following article about {category}.
 
 Title: {title}
 
@@ -52,8 +65,8 @@ Summary:"""
             response = self.client.chat.completions.create(
                 model=self.model,
                 messages=[
-                    {"role": "system", "content": "You are a concise AI news analyst. Generate brief, informative summaries."},
-                    {"role": "user", "content": prompt}
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt}
                 ],
                 max_tokens=200,
                 temperature=0.7
@@ -118,7 +131,17 @@ Summary:"""
         
         articles_text = "\n".join(article_info)
         
-        prompt = f"""You are an AI news analyst. Analyze the following articles about {category} and create a succinct, professional summary (2-3 sentences) that captures:
+        # Adjust tone based on category
+        if category == "Cool Startups to watch":
+            system_prompt = "You are a warm, enthusiastic tech writer who gets college students excited about startups. Write in a friendly, conversational tone that makes them want to explore these companies."
+            user_prompt = f"""Hey! Check out these cool startups and products that launched recently. Write a warm, engaging overview (2-3 sentences) that would get a techy college student excited:
+
+{articles_text}
+
+Write a friendly summary that captures what's cool and interesting about these startups:"""
+        else:
+            system_prompt = "You are an expert AI news analyst. Create succinct, professional category-level summaries that are concise yet informative. Write in a clear, journalistic style."
+            user_prompt = f"""You are an AI news analyst. Analyze the following articles about {category} and create a succinct, professional summary (2-3 sentences) that captures:
 
 1. The main themes and trends
 2. Key developments and breakthroughs
@@ -133,8 +156,8 @@ Provide a concise, professional summary that gives readers a clear understanding
             response = self.client.chat.completions.create(
                 model=self.model,
                 messages=[
-                    {"role": "system", "content": "You are an expert AI news analyst. Create succinct, professional category-level summaries that are concise yet informative. Write in a clear, journalistic style."},
-                    {"role": "user", "content": prompt}
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt}
                 ],
                 max_tokens=250,
                 temperature=0.7
