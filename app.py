@@ -455,10 +455,10 @@ HTML_TEMPLATE = """
                 padding: 30px 20px;
             }
             .feedback-float-btn {
-                top: 15px;
-                right: 15px;
-                padding: 12px 20px;
-                font-size: 14px;
+                top: 12px;
+                right: 20px;
+                padding: 8px 16px;
+                font-size: 12px;
             }
         }
         
@@ -498,10 +498,10 @@ HTML_TEMPLATE = """
                 min-height: 48px;
             }
             .feedback-float-btn {
-                padding: 14px 24px;
-                font-size: 15px;
+                padding: 8px 16px;
+                font-size: 12px;
                 top: 10px;
-                right: 10px;
+                right: 15px;
             }
         }
         
@@ -1167,27 +1167,27 @@ HTML_TEMPLATE = """
         }
         /* Permanent Feedback Button */
         .feedback-float-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
+            position: absolute;
+            top: 15px;
+            right: 30px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
             border-radius: 50px;
-            padding: 16px 28px;
-            font-size: 16px;
-            font-weight: 700;
+            padding: 10px 20px;
+            font-size: 13px;
+            font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
             z-index: 1000;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 6px;
             transition: all 0.3s;
         }
         .feedback-float-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.6);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
         }
         .feedback-title {
             font-size: 1.3em;
