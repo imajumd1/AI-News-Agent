@@ -1258,8 +1258,8 @@ HTML_TEMPLATE = """
               <stop offset="100%" stop-color="#F5C49A"/>
             </linearGradient>
             <linearGradient id="hairGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#2D1B6E"/>
-              <stop offset="100%" stop-color="#1a0f45"/>
+              <stop offset="0%" stop-color="#1a1a1a"/>
+              <stop offset="100%" stop-color="#0a0a0a"/>
             </linearGradient>
             <linearGradient id="shirtGrad" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stop-color="#1e2d5e"/>
@@ -1372,33 +1372,39 @@ HTML_TEMPLATE = """
           <ellipse cx="160" cy="170" rx="56" ry="62" fill="url(#hairGrad)"/>
           <path d="M108 185 Q95 200 100 230 Q108 250 118 245 Q110 220 112 195Z" fill="url(#hairGrad)"/>
           <path d="M212 185 Q225 200 220 230 Q212 250 202 245 Q210 220 208 195Z" fill="url(#hairGrad)"/>
-          <path d="M108 155 Q120 120 160 115 Q200 120 212 155 Q195 135 160 132 Q125 135 108 155Z" fill="#3d2fa0"/>
-          <path d="M130 125 Q140 118 150 120" stroke="#7c6aff" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
-          <path d="M155 117 Q165 113 175 116" stroke="#7c6aff" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
-          <path d="M108 155 Q115 140 125 135" stroke="rgba(61,47,160,0.8)" stroke-width="2" stroke-linecap="round" fill="none"/>
-          <path d="M212 155 Q205 140 195 135" stroke="rgba(61,47,160,0.8)" stroke-width="2" stroke-linecap="round" fill="none"/>
-          <path d="M108 185 Q106 200 108 215 Q114 205 116 195Z" fill="#2D1B6E"/>
-          <path d="M212 185 Q214 200 212 215 Q206 205 204 195Z" fill="#2D1B6E"/>
+          <path d="M108 155 Q120 120 160 115 Q200 120 212 155 Q195 135 160 132 Q125 135 108 155Z" fill="#0a0a0a"/>
+          <path d="M130 125 Q140 118 150 120" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+          <path d="M155 117 Q165 113 175 116" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+          <path d="M108 155 Q115 140 125 135" stroke="rgba(20,20,20,0.8)" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M212 155 Q205 140 195 135" stroke="rgba(20,20,20,0.8)" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M108 185 Q106 200 108 215 Q114 205 116 195Z" fill="#1a1a1a"/>
+          <path d="M212 185 Q214 200 212 215 Q206 205 204 195Z" fill="#1a1a1a"/>
 
-          <!-- ── COWBOY HAT ── -->
-          <!-- Hat brim (wide and stylish) -->
-          <ellipse cx="160" cy="142" rx="72" ry="14" fill="#3d2f20" stroke="#8B6F47" stroke-width="2"/>
-          <ellipse cx="160" cy="140" rx="70" ry="12" fill="#5a4830" stroke="#a0826d" stroke-width="1.5"/>
-          <!-- Hat crown -->
-          <ellipse cx="160" cy="125" rx="42" ry="28" fill="#4a3828"/>
-          <ellipse cx="160" cy="115" rx="38" ry="25" fill="#5a4830"/>
-          <ellipse cx="160" cy="110" rx="35" ry="20" fill="#6b5647"/>
-          <!-- Hat band with tech flair -->
-          <rect x="122" y="136" width="76" height="7" rx="3" fill="#1a1f3a"/>
-          <rect x="124" y="137" width="72" height="5" rx="2" fill="rgba(124,106,255,0.4)"/>
-          <!-- Cool star/badge on hat -->
-          <circle cx="160" cy="139" r="5" fill="#00f5c4" filter="url(#softGlow)"/>
-          <text x="160" y="142" font-family="monospace" font-size="6" fill="#1a1f3a" text-anchor="middle" font-weight="900">⭐</text>
-          <!-- Hat highlight for depth -->
-          <ellipse cx="155" cy="112" rx="15" ry="8" fill="rgba(255,255,255,0.1)"/>
-          <!-- Cool curved brim edges -->
-          <path d="M88 142 Q85 145 90 147" stroke="#a0826d" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-          <path d="M232 142 Q235 145 230 147" stroke="#a0826d" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+          <!-- ── EQUESTRIAN RIDING HAT ── -->
+          <!-- Hat brim (sleek, modern riding helmet style) -->
+          <ellipse cx="160" cy="142" rx="68" ry="12" fill="#0a0a0a" stroke="#2a2a2a" stroke-width="2"/>
+          <ellipse cx="160" cy="140" rx="66" ry="10" fill="#1a1a1a" stroke="#3a3a3a" stroke-width="1.5"/>
+          <!-- Hat crown (rounded riding helmet shape) -->
+          <ellipse cx="160" cy="125" rx="46" ry="30" fill="#0a0a0a"/>
+          <ellipse cx="160" cy="115" rx="42" ry="28" fill="#1a1a1a"/>
+          <ellipse cx="160" cy="110" rx="38" ry="24" fill="#2a2a2a"/>
+          <!-- Ventilation holes (modern helmet detail) -->
+          <circle cx="140" cy="118" r="2" fill="rgba(124,106,255,0.3)"/>
+          <circle cx="150" cy="112" r="2" fill="rgba(124,106,255,0.3)"/>
+          <circle cx="170" cy="112" r="2" fill="rgba(124,106,255,0.3)"/>
+          <circle cx="180" cy="118" r="2" fill="rgba(124,106,255,0.3)"/>
+          <!-- Tech-infused band with purple accents -->
+          <rect x="118" y="136" width="84" height="8" rx="4" fill="#1a1f3a" stroke="rgba(124,106,255,0.5)" stroke-width="1"/>
+          <rect x="120" y="137" width="80" height="6" rx="3" fill="rgba(124,106,255,0.3)"/>
+          <!-- Horse symbol badge (equestrian showjumping) -->
+          <circle cx="160" cy="139" r="8" fill="rgba(0,245,196,0.2)" stroke="#00f5c4" stroke-width="1.5" filter="url(#softGlow)"/>
+          <text x="160" y="143" font-family="sans-serif" font-size="9" fill="#00f5c4" text-anchor="middle" font-weight="900">🐴</text>
+          <!-- Helmet shine/highlight for premium look -->
+          <ellipse cx="152" cy="112" rx="18" ry="10" fill="rgba(255,255,255,0.15)"/>
+          <ellipse cx="168" cy="115" rx="12" ry="6" fill="rgba(255,255,255,0.08)"/>
+          <!-- Chin strap (riding helmet safety feature) -->
+          <path d="M122 142 Q120 148 124 150" stroke="#2a2a2a" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M198 142 Q200 148 196 150" stroke="#2a2a2a" stroke-width="2" stroke-linecap="round" fill="none"/>
 
           <!-- ── EARS ── -->
           <ellipse cx="109" cy="200" rx="7" ry="9" fill="url(#skinGrad)"/>
@@ -1450,8 +1456,8 @@ HTML_TEMPLATE = """
           <path d="M193 187 Q194 183 195 183" stroke="#1a0f3a" stroke-width="1.5" stroke-linecap="round"/>
           <path d="M196 189 Q198 186 199 186" stroke="#1a0f3a" stroke-width="1.5" stroke-linecap="round"/>
 
-          <path d="M121 182 Q131 177 141 180" stroke="#2D1B6E" stroke-width="3" stroke-linecap="round" fill="none"/>
-          <path d="M179 180 Q189 177 199 182" stroke="#2D1B6E" stroke-width="3" stroke-linecap="round" fill="none"/>
+          <path d="M121 182 Q131 177 141 180" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round" fill="none"/>
+          <path d="M179 180 Q189 177 199 182" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round" fill="none"/>
 
           <!-- ── NOSE ── -->
           <path d="M157 200 Q155 212 152 215 Q157 218 163 215 Q168 212 163 200Z" fill="rgba(200,140,90,0.3)" stroke="none"/>
@@ -1465,17 +1471,22 @@ HTML_TEMPLATE = """
           <ellipse cx="122" cy="218" rx="12" ry="7" fill="rgba(255,107,157,0.12)"/>
           <ellipse cx="198" cy="218" rx="12" ry="7" fill="rgba(255,107,157,0.12)"/>
 
-          <!-- ── HEADPHONES ── -->
-          <path d="M112 175 Q110 140 160 132 Q210 140 208 175" stroke="#2a2a4e" stroke-width="6" fill="none" stroke-linecap="round"/>
-          <path d="M112 175 Q110 140 160 132 Q210 140 208 175" stroke="rgba(124,106,255,0.4)" stroke-width="2" fill="none" stroke-linecap="round"/>
-          <rect x="104" y="172" width="16" height="22" rx="7" fill="#1a1f3a" stroke="rgba(124,106,255,0.5)" stroke-width="1.5"/>
-          <rect x="107" y="176" width="10" height="14" rx="4" fill="#7c6aff" opacity="0.3"/>
-          <rect x="200" y="172" width="16" height="22" rx="7" fill="#1a1f3a" stroke="rgba(124,106,255,0.5)" stroke-width="1.5"/>
-          <rect x="203" y="176" width="10" height="14" rx="4" fill="#7c6aff" opacity="0.3"/>
-          <circle cx="112" cy="178" r="2.5" fill="#00f5c4" filter="url(#softGlow)" opacity="0.9"/>
-          <circle cx="208" cy="178" r="2.5" fill="#00f5c4" filter="url(#softGlow)" opacity="0.9"/>
-
+          <!-- ── SMART GLASSES (Futuristic AR/Tech Glasses) ── -->
+          <!-- Sleek frame connecting temples -->
+          <path d="M106 190 L118 190" stroke="rgba(40,40,60,0.8)" stroke-width="2" stroke-linecap="round"/>
+          <path d="M202 190 L214 190" stroke="rgba(40,40,60,0.8)" stroke-width="2" stroke-linecap="round"/>
+          <!-- Tech temple arms with LED indicators -->
+          <rect x="104" y="188" width="4" height="12" rx="2" fill="#1a1f3a" stroke="rgba(124,106,255,0.6)" stroke-width="1"/>
+          <circle cx="106" cy="191" r="1.5" fill="#00f5c4" filter="url(#softGlow)"/>
+          <circle cx="106" cy="197" r="1" fill="#7c6aff" opacity="0.7"/>
+          <rect x="212" y="188" width="4" height="12" rx="2" fill="#1a1f3a" stroke="rgba(124,106,255,0.6)" stroke-width="1"/>
+          <circle cx="214" cy="191" r="1.5" fill="#00f5c4" filter="url(#softGlow)"/>
+          <circle cx="214" cy="197" r="1" fill="#7c6aff" opacity="0.7"/>
+          <!-- Subtle AR glow effect around face -->
           <ellipse cx="160" cy="210" rx="40" ry="35" fill="rgba(0,245,196,0.04)" class="screen-glow"/>
+          <!-- Tech data overlay effect (optional cool detail) -->
+          <path d="M105 185 L108 188" stroke="rgba(0,245,196,0.3)" stroke-width="0.5"/>
+          <path d="M215 185 L212 188" stroke="rgba(0,245,196,0.3)" stroke-width="0.5"/>
 
           <!-- ── NAME TAG ── -->
           <rect x="105" y="385" width="110" height="24" rx="6" fill="rgba(124,106,255,0.15)" stroke="rgba(124,106,255,0.3)" stroke-width="1"/>
