@@ -587,9 +587,6 @@ HTML_TEMPLATE = """
         .form-group.days-group label::before {
             content: '📅';
         }
-        .form-group.mode-group label::before {
-            content: '⚙️';
-        }
         .form-group input, .form-group select {
             width: 100%;
             padding: 14px 18px;
@@ -1604,15 +1601,8 @@ HTML_TEMPLATE = """
                 <label for="days">Days to look back</label>
                 <input type="number" id="days" name="days" value="7" min="1" max="30">
             </div>
-            <div class="form-group mode-group">
-                <label for="mode">Mode</label>
-                <select id="mode" name="mode">
-                    <option value="fast">Fast Mode (RSS summaries)</option>
-                    <option value="full">Full Mode (AI summaries)</option>
-                </select>
-            </div>
             <div class="form-group">
-                <button type="button" class="btn" id="submitBtn" onclick="window.runAgent && window.runAgent()">Fetch Latest News</button>
+                <button type="button" class="btn" id="submitBtn" onclick="window.runAgent && window.runAgent()">🚀 Fetch Latest News</button>
             </div>
         </div>
 
@@ -1746,7 +1736,7 @@ HTML_TEMPLATE = """
             
             const formData = {
                 days: parseInt(document.getElementById('days').value),
-                mode: document.getElementById('mode').value,
+                mode: 'full',  // Always use AI summaries
                 fetchContent: false
             };
             
@@ -1872,9 +1862,8 @@ HTML_TEMPLATE = """
                 if (articles.length === 0) {
                     content.innerHTML = '<div class="empty-state">No articles found in this category</div>';
                 } else {
-                    // Category Overview Section - Only show in Full Mode or if summary exists
-                    const isFullMode = data.mode === 'full';
-                    if (isFullMode || categorySummary) {
+                    // Category Overview Section - Always show if summary exists (AI summaries only)
+                    if (categorySummary) {
                         const overviewDiv = document.createElement('div');
                         overviewDiv.className = 'category-overview';
                         overviewDiv.style.borderLeftColor = config.color;
@@ -1910,12 +1899,12 @@ HTML_TEMPLATE = """
                                 </div>
                                 <div class="category-overview-text" style="color: #d32f2f; font-weight: 500; padding: 15px; background: #ffebee; border-radius: 8px; border-left: 3px solid #d32f2f;">
                                     <strong>⚠️ API Key Required</strong><br><br>
-                                    Category summaries require a valid OpenAI API key.<br><br>
+                                    AI summaries require a valid OpenAI API key.<br><br>
                                     <strong>To fix this:</strong><br>
                                     1. Open <code>~/ai_news_agent/.env</code> in a text editor<br>
                                     2. Replace <code>your_openai_api_key_here</code> with your actual OpenAI API key<br>
                                     3. Your key should start with <code>sk-</code><br>
-                                    4. Restart the server and try Full Mode again<br><br>
+                                    4. Restart the server and fetch news again<br><br>
                                     <small>Get your API key at: <a href="https://platform.openai.com/account/api-keys" target="_blank">platform.openai.com/account/api-keys</a></small>
                                 </div>
                             `;
@@ -2288,12 +2277,11 @@ def run_agent():
     try:
         data = request.json
         days = data.get('days', 7)
-        mode = data.get('mode', 'fast')
         fetch_content = data.get('fetchContent', False)
-        
-        # Determine settings based on mode
-        fetch_full_content = fetch_content if mode == 'full' else False
-        generate_summaries = mode == 'full'
+
+        # Always use AI summaries - no fast mode
+        fetch_full_content = fetch_content
+        generate_summaries = True
         
         # Initialize and run agent
         agent = AINewsAgent()
@@ -2314,7 +2302,6 @@ def run_agent():
         # Prepare response
         response_data = {
             "generated_at": datetime.now().isoformat(),
-            "mode": mode,  # Include mode so frontend knows if it's Fast or Full
             "categories": {}
         }
         
@@ -2759,7 +2746,7 @@ if __name__ == '__main__':
     print("="*60)
     print(f"\nStarting server on {HOST}:{PORT}")
     print(f"Debug mode: {DEBUG}")
-    print(f"OpenAI API Key configured: {'Yes' if os.environ.get('OPENAI_API_KEY') else 'No (will use Fast Mode only)'}")
+    print(f"OpenAI API Key configured: {'Yes' if os.environ.get('OPENAI_API_KEY') else 'No (AI summaries will not work)'}")
     print(f"Email configured: {'Yes' if MAIL_USERNAME else 'No'}")
     print("Press Ctrl+C to stop\n")
     print("Health check available at /health")
