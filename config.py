@@ -585,49 +585,87 @@ CATEGORY_KEYWORDS = {
     "AI Builder tools": [
         # AI Development Frameworks & Tools
         "langchain", "llamaindex", "llama index", "hugging face", "huggingface", "transformers",
-        "pytorch", "tensorflow", "keras", "onnx", "mlflow", "wandb", "weights & biases", 
-        "gradio", "streamlit", "fastapi", "flask ai",
-        
-        # AI Code Assistants & IDEs  
-        "github copilot", "copilot", "cursor", "replit", "codeium", "tabnine", "codex", 
+        "pytorch", "tensorflow", "keras", "onnx", "mlflow", "wandb", "weights & biases",
+        "gradio", "streamlit", "fastapi", "flask ai", "chainlit", "reflex", "mesop",
+        "vercel ai", "vercel ai sdk", "ai/sdk", "ai toolkit",
+
+        # AI Code Assistants & IDEs
+        "github copilot", "copilot", "cursor", "cursor ai", "replit", "codeium", "tabnine", "codex",
         "code assistant", "ai coding", "code generation", "pair programming", "ai code",
-        "coding assistant", "code completion",
-        
+        "coding assistant", "code completion", "ai autocomplete", "code intelligence",
+        "sourcegraph", "cody", "amazon codewhisperer", "codewhisperer",
+
         # Vector DBs & RAG Tools
-        "pinecone", "weaviate", "qdrant", "chroma", "chromadb", "milvus", "vector database", 
+        "pinecone", "weaviate", "qdrant", "chroma", "chromadb", "milvus", "vector database",
         "vector db", "embeddings", "embedding", "rag", "retrieval augmented", "semantic search",
-        "vector store", "vector search",
-        
+        "vector store", "vector search", "faiss", "pgvector", "elasticsearch", "opensearch",
+        "redis vector", "mongodb vector", "supabase vector",
+
         # AI Development Platforms & APIs
-        "openai api", "gpt api", "anthropic api", "claude api", "cohere", "replicate", 
-        "modal", "beam", "together ai", "fireworks ai", "anyscale", "baseten", 
+        "openai api", "gpt api", "anthropic api", "claude api", "cohere", "replicate",
+        "modal", "beam", "together ai", "fireworks ai", "anyscale", "baseten",
         "inference api", "ai api", "llm api", "api key", "api integration",
-        
+        "perplexity api", "groq", "cerebras", "mistral api", "llama api",
+        "ai gateway", "portkey", "litellm", "openrouter",
+
         # Model Training & Fine-tuning
         "fine-tuning", "fine tuning", "finetune", "model training", "train model",
-        "model optimization", "lora", "qlora", "peft", "parameter efficient", 
+        "model optimization", "lora", "qlora", "peft", "parameter efficient",
         "model deployment", "deploy model", "model serving", "serve model",
-        
+        "distillation", "quantization", "pruning", "onnx", "tensorrt",
+
         # AI Agent Frameworks
-        "autogpt", "babyagi", "agent framework", "langflow", "flowise", 
+        "autogpt", "babyagi", "agent framework", "langflow", "flowise",
         "autonomous agent", "ai agent", "tool calling", "function calling",
-        "langchain agent", "agent toolkit",
-        
+        "langchain agent", "agent toolkit", "crew ai", "crewai", "agentgpt",
+        "superagent", "ix", "agent protocol", "agent orchestration",
+
         # Prompt Engineering & Testing
-        "prompt engineering", "prompt", "prompting", "prompt playground", "langsmith", 
+        "prompt engineering", "prompt", "prompting", "prompt playground", "langsmith",
         "helicone", "promptfoo", "ai testing", "llm evaluation", "prompt optimization",
-        "prompt template", "few shot",
-        
-        # Development Terms
-        "ai sdk", "sdk", "developer tool", "build with ai",
+        "prompt template", "few shot", "chain of thought", "prompt tuning",
+        "prompt layer", "prompt flow", "prompt management",
+
+        # LLMOps & Observability
+        "llmops", "llm ops", "ai observability", "llm monitoring", "ai monitoring",
+        "traceloop", "arize", "phoenix", "lunary", "langfuse", "braintrust",
+        "whylabs", "confident ai", "deepchecks", "evidently",
+
+        # AI Development Tools & Services
+        "ai sdk", "sdk", "developer tool", "build with ai", "ai platform", "ml platform",
         "ai framework", "framework", "library", "package", "toolkit",
-        "machine learning tool", "ml tool", "ml platform", "mlops",
-        "ai builder", "no-code ai", "low-code ai", "ai development",
-        
-        # Common Dev Patterns
-        "integration", "integrate", "implementation",
+        "machine learning tool", "ml tool", "mlops", "ai builder",
+        "no-code ai", "low-code ai", "ai development", "ai dev tools",
+        "ollama", "localai", "local ai", "lm studio", "gpt4all",
+
+        # Model Hosting & Inference
+        "runpod", "vast ai", "lambda labs", "paperspace", "banana", "huggingface spaces",
+        "inference endpoint", "hosted model", "model hosting", "serverless inference",
+        "banana dev", "beam cloud", "modal labs",
+
+        # AI Data & Training Tools
+        "label studio", "labelbox", "scale ai", "appen", "snorkel",
+        "data labeling", "data annotation", "training data", "dataset",
+        "synthetic data", "data augmentation", "data pipeline",
+
+        # AI Testing & Evaluation
+        "giskard", "eval", "llm eval", "benchmark", "evals", "test suite",
+        "ai evaluation", "model evaluation", "performance testing",
+
+        # Developer Experience
+        "ai devtools", "dev tool", "developer platform", "ai platform",
+        "ai infrastructure", "build ai", "ai stack", "tech stack",
+        "integration", "integrate", "implementation", "plugin", "extension",
+        "api wrapper", "sdk wrapper", "cli tool", "command line",
+
+        # Documentation & Learning
         "tutorial", "guide", "documentation", "docs", "api reference",
-        "getting started", "quickstart", "example", "sample code"
+        "getting started", "quickstart", "example", "sample code",
+        "best practices", "how to", "walkthrough", "template",
+
+        # AI Tooling Companies & Products
+        "vercel", "supabase", "convex", "clerk", "auth", "neon",
+        "planetscale", "railway", "fly.io", "render", "heroku ai"
     ],
     "Cool Startups to watch": [
         # Funding & Investment (high weight)
