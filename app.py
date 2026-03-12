@@ -1343,7 +1343,7 @@ HTML_TEMPLATE = """
             <text x="93" y="335" font-family="monospace" font-size="6" fill="rgba(124,106,255,0.5)">07</text>
             <text x="93" y="344" font-family="monospace" font-size="6" fill="rgba(124,106,255,0.5)">08</text>
             <text x="108" y="281" font-family="monospace" font-size="6.5" fill="#7c6aff">import</text>
-            <text x="133" y="281" font-family="monospace" font-size="6.5" fill="#e8eaf6"> anya</text>
+            <text x="133" y="281" font-family="monospace" font-size="6.5" fill="#e8eaf6"> saniya</text>
             <text x="108" y="290" font-family="monospace" font-size="6.5" fill="#00f5c4">fetch</text>
             <text x="127" y="290" font-family="monospace" font-size="6.5" fill="#e8eaf6">(news.ai)</text>
             <text x="108" y="299" font-family="monospace" font-size="6.5" fill="#ff6b9d">filter</text>
@@ -1379,6 +1379,26 @@ HTML_TEMPLATE = """
           <path d="M212 155 Q205 140 195 135" stroke="rgba(61,47,160,0.8)" stroke-width="2" stroke-linecap="round" fill="none"/>
           <path d="M108 185 Q106 200 108 215 Q114 205 116 195Z" fill="#2D1B6E"/>
           <path d="M212 185 Q214 200 212 215 Q206 205 204 195Z" fill="#2D1B6E"/>
+
+          <!-- ── COWBOY HAT ── -->
+          <!-- Hat brim (wide and stylish) -->
+          <ellipse cx="160" cy="142" rx="72" ry="14" fill="#3d2f20" stroke="#8B6F47" stroke-width="2"/>
+          <ellipse cx="160" cy="140" rx="70" ry="12" fill="#5a4830" stroke="#a0826d" stroke-width="1.5"/>
+          <!-- Hat crown -->
+          <ellipse cx="160" cy="125" rx="42" ry="28" fill="#4a3828"/>
+          <ellipse cx="160" cy="115" rx="38" ry="25" fill="#5a4830"/>
+          <ellipse cx="160" cy="110" rx="35" ry="20" fill="#6b5647"/>
+          <!-- Hat band with tech flair -->
+          <rect x="122" y="136" width="76" height="7" rx="3" fill="#1a1f3a"/>
+          <rect x="124" y="137" width="72" height="5" rx="2" fill="rgba(124,106,255,0.4)"/>
+          <!-- Cool star/badge on hat -->
+          <circle cx="160" cy="139" r="5" fill="#00f5c4" filter="url(#softGlow)"/>
+          <text x="160" y="142" font-family="monospace" font-size="6" fill="#1a1f3a" text-anchor="middle" font-weight="900">⭐</text>
+          <!-- Hat highlight for depth -->
+          <ellipse cx="155" cy="112" rx="15" ry="8" fill="rgba(255,255,255,0.1)"/>
+          <!-- Cool curved brim edges -->
+          <path d="M88 142 Q85 145 90 147" stroke="#a0826d" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+          <path d="M232 142 Q235 145 230 147" stroke="#a0826d" stroke-width="1.5" stroke-linecap="round" fill="none"/>
 
           <!-- ── EARS ── -->
           <ellipse cx="109" cy="200" rx="7" ry="9" fill="url(#skinGrad)"/>
@@ -1459,7 +1479,7 @@ HTML_TEMPLATE = """
 
           <!-- ── NAME TAG ── -->
           <rect x="105" y="385" width="110" height="24" rx="6" fill="rgba(124,106,255,0.15)" stroke="rgba(124,106,255,0.3)" stroke-width="1"/>
-          <text x="160" y="402" font-family="monospace" font-size="10" fill="#00f5c4" text-anchor="middle" font-weight="700">ANYA.AI</text>
+          <text x="160" y="402" font-family="monospace" font-size="10" fill="#00f5c4" text-anchor="middle" font-weight="700">SANIYA.AI</text>
           <circle cx="115" cy="397" r="3" fill="#00f5c4"/>
 
         </svg>
