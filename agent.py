@@ -72,13 +72,16 @@ class AINewsAgent:
                     continue
                     
                 if articles:
-                    print(f"\nProcessing {category} ({len(articles)} articles)...")
+                    # Limit to top 10 most recent articles per category
+                    top_articles = articles[:10]
+                    print(f"\nProcessing {category} (top {len(top_articles)} of {len(articles)} articles)...")
+                    
                     # Generate category-level summary first
                     category_summary = None
                     if hasattr(self.summarizer, 'generate_category_summary') and self.summarizer.client:
                         print(f"  Generating category overview...")
                         try:
-                            category_summary = self.summarizer.generate_category_summary(articles, category)
+                            category_summary = self.summarizer.generate_category_summary(top_articles, category)
                             if category_summary:
                                 print(f"  ✓ Category summary generated ({len(category_summary)} chars)")
                             else:
@@ -91,18 +94,23 @@ class AINewsAgent:
                         print(f"  ⚠ Category summary method not available")
                     
                     # Generate individual article summaries
-                    # Even if summarization fails, we still want the articles
+                    # Only include articles that successfully get AI summaries
                     try:
-                        summarized = self.summarizer.generate_summaries(articles, category)
+                        summarized = self.summarizer.generate_summaries(top_articles, category)
+                        # Filter to only articles with AI summaries
+                        ai_summarized = [a for a in summarized if a.get('ai_summary')]
+                        
+                        if len(ai_summarized) < len(summarized):
+                            print(f"  ℹ Filtered to {len(ai_summarized)} articles with AI summaries (removed {len(summarized) - len(ai_summarized)} without)")
+                        
+                        # Add category summary to results
+                        for article in ai_summarized:
+                            article["category_summary"] = category_summary
+                        
+                        results[category] = ai_summarized
                     except Exception as e:
-                        print(f"  Warning: Summarization failed, using original articles: {e}")
-                        summarized = articles
-                    
-                    # Add category summary to results
-                    for article in summarized:
-                        article["category_summary"] = category_summary
-                    
-                    results[category] = summarized
+                        print(f"  ✗ Summarization failed for category: {e}")
+                        results[category] = []
                 else:
                     results[category] = []
             
@@ -154,15 +162,12 @@ class AINewsAgent:
                 results[startups_category] = all_items
                 print(f"  📊 Limited to top 10 startups (fallback mode)")
         else:
-            # Just return categorized articles without summaries
+            # Without AI summaries enabled, return empty results
+            # We don't show RSS summaries - only AI-curated content
+            print("⚠ AI summaries are required. Fast mode is not supported.")
+            print("  All categories will be empty without AI summarization enabled.")
             for category in results.keys():
-                if category == startups_category:
-                    # Limit Cool Startups to 10 even in fast mode
-                    all_startup_items = startup_items + categorized.get(startups_category, [])
-                    results[category] = all_startup_items[:10]
-                    print(f"  📊 Limiting {startups_category} to top 10 (fast mode)")
-                else:
-                    results[category] = categorized.get(category, [])
+                results[category] = []
         
         print()
         print("=" * 60)
@@ -196,14 +201,11 @@ class AINewsAgent:
                     if article.get('days_ago') is not None:
                         output.append(f"    Published: {article.get('days_ago')} days ago")
                     
-                    # Show RSS summary if no AI summary available
+                    # Only show AI summaries - no RSS summaries
                     if article.get('ai_summary'):
                         output.append(f"\n    AI Summary: {article.get('ai_summary')}")
-                    elif article.get('summary'):
-                        summary = article.get('summary', '')[:200]
-                        if len(article.get('summary', '')) > 200:
-                            summary += "..."
-                        output.append(f"\n    Summary: {summary}")
+                    else:
+                        output.append(f"\n    [No AI summary available]")
                     
                     output.append("")
         

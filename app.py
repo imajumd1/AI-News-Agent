@@ -1945,7 +1945,7 @@ HTML_TEMPLATE = """
                     articlesList.className = 'articles-list';
                     
                     articles.forEach(article => {
-                        const summary = article.ai_summary || article.summary || 'No summary available';
+                        const summary = article.ai_summary || 'No AI summary available';
                         const summaryText = summary.length > 200 ? summary.substring(0, 200) + '...' : summary;
                         const daysAgo = article.days_ago !== null ? `${article.days_ago} days ago` : '';
                         const focus = article.focus || '';
@@ -2338,13 +2338,10 @@ def run_agent():
             print(f"DEBUG: {category} - {len(articles)} articles, summary: {'Yes' if category_summary else 'No'}")
             
             for article in articles:
-                    # Clean HTML from summaries
-                    summary = article.get("summary", "") or article.get("description", "")
-                    if summary:
-                        # Remove HTML tags
-                        import re
-                        summary = re.sub('<[^<]+?>', '', summary)
-                        summary = summary.strip()
+                    # Only include articles with AI summaries
+                    ai_summary = article.get("ai_summary")
+                    if not ai_summary:
+                        continue  # Skip articles without AI summaries
                     
                     article_data = {
                         "title": article.get("title", "No title"),
@@ -2352,8 +2349,7 @@ def run_agent():
                         "link": article.get("link", "#"),
                         "published": article.get("published", ""),
                         "days_ago": article.get("days_ago"),
-                        "summary": summary[:500] if summary else "",  # Limit summary length
-                        "ai_summary": article.get("ai_summary"),
+                        "ai_summary": ai_summary,
                         "focus": article.get("focus", "")  # For startups
                     }
                     response_data["categories"][category]["articles"].append(article_data)

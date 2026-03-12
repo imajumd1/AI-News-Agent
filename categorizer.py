@@ -24,11 +24,14 @@ class ArticleCategorizer:
         # Count keyword matches (case-insensitive)
         matches = sum(1 for keyword in keywords if keyword.lower() in text_lower)
         
-        # Use lenient scoring for all categories to ensure fair competition
-        if matches > 0:
-            # Start at 0.2 for 1 match, add 0.15 per additional match
-            # This ensures even single keyword matches get categorized
-            score = 0.2 + (matches * 0.15)
+        # Stricter scoring to ensure relevance
+        # Require at least 2 keyword matches for good confidence
+        if matches >= 2:
+            # Base score of 0.4 for 2 matches, add 0.2 per additional match
+            score = 0.4 + ((matches - 2) * 0.2)
+        elif matches == 1:
+            # Single match gets lower score (0.15) - only counts if no better category
+            score = 0.15
         else:
             score = 0.0
         
@@ -61,8 +64,9 @@ class ArticleCategorizer:
         # Find the category with the highest score
         best_category = max(scores.items(), key=lambda x: x[1])
         
-        # Use same lenient threshold for all categories to ensure fair competition
-        threshold = 0.01
+        # Stricter threshold to ensure relevance - require at least 2 keyword matches
+        # This translates to a score of at least 0.4
+        threshold = 0.3
         
         # Only categorize if score is above threshold
         if best_category[1] > threshold:
