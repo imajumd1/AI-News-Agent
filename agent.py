@@ -106,12 +106,42 @@ class AINewsAgent:
                 else:
                     results[category] = []
             
-            # Handle startups category separately
-            print(f"\nProcessing {startups_category} ({len(startup_items)} items)...")
-            # Add category summary to all startup items
-            for startup in startup_items:
-                startup["category_summary"] = startup_summary
-            results[startups_category] = startup_items
+            # Handle Cool Startups category with intelligent filtering & scoring
+            print(f"\nProcessing {startups_category}...")
+            
+            # Use specialized startup intelligence for "Cool Startups to watch"
+            if startups_category == "Cool Startups to watch" and hasattr(self.summarizer, 'generate_startup_intelligence'):
+                # Get articles categorized as startups
+                startup_articles = categorized.get(startups_category, [])
+                # Merge with any fetched startup items
+                all_startup_content = startup_articles + startup_items
+                
+                if all_startup_content:
+                    print(f"  Running 5-signal startup intelligence on {len(all_startup_content)} items...")
+                    try:
+                        startup_intelligence = self.summarizer.generate_startup_intelligence(all_startup_content)
+                        if startup_intelligence:
+                            print(f"  ✓ Startup intelligence generated (top 10 curated)")
+                            # Store the intelligence summary as category summary
+                            for item in all_startup_content:
+                                item["category_summary"] = startup_intelligence
+                        else:
+                            print(f"  ⚠ Startup intelligence returned None")
+                            for item in all_startup_content:
+                                item["category_summary"] = startup_summary
+                    except Exception as e:
+                        print(f"  ⚠ Could not generate startup intelligence: {str(e)[:100]}")
+                        for item in all_startup_content:
+                            item["category_summary"] = startup_summary
+                    
+                    results[startups_category] = all_startup_content
+                else:
+                    results[startups_category] = []
+            else:
+                # Fallback to old method
+                for startup in startup_items:
+                    startup["category_summary"] = startup_summary
+                results[startups_category] = startup_items
         else:
             # Just return categorized articles without summaries
             for category in results.keys():

@@ -519,7 +519,7 @@ CATEGORY_KEYWORDS = {
         "ai helps", "ai enables", "ai improves", "ai enhances", "ai transforms",
         "ai revolutionizes", "ai changes", "ai automates", "ai assists",
         "ai analyzes", "ai predicts", "ai detects", "ai recognizes", "ai generates",
-        "ai creates", "ai writes", "ai designs", "ai develops", "ai builds",
+        "ai creates", "ai writes", "ai designs",
         
         # Industry & Sector Applications (broad terms)
         "ai in", "ai for", "ai and", "ai +", "ai meets",
@@ -575,7 +575,7 @@ CATEGORY_KEYWORDS = {
         # Application Context Terms (end-user focused)
         "ai adoption", "adopting ai",
         "ai pilot", "ai trial",
-        "ai innovation", "ai breakthrough",
+        "ai breakthrough",
         "ai research", "ai study", "ai study shows",
         
         # Application-Specific Phrases (more selective)
@@ -619,13 +619,13 @@ CATEGORY_KEYWORDS = {
         "prompt template", "few shot",
         
         # Development Terms
-        "ai sdk", "sdk", "developer", "developer tool", "development", "build with ai",
-        "ai framework", "framework", "library", "package", "tool", "toolkit",
+        "ai sdk", "sdk", "developer tool", "build with ai",
+        "ai framework", "framework", "library", "package", "toolkit",
         "machine learning tool", "ml tool", "ml platform", "mlops",
         "ai builder", "no-code ai", "low-code ai", "ai development",
         
         # Common Dev Patterns
-        "integration", "integrate", "build", "create", "develop", "implementation",
+        "integration", "integrate", "implementation",
         "tutorial", "guide", "documentation", "docs", "api reference",
         "getting started", "quickstart", "example", "sample code"
     ],

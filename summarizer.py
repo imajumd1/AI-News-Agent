@@ -4,6 +4,7 @@ from typing import List, Dict, Optional
 from openai import OpenAI
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from config import OPENAI_API_KEY, OPENAI_BASE_URL, OPENAI_MODEL
+from datetime import datetime
 
 
 class ArticleSummarizer:
@@ -166,4 +167,92 @@ Provide a concise, professional summary that gives readers a clear understanding
             return response.choices[0].message.content.strip()
         except Exception as e:
             print(f"Error generating category summary: {e}")
+            return None
+    
+    def generate_startup_intelligence(self, articles: List[Dict]) -> Optional[str]:
+        """Generate curated startup summary with 5-signal scoring for college students."""
+        if not self.client or not articles:
+            return None
+        
+        # Collect article information
+        article_info = []
+        for i, article in enumerate(articles[:30], 1):  # Use more articles for better filtering
+            title = article.get("title", "")
+            summary = article.get("summary", "")
+            link = article.get("link", "")
+            source = article.get("source", "")
+            article_info.append(f"{i}. [{title}]({link}) | Source: {source}\n   Summary: {summary[:400]}")
+        
+        articles_text = "\n\n".join(article_info)
+        today = datetime.now().strftime("%B %d, %Y")
+        
+        system_prompt = """You are a startup intelligence analyst writing for a smart college-age audience (18-24) who are curious about technology, careers, and entrepreneurship but have limited time.
+
+You will receive a list of raw startup articles, Product Hunt launches, and Hacker News posts from the past 7 days.
+
+Your job:
+
+STEP 1 — FILTER
+Remove anything that is:
+- An established company (> 5 years old or > 100 employees)
+- A funding announcement with no product yet live
+- A rebrand or pivot of an existing company
+- Vague ("AI platform for enterprises") with no specific use case
+- Pure crypto / NFT / Web3
+
+STEP 2 — SCORE each startup on these 5 signals (1-10 each):
+1. NOVELTY: Is this genuinely new or a copy of something existing?
+2. TIMING: Does it solve a problem that is urgent right now in 2025?
+3. FOUNDER SIGNAL: Solo founder, ex-FAANG, repeat founder, YC — any of these add points
+4. TRACTION PROOF: User numbers, revenue, waitlist, upvotes, HN points
+5. COLLEGE RELEVANCE: Would a 20-year-old student find this immediately useful or exciting?
+
+STEP 3 — SELECT the top 10 by total score
+
+STEP 4 — For each of the top 10, write a summary in exactly this format:
+
+🚀 [STARTUP NAME]
+One-line pitch: [What it does in plain English, no jargon]
+Why now: [Why this exists in 2025 specifically]
+Why you should care: [Hook for a college student — career, money, curiosity, or utility angle]
+Traction: [Any numbers — users, revenue, upvotes, funding] OR "traction unknown" if missing
+Built by: [Founder background if known, otherwise skip this line]
+Link: [URL]
+
+TONE: Curious, energetic, smart but never condescending. Think "smart friend who follows startups" not "press release."
+NEVER use the words: "innovative", "disruptive", "revolutionary", "game-changing", "leverage", "synergy"
+LENGTH: Each summary max 4 lines (excluding Built by line). No exceptions.
+
+CRITICAL: If traction data is missing, say "traction unknown" — do not infer or guess. A startup with unknown traction but high novelty and timing scores can still make the top 10."""
+        
+        user_prompt = f"""Search the following sources for startups launched or funded in the last 7 days:
+
+Articles:
+{articles_text}
+
+Today's date: {today}
+
+Prioritise startups that:
+- Have at least one of: live product, paying users, public waitlist, or disclosed funding under $10M
+- Are in these spaces: AI tools, developer productivity, health tech, edtech, climate, consumer apps, creator economy
+- Were founded 2023 or later
+
+Deprioritise: enterprise-only B2B with no consumer angle, hardware without software, pure consulting firms
+
+Run the 5-signal scoring. Return top 10 only in the exact format specified."""
+        
+        try:
+            response = self.client.chat.completions.create(
+                model=self.model,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt}
+                ],
+                max_tokens=2000,
+                temperature=0.7
+            )
+            
+            return response.choices[0].message.content.strip()
+        except Exception as e:
+            print(f"Error generating startup intelligence: {e}")
             return None
