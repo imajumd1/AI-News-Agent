@@ -1721,7 +1721,7 @@ HTML_TEMPLATE = """
                 "GPU and AI Infra",
                 "AI Applications", 
                 "AI Builder tools",
-                "AI startups to watch"
+                "Cool Startups to watch"
             ];
             
             categoryOrder.forEach(categoryName => {
@@ -2179,7 +2179,7 @@ def run_agent():
             "GPU and AI Infra": [],
             "AI Applications": [],
             "AI Builder tools": [],
-            "AI startups to watch": []
+            "Cool Startups to watch": []
         }
         
         # Prepare response
