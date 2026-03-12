@@ -64,9 +64,9 @@ class ArticleCategorizer:
         # Find the category with the highest score
         best_category = max(scores.items(), key=lambda x: x[1])
         
-        # Stricter threshold to ensure relevance - require at least 2 keyword matches
-        # This translates to a score of at least 0.4
-        threshold = 0.3
+        # Balanced threshold - allows single strong keyword matches
+        # Single match = 0.15, so threshold of 0.1 catches most relevant articles
+        threshold = 0.1
         
         # Only categorize if score is above threshold
         if best_category[1] > threshold:
