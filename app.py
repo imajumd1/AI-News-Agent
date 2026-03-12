@@ -124,7 +124,7 @@ CATEGORY_CONFIG = {
         "gradient": "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
     },
     "Cool Startups to watch": {
-        "icon": "🚀",  # Rocket for startups launching
+        "icon": "🔥",  # Fire for hot/trending startups
         "color": "#fa709a",
         "gradient": "linear-gradient(135deg, #fa709a 0%, #fee140 100%)"
     }

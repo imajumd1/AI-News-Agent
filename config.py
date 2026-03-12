@@ -524,12 +524,12 @@ CATEGORY_KEYWORDS = {
         # Industry & Sector Applications (broad terms)
         "ai in", "ai for", "ai and", "ai +", "ai meets",
         "healthcare ai", "medical ai", "ai healthcare", "ai medicine",
-        "finance ai", "fintech ai", "ai finance", "ai banking", "ai trading",
-        "education ai", "edtech ai", "ai education", "ai learning",
+        "ai finance", "ai banking", "ai trading",
+        "ai education", "ai learning",
         "retail ai", "ai retail", "ai shopping", "ai commerce", "ai e-commerce",
         "manufacturing ai", "industrial ai", "ai manufacturing", "ai production",
         "transportation ai", "ai transportation", "autonomous", "self-driving",
-        "agriculture ai", "agtech", "ai farming", "ai agriculture",
+        "ai farming", "ai agriculture",
         "energy ai", "ai energy", "ai utilities",
         
         # Application Types (common in articles)
@@ -551,14 +551,12 @@ CATEGORY_KEYWORDS = {
         "ai decision", "decision making", "ai choices",
         
         # Enterprise & Business Applications
-        "enterprise ai", "business ai", "ai business", "ai enterprise",
-        "ai service", "ai services", "ai software",
-        "ai product", "ai products",
+        "enterprise ai", "ai enterprise",
         "ai system", "ai systems",
         "ai workflow", "ai process", "ai processes",
         
         # Consumer & Mobile Applications
-        "ai app", "ai apps", "mobile ai", "ai mobile", "ai smartphone",
+        "mobile ai", "ai mobile", "ai smartphone",
         "ai device", "ai devices", "smart device", "smart devices",
         "smart home", "ai home", "home ai", "iot ai", "ai iot",
         "ai wearable", "wearable ai", "ai gadget", "ai gadgets",
@@ -632,35 +630,64 @@ CATEGORY_KEYWORDS = {
         "getting started", "quickstart", "example", "sample code"
     ],
     "Cool Startups to watch": [
-        # Funding & Investment
-        "startup", "startups", "founder", "founders", "co-founder", "cofounder",
-        "funding", "raise", "raised", "series a", "series b", "series c", "seed", "pre-seed",
-        "venture", "capital", "vc", "venture capital", "investment", "invested", "investor",
-        "unicorn", "valuation", "ipo", "acquisition", "acquired", "merger", "exit",
+        # Funding & Investment (high weight)
+        "startup", "startups", "founded", "founder", "founders", "co-founder", "cofounder", "founding team",
+        "funding", "raise", "raised", "raises", "raising", 
+        "series a", "series b", "series c", "series d", "seed round", "seed funding", "pre-seed",
+        "venture", "capital", "vc", "venture capital", "venture-backed",
+        "investment", "invested", "investor", "investors", "angel", "angel investor",
+        "unicorn", "decacorn", "valuation", "valued at", "worth",
+        "ipo", "going public", "public offering",
+        "acquisition", "acquired", "acquires", "buying", "bought by",
+        "merger", "merging", "exit", "exits",
+        "million", "billion", "m in", "b in", "$",
         
         # Company Stage & Activity
-        "new company", "launch", "launched", "launches", "launching", "stealth", "coming out of stealth",
-        "announcement", "announces", "backed", "accelerator", "incubator", "yc", "y combinator",
-        "techstars", "500 startups", "backed by", "raised from",
+        "new company", "new startup", "launches", "launched", "launching", "unveils", "debuts",
+        "stealth", "stealth mode", "coming out of stealth", "emerges from stealth",
+        "announcement", "announces", "unveiled", "introduced", "introducing",
+        "backed", "backed by", "led by", "investors include",
+        "accelerator", "incubator", "yc", "y combinator", "ycombinator",
+        "techstars", "500 startups", "demo day",
         
-        # Product & Growth
-        "product hunt", "show hn", "indie hacker", "bootstrapped", "self-funded",
-        "built by", "created by", "side project", "weekend project", "solo founder",
+        # Product & Growth (very startup-specific)
+        "product hunt", "producthunt", "show hn", "show hackernews",
+        "indie hacker", "indie hackers", "indiehackers",
+        "bootstrapped", "self-funded", "profitable", "break even",
+        "built by", "created by", "made by", "founded by",
+        "side project", "weekend project", "solo founder", "one person", "small team",
         "revenue", "arr", "mrr", "monthly recurring", "annual recurring",
-        "growth", "traction", "users", "customers", "downloads", "signups",
-        "waitlist", "beta", "alpha", "early access", "pre-launch",
+        "growth", "growing", "traction", "scale", "scaling", "scaled",
+        "users", "customers", "subscribers", "downloads", "installs", "signups",
+        "waitlist", "beta", "alpha", "early access", "pre-launch", "coming soon",
         
-        # Startup Types & Themes
-        "saas", "b2b", "b2c", "marketplace", "platform", "app", "mobile app",
-        "web app", "productivity", "automation", "workflow", "collaboration",
-        "no-code", "low-code", "developer tools", "devtools", "api",
-        "fintech", "edtech", "healthtech", "proptech", "cleantech", "climatetech",
-        "crypto", "web3", "blockchain", "nft", "defi",
+        # Startup Types & Tech
+        "saas", "b2b", "b2c", "b2b2c", "d2c",
+        "marketplace", "two-sided marketplace", "platform",
+        "productivity", "productivity tool", "automation", "automate",
+        "workflow", "collaboration", "collaboration tool",
+        "no-code", "nocode", "low-code", "lowcode",
+        "fintech", "edtech", "healthtech", "proptech", "insurtech",
+        "cleantech", "climatetech", "greentech",
+        "crypto", "cryptocurrency", "web3", "blockchain", "nft", "defi", "dao",
         
-        # Founder Journey Terms
-        "building", "shipping", "launched today", "just launched", "we built",
-        "indie", "maker", "hacker", "builder", "entrepreneur", "entrepreneurship",
-        "small team", "remote team", "distributed team"
+        # Founder Journey & Community
+        "building", "building in public", "shipping", "launched today", "just launched",
+        "we built", "we're building", "we made", "we created",
+        "indie", "solo", "maker", "makers", "hacker", "builder", "builders",
+        "entrepreneur", "entrepreneurship", "solopreneur",
+        "remote team", "distributed team", "remote-first",
+        
+        # Business model & monetization
+        "freemium", "pricing", "subscription", "monthly plan", "annual plan",
+        "business model", "revenue model", "monetization", "monetize",
+        "paying customers", "revenue growth",
+        
+        # Startup ecosystem terms
+        "pitch", "pitching", "pitch deck", "demo",
+        "pivot", "pivoting", "pivoted",
+        "mvp", "minimum viable product", "prototype",
+        "early stage", "growth stage", "late stage"
     ]
 }
 

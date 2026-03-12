@@ -1,4 +1,4 @@
-"""Categorizes articles into GPU and AI Infra, AI Applications, AI Builder tools, and AI startups."""
+"""Categorizes articles into GPU and AI Infra, AI Applications, AI Builder tools, and Cool Startups."""
 
 from typing import Dict, List, Optional
 from config import CATEGORY_KEYWORDS
