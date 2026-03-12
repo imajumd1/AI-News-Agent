@@ -455,8 +455,8 @@ HTML_TEMPLATE = """
                 padding: 30px 20px;
             }
             .feedback-float-btn {
-                top: 20px;
-                right: 40px;
+                top: 15px;
+                right: 15px;
                 padding: 12px 20px;
                 font-size: 14px;
             }
@@ -500,8 +500,8 @@ HTML_TEMPLATE = """
             .feedback-float-btn {
                 padding: 14px 24px;
                 font-size: 15px;
-                top: 12px;
-                right: 12px;
+                top: 10px;
+                right: 10px;
             }
         }
         
@@ -1167,9 +1167,9 @@ HTML_TEMPLATE = """
         }
         /* Permanent Feedback Button */
         .feedback-float-btn {
-            position: absolute;
-            top: 30px;
-            right: 60px;
+            position: fixed;
+            top: 20px;
+            right: 20px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
