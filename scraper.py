@@ -119,7 +119,7 @@ class NewsScraper:
         
         return source_name, articles
     
-    def scrape_all_sources(self, fetch_full_content: bool = False, max_workers: int = 10) -> List[Dict]:
+    def scrape_all_sources(self, fetch_full_content: bool = False, max_workers: int = 20) -> List[Dict]:
         """Scrape all configured news sources in parallel for 5-10x speed improvement."""
         all_articles = []
         total_sources = len(NEWS_SOURCES)

@@ -731,6 +731,6 @@ CATEGORY_KEYWORDS = {
 
 # Scraping Configuration
 MAX_ARTICLES_PER_SOURCE = 2  # Reduced to 2 for faster scraping (54 sources)
-REQUEST_TIMEOUT = 10  # Reduced timeout for faster failures
+REQUEST_TIMEOUT = 5  # Aggressive timeout for Railway - fail fast
 USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
 RATE_LIMIT_DELAY = 0.1  # Reduced delay between sources (0.1s instead of 0.3s for speed)

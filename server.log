@@ -1,14 +1,279 @@
 /Users/ishitamajumdar/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
   warnings.warn(
+================================================================================
+AI News Agent - Starting Application
+================================================================================
+Python version: 3.9.6 (default, Dec  2 2025, 07:27:58) 
+[Clang 17.0.0 (clang-1700.6.3.2)]
+Working directory: /Users/ishitamajumdar/ai_news_agent
+✓ Flask imported successfully
+✓ Flask-Mail imported successfully
+✓ Config imported successfully
+⚠ SendGrid library not available
+✓ AINewsAgent imported successfully
+================================================================================
+All imports successful - Starting Flask app
+================================================================================
+Creating Flask app...
+MAIL_SERVER: smtp.gmail.com
+MAIL_USERNAME configured: Yes
+✓ Flask-Mail configured successfully
+✓ Error handlers registered
 
 ============================================================
 🚀 AI News Agent - Web Server
 ============================================================
 
-Starting server on http://localhost:5001
+Starting server on 0.0.0.0:5001
+Debug mode: False
+OpenAI API Key configured: Yes
+Email configured: Yes
 Press Ctrl+C to stop
 
+Health check available at /health
+============================================================
+
  * Serving Flask app 'app'
- * Debug mode: on
-Address already in use
-Port 5001 is in use by another program. Either identify and stop that program, or start the server with a different port.
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.2.116:5001
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [12/Mar/2026 15:18:24] "GET / HTTP/1.1" 200 -
+============================================================
+AI News Agent - Scraping Latest Developments
+============================================================
+
+Step 1: Scraping news sources...
+
+🚀 Scraping 93 sources in parallel (max 10 workers)...
+
+============================================================
+AI News Agent - Scraping Latest Developments
+============================================================
+
+Step 1: Scraping news sources...
+
+🚀 Scraping 93 sources in parallel (max 10 workers)...
+
+[1/93] ✓ techcrunch_ai: 2 articles
+[2/93] ✓ venturebeat_ai: 0 articles
+[1/93] ✓ techcrunch_ai: 2 articles
+[3/93] ✓ arstechnica_ai: 2 articles
+[4/93] ✓ the_verge_ai: 0 articles
+[2/93] ✓ venturebeat_ai: 0 articles
+[3/93] ✓ the_verge_ai: 0 articles
+[5/93] ✓ mit_tech_review: 2 articles
+[4/93] ✓ arstechnica_ai: 2 articles
+[6/93] ✓ crunchbase_news: 2 articles
+[5/93] ✓ mit_tech_review: 2 articles
+[7/93] ✓ wired_ai: 0 articles
+[6/93] ✓ crunchbase_news: 2 articles
+[8/93] ✓ the_batch: 0 articles
+[9/93] ✓ hacker_news: 2 articles
+[10/93] ✓ engadget_ai: 2 articles
+[7/93] ✓ the_batch: 0 articles
+[8/93] ✓ wired_ai: 0 articles
+[11/93] ✓ nytimes_tech: 2 articles
+[9/93] ✓ hacker_news: 2 articles
+[12/93] ✓ zdnet_ai: 2 articles
+[13/93] ✓ synced_review: 2 articles
+[14/93] ✓ towards_data_science: 2 articles
+[10/93] ✓ zdnet_ai: 2 articles
+[11/93] ✓ arxiv_ai: 2 articles
+[12/93] ✓ towards_data_science: 2 articles
+[13/93] ✓ nytimes_tech: 2 articles
+[15/93] ✓ arxiv_ml: 2 articles
+[14/93] ✓ synced_review: 2 articles
+[16/93] ✓ bbc_tech: 2 articles
+[15/93] ✓ wsj_tech: 2 articles
+[16/93] ✓ arxiv_ml: 2 articles
+[17/93] ✓ forbes_ai: 2 articles
+[17/93] ✓ bloomberg_tech: 0 articles
+[18/93] ✓ engadget_ai: 2 articles
+[18/93] ✓ wsj_tech: 2 articles
+[19/93] ✓ arxiv_ai: 2 articles
+[20/93] ✓ ai_news: 2 articles
+[21/93] ✓ bloomberg_tech: 0 articles
+[19/93] ✓ guardian_tech: 2 articles
+[22/93] ✓ cnbc_tech: 2 articles
+[23/93] ✓ reuters_tech: 0 articles
+[20/93] ✓ reuters_tech: 0 articles
+[24/93] ✓ nature_ai: 0 articles
+[21/93] ✓ nature_ai: 0 articles
+[22/93] ✓ cnbc_tech: 2 articles
+[23/93] ✓ bbc_tech: 2 articles
+[24/93] ✓ ai_news: 2 articles
+[25/93] ✓ forbes_ai: 2 articles
+[25/93] ✓ guardian_tech: 2 articles
+[26/93] ✓ github_blog: 2 articles
+[26/93] ✓ ieee_spectrum: 0 articles
+[27/93] ✓ github_blog: 2 articles
+[27/93] ✓ science_daily_ai: 2 articles
+[28/93] ✓ science_daily_ai: 2 articles
+[28/93] ✓ google_ai_blog: 0 articles
+[29/93] ✓ google_ai_blog: 0 articles
+[29/93] ✓ aws_ml_blog: 2 articles
+[30/93] ✓ the_information_tech: 0 articles
+[31/93] ✓ techspot: 2 articles
+[30/93] ✓ techspot: 2 articles
+[31/93] ✓ the_information_tech: 0 articles
+[32/93] ✓ aws_ml_blog: 2 articles
+[32/93] ✓ ieee_spectrum: 0 articles
+[33/93] ✓ ai_trends: 2 articles
+[33/93] ✓ ai_trends: 2 articles
+[34/93] ✓ the_rundown_ai: 0 articles
+[34/93] ✓ the_rundown_ai: 0 articles
+[35/93] ✓ openai_blog: 2 articles
+[35/93] ✓ axios_pro_rata: 0 articles
+[36/93] ✓ axios_pro_rata: 0 articles
+[36/93] ✓ tomshardware: 2 articles
+[37/93] ✓ tomshardware: 2 articles
+[38/93] ✓ nvidia_blog: 2 articles
+[37/93] ✓ axios_ai: 0 articles
+[39/93] ✓ axios_ai: 0 articles
+[38/93] ✓ nvidia_blog: 2 articles
+[39/93] ✓ mindstream: 0 articles
+[40/93] ✓ pitchbook: 0 articles
+[40/93] ✓ pitchbook: 0 articles
+[41/93] ✓ tldr_ai: 0 articles
+[41/93] ✓ mindstream: 0 articles
+[42/93] ✓ tldr_ai: 0 articles
+[43/93] ✓ venture_capital_journal: 0 articles
+[42/93] ✓ openai_blog: 2 articles
+[43/93] ✓ venture_capital_journal: 0 articles
+[44/93] ✓ vc_news_daily: 0 articles
+[44/93] ✓ vc_news_daily: 0 articles
+[45/93] ✓ anandtech: 0 articles
+[46/93] ✓ a16z: 0 articles
+[45/93] ✓ anandtech: 0 articles
+[46/93] ✓ a16z: 0 articles
+[47/93] ✓ strictly_vc: 2 articles
+[47/93] ✓ strictly_vc: 2 articles
+[48/93] ✓ sifted: 2 articles
+[49/93] ✓ bens_bites: 0 articles
+[48/93] ✓ bens_bites: 0 articles
+[49/93] ✓ sifted: 2 articles
+[50/93] ✓ superhuman_newsletter: 0 articles
+[50/93] ✓ geekwire: 2 articles
+[51/93] ✓ superhuman_newsletter: 0 articles
+[51/93] ✓ geekwire: 2 articles
+[52/93] ✓ distill_pub: 2 articles
+[52/93] ✓ distill_pub: 2 articles
+[53/93] ✓ marktechpost: 2 articles
+[53/93] ✓ tech_in_asia: 0 articles
+[54/93] ✓ tech_in_asia: 0 articles
+[54/93] ✓ marktechpost: 2 articles
+[55/93] ✓ hugging_face_blog: 2 articles
+[55/93] ✓ weights_biases_blog: 0 articles
+[56/93] ✓ hugging_face_blog: 2 articles
+[56/93] ✓ weights_biases_blog: 0 articles
+[57/93] ✓ pytorch_blog: 2 articles
+[57/93] ✓ product_hunt: 2 articles
+[58/93] ✓ pytorch_blog: 2 articles
+[58/93] ✓ product_hunt: 2 articles
+[59/93] ✓ databricks_blog: 0 articles
+[59/93] ✓ databricks_blog: 0 articles
+[60/93] ✓ machine_learning_mastery: 2 articles
+[60/93] ✓ techcrunch_startups: 2 articles
+[61/93] ✓ techcrunch_startups: 2 articles
+[61/93] ✓ tensorflow_blog: 2 articles
+[62/93] ✓ product_hunt_top: 0 articles
+[63/93] ✓ machine_learning_mastery: 2 articles
+[62/93] ✓ hacker_news_show: 2 articles
+[64/93] ✓ hacker_news_show: 2 articles
+[63/93] ✓ wellfound: 0 articles
+[65/93] ✓ wellfound: 0 articles
+[66/93] ✓ yc_blog: 2 articles
+[64/93] ✓ papers_with_code: 0 articles
+[65/93] ✓ betalist: 0 articles
+[66/93] ✓ indie_hackers: 0 articles
+[67/93] ✓ anthropic_blog: 0 articles
+[68/93] ✓ betalist: 0 articles
+[69/93] ✓ indie_hackers: 0 articles
+[70/93] ✓ saastr: 2 articles
+[67/93] ✓ product_hunt_top: 0 articles
+[68/93] ✓ saastr: 2 articles
+[71/93] ✓ the_ai_report: 0 articles
+[72/93] ✓ the_hustle: 0 articles
+[69/93] ✓ the_ai_report: 0 articles
+[70/93] ✓ tensorflow_blog: 2 articles
+[73/93] ✓ hackernoon_ai: 2 articles
+[74/93] ✓ papers_with_code: 0 articles
+[75/93] ✓ ai_now: 0 articles
+[71/93] ✓ yc_blog: 2 articles
+[76/93] ✓ ai_business: 2 articles
+[72/93] ✓ ai_business: 2 articles
+[77/93] ✓ medium_ai: 2 articles
+[78/93] ✓ techfundingnews: 2 articles
+[79/93] ✓ dev_to_ai: 2 articles
+[73/93] ✓ ai_now: 0 articles
+[80/93] ✓ ventureburn: 2 articles
+[74/93] ✓ fast_company_tech: 2 articles
+[75/93] ✓ the_hustle: 0 articles
+[76/93] ✓ dev_to_ai: 2 articles
+[81/93] ✓ serve_the_home: 2 articles
+[77/93] ✓ hackernoon_ai: 2 articles
+[78/93] ✓ medium_ai: 2 articles
+[82/93] ✓ fast_company_tech: 2 articles
+[79/93] ✓ techfundingnews: 2 articles
+[83/93] ✓ microsoft_ai_blog: 2 articles
+[84/93] ✓ cb_insights: 2 articles
+[85/93] ✓ protocol: 0 articles
+[80/93] ✓ anthropic_blog: 0 articles
+[81/93] ✓ serve_the_home: 2 articles
+[82/93] ✓ microsoft_ai_blog: 2 articles
+[83/93] ✓ cb_insights: 2 articles
+[84/93] ✓ ventureburn: 2 articles
+[85/93] ✓ protocol: 0 articles
+[86/93] ✓ meta_ai_blog: 0 articles
+[87/93] ✓ data_center_knowledge: 0 articles
+[88/93] ✓ stability_ai_blog: 0 articles
+[86/93] ✓ stability_ai_blog: 0 articles
+[87/93] ✓ data_center_knowledge: 0 articles
+[88/93] ✓ meta_ai_blog: 0 articles
+[89/93] ✓ cohere_blog: 0 articles
+[90/93] ✓ deepmind_blog: 2 articles
+[89/93] ✓ cohere_blog: 0 articles
+[90/93] ✓ deepmind_blog: 2 articles
+[91/93] ✓ future_of_life: 2 articles
+[91/93] ✓ mistral_blog: 0 articles
+[92/93] ✓ mistral_blog: 0 articles
+[92/93] ✓ future_of_life: 2 articles
+[93/93] ✓ washington_post_tech: 1 articles
+
+✅ Scraping complete! 105 total articles in 9.2s
+
+Found 105 total articles
+
+Step 2: Filtering recent articles...
+Found 80 articles from the last 7 days
+
+Step 3: Categorizing articles...
+  GPU and AI Infra: 7 articles
+  AI Applications: 11 articles
+  AI Builder tools: 3 articles
+  Cool Startups to watch: 55 articles
+  Uncategorized: 4 articles
+
+
+Step 4a: Fetching cool startups for 'Cool Startups to watch'...
+  Fetching top 10 AI enterprise startups...
+  Found 10 startups
+  Generating AI summary of startups...
+[93/93] ✓ washington_post_tech: 1 articles
+
+✅ Scraping complete! 105 total articles in 10.2s
+
+Found 105 total articles
+
+Step 2: Filtering recent articles...
+Found 80 articles from the last 7 days
+
+Step 3: Categorizing articles...
+  GPU and AI Infra: 7 articles
+127.0.0.1 - - [12/Mar/2026 15:18:37] "POST /run HTTP/1.1" 200 -
+127.0.0.1 - - [12/Mar/2026 15:18:40] "POST /run HTTP/1.1" 200 -
+127.0.0.1 - - [12/Mar/2026 16:01:28] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [12/Mar/2026 16:01:36] "GET / HTTP/1.1" 200 -
