@@ -94,23 +94,37 @@ class AINewsAgent:
                         print(f"  ⚠ Category summary method not available")
                     
                     # Generate individual article summaries
-                    # Only include articles that successfully get AI summaries
                     try:
                         summarized = self.summarizer.generate_summaries(top_articles, category)
-                        # Filter to only articles with AI summaries
+                        # Prefer articles with AI summaries
                         ai_summarized = [a for a in summarized if a.get('ai_summary')]
                         
-                        if len(ai_summarized) < len(summarized):
-                            print(f"  ℹ Filtered to {len(ai_summarized)} articles with AI summaries (removed {len(summarized) - len(ai_summarized)} without)")
-                        
-                        # Add category summary to results
-                        for article in ai_summarized:
-                            article["category_summary"] = category_summary
-                        
-                        results[category] = ai_summarized
+                        if len(ai_summarized) > 0:
+                            # We have some AI summaries - use them
+                            print(f"  ✓ Got {len(ai_summarized)} articles with AI summaries")
+                            if len(ai_summarized) < len(summarized):
+                                print(f"    (filtered out {len(summarized) - len(ai_summarized)} without AI summaries)")
+                            
+                            # Add category summary to results
+                            for article in ai_summarized:
+                                article["category_summary"] = category_summary
+                            results[category] = ai_summarized
+                        else:
+                            # No AI summaries - create minimal summaries from titles
+                            print(f"  ⚠ No AI summaries generated, using article titles as fallback")
+                            for article in top_articles:
+                                article["ai_summary"] = f"📰 {article.get('title', 'No title available')}"
+                                article["category_summary"] = category_summary
+                            results[category] = top_articles
+                            
                     except Exception as e:
-                        print(f"  ✗ Summarization failed for category: {e}")
-                        results[category] = []
+                        print(f"  ✗ Summarization failed: {e}")
+                        # Fallback: show articles with titles as summaries
+                        print(f"  ℹ Using fallback - showing {len(top_articles)} articles with title-based summaries")
+                        for article in top_articles:
+                            article["ai_summary"] = f"📰 {article.get('title', 'No title available')}"
+                            article["category_summary"] = category_summary
+                        results[category] = top_articles
                 else:
                     results[category] = []
             
