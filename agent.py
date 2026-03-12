@@ -94,35 +94,29 @@ class AINewsAgent:
                         print(f"  ⚠ Category summary method not available")
                     
                     # Generate individual article summaries
+                    # Always show articles, with or without AI summaries (like old fast mode)
                     try:
                         summarized = self.summarizer.generate_summaries(top_articles, category)
-                        # Prefer articles with AI summaries
-                        ai_summarized = [a for a in summarized if a.get('ai_summary')]
+                        print(f"  ✓ Processed {len(summarized)} articles")
                         
-                        if len(ai_summarized) > 0:
-                            # We have some AI summaries - use them
-                            print(f"  ✓ Got {len(ai_summarized)} articles with AI summaries")
-                            if len(ai_summarized) < len(summarized):
-                                print(f"    (filtered out {len(summarized) - len(ai_summarized)} without AI summaries)")
-                            
-                            # Add category summary to results
-                            for article in ai_summarized:
-                                article["category_summary"] = category_summary
-                            results[category] = ai_summarized
+                        # Count how many got AI summaries
+                        ai_count = sum(1 for a in summarized if a.get('ai_summary'))
+                        if ai_count > 0:
+                            print(f"  ✓ {ai_count} articles have AI summaries")
                         else:
-                            # No AI summaries - create minimal summaries from titles
-                            print(f"  ⚠ No AI summaries generated, using article titles as fallback")
-                            for article in top_articles:
-                                article["ai_summary"] = f"📰 {article.get('title', 'No title available')}"
-                                article["category_summary"] = category_summary
-                            results[category] = top_articles
+                            print(f"  ℹ No AI summaries generated (will show RSS summaries)")
+                        
+                        # Add category summary to all articles
+                        for article in summarized:
+                            article["category_summary"] = category_summary
+                        
+                        results[category] = summarized
                             
                     except Exception as e:
-                        print(f"  ✗ Summarization failed: {e}")
-                        # Fallback: show articles with titles as summaries
-                        print(f"  ℹ Using fallback - showing {len(top_articles)} articles with title-based summaries")
+                        print(f"  ⚠ Summarization error: {e}")
+                        print(f"  ℹ Showing {len(top_articles)} articles without AI summaries")
+                        # Still show articles even if summarization fails
                         for article in top_articles:
-                            article["ai_summary"] = f"📰 {article.get('title', 'No title available')}"
                             article["category_summary"] = category_summary
                         results[category] = top_articles
                 else:
@@ -176,12 +170,16 @@ class AINewsAgent:
                 results[startups_category] = all_items
                 print(f"  📊 Limited to top 10 startups (fallback mode)")
         else:
-            # Without AI summaries enabled, return empty results
-            # We don't show RSS summaries - only AI-curated content
-            print("⚠ AI summaries are required. Fast mode is not supported.")
-            print("  All categories will be empty without AI summarization enabled.")
+            # Fast mode fallback - show articles without AI summaries
+            print("⚠ Showing articles without AI summaries (fallback mode)")
             for category in results.keys():
-                results[category] = []
+                if category == startups_category:
+                    # Limit Cool Startups to 10 even in fast mode
+                    all_startup_items = startup_items + categorized.get(startups_category, [])
+                    results[category] = all_startup_items[:10]
+                else:
+                    # Limit to top 10 for other categories too
+                    results[category] = categorized.get(category, [])[:10]
         
         print()
         print("=" * 60)
@@ -215,11 +213,14 @@ class AINewsAgent:
                     if article.get('days_ago') is not None:
                         output.append(f"    Published: {article.get('days_ago')} days ago")
                     
-                    # Only show AI summaries - no RSS summaries
+                    # Show AI summary if available, otherwise RSS summary
                     if article.get('ai_summary'):
                         output.append(f"\n    AI Summary: {article.get('ai_summary')}")
-                    else:
-                        output.append(f"\n    [No AI summary available]")
+                    elif article.get('summary'):
+                        summary = article.get('summary', '')[:200]
+                        if len(article.get('summary', '')) > 200:
+                            summary += "..."
+                        output.append(f"\n    Summary: {summary}")
                     
                     output.append("")
         
