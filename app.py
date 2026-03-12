@@ -136,8 +136,17 @@ HTML_TEMPLATE = """
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI News Agent</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="theme-color" content="#0a0a0f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Ask Saniya">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="Your AI News Agent - Curated AI news, builder tools, and cool startups for college students">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%230a0e1a' width='100' height='100'/><text y='70' x='50' text-anchor='middle' font-size='60'>🐴</text></svg>">
+    <title>Ask Saniya - AI News Agent</title>
     <style>
         * {
             margin: 0;
@@ -156,6 +165,10 @@ HTML_TEMPLATE = """
             min-height: 100vh;
             padding: 20px;
             color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-tap-highlight-color: rgba(102, 126, 234, 0.2);
+            touch-action: manipulation;
         }
         .container {
             max-width: 1400px;
@@ -353,7 +366,7 @@ HTML_TEMPLATE = """
         /* Mobile */
         @media (max-width: 768px) {
             .container {
-                padding: 20px;
+                padding: 15px;
                 max-width: 100%;
             }
             .header {
@@ -392,6 +405,17 @@ HTML_TEMPLATE = """
             .anya-character {
                 width: 100%;
                 height: 100%;
+            }
+            .controls {
+                padding: 20px 15px;
+                gap: 15px;
+            }
+            .form-group {
+                min-width: 100%;
+            }
+            .btn {
+                width: 100%;
+                justify-content: center;
             }
             .controls {
                 padding: 20px;
@@ -440,6 +464,15 @@ HTML_TEMPLATE = """
         
         /* Small mobile */
         @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 0 10px;
+            }
+            .header {
+                padding: 30px 20px;
+            }
             .header h1 {
                 font-size: 2.5em;
             }
@@ -447,11 +480,79 @@ HTML_TEMPLATE = """
                 font-size: 1em;
             }
             .header-tagline {
-                font-size: 0.9em;
+                font-size: 0.85em;
+                line-height: 1.4;
             }
             .hero-character-container {
                 width: 240px;
                 height: 310px;
+            }
+            .btn {
+                padding: 16px 32px;
+                font-size: 15px;
+                min-height: 48px;
+            }
+            .form-group input, .form-group select {
+                padding: 16px;
+                font-size: 16px;
+                min-height: 48px;
+            }
+            .feedback-float-btn {
+                padding: 14px 24px;
+                font-size: 15px;
+                top: 12px;
+                right: 12px;
+            }
+        }
+        
+        /* Extra small mobile (older phones) */
+        @media (max-width: 360px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            .hero-character-container {
+                width: 200px;
+                height: 270px;
+            }
+            .controls {
+                padding: 20px 15px;
+            }
+        }
+        
+        /* Improve touch targets for mobile */
+        @media (hover: none) and (pointer: coarse) {
+            .btn, .feedback-float-btn, .email-send-btn {
+                min-height: 48px;
+                min-width: 48px;
+            }
+            .category-box {
+                cursor: default;
+                -webkit-tap-highlight-color: transparent;
+            }
+            .modal-close, .close-modal {
+                min-width: 48px;
+                min-height: 48px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .modal-content {
+                width: 95%;
+                margin: 5% auto;
+                padding: 25px 20px;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+            .modal-title {
+                font-size: 1.3em;
+            }
+            .article-item {
+                padding: 15px;
+                margin-bottom: 12px;
+            }
+            .article-title {
+                font-size: 1em;
+                line-height: 1.4;
             }
         }
         .controls {
@@ -2137,6 +2238,34 @@ HTML_TEMPLATE = """
 def health():
     """Health check endpoint for Railway."""
     return jsonify({"status": "healthy", "service": "AI News Agent"}), 200
+
+@app.route('/manifest.json')
+def manifest():
+    """PWA manifest for mobile web app support."""
+    return jsonify({
+        "name": "Ask Saniya - AI News Agent",
+        "short_name": "Ask Saniya",
+        "description": "Your AI News Agent - Curated AI news and cool startups",
+        "start_url": "/",
+        "display": "standalone",
+        "background_color": "#0a0a0f",
+        "theme_color": "#0a0a0f",
+        "orientation": "portrait-primary",
+        "icons": [
+            {
+                "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%230a0e1a' width='192' height='192' rx='24'/><text y='130' x='96' text-anchor='middle' font-size='100'>🐴</text></svg>",
+                "sizes": "192x192",
+                "type": "image/svg+xml",
+                "purpose": "any maskable"
+            },
+            {
+                "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect fill='%230a0e1a' width='512' height='512' rx='64'/><text y='360' x='256' text-anchor='middle' font-size='280'>🐴</text></svg>",
+                "sizes": "512x512",
+                "type": "image/svg+xml",
+                "purpose": "any maskable"
+            }
+        ]
+    }), 200
 
 @app.route('/test')
 def test():
