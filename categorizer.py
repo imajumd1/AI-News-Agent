@@ -47,6 +47,12 @@ class ArticleCategorizer:
         if not full_text.strip():
             return None
         
+        # PRIORITY CHECK: "Cool Startups to watch" first to avoid being captured by generic "AI Applications"
+        # Articles from Product Hunt, Show HN, Indie Hackers should go here even if they mention AI
+        startup_score = self.calculate_category_score(full_text, "Cool Startups to watch")
+        if startup_score > 0.3:  # Strong startup signal - assign immediately
+            return "Cool Startups to watch"
+        
         # Calculate scores for each category
         scores = {}
         for category in self.keywords.keys():
