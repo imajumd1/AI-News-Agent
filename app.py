@@ -2733,6 +2733,208 @@ def send_email():
             "details": str(e)
         }), 500
 
+
+# ============================================================================
+# EMAIL SUBSCRIPTION ROUTES
+# ============================================================================
+
+from subscribers import (
+    add_subscriber,
+    confirm_subscription,
+    unsubscribe,
+    get_confirmed_subscribers,
+    get_subscriber_count
+)
+
+@app.route('/api/subscribe', methods=['POST'])
+def subscribe():
+    """Handle email subscription requests."""
+    try:
+        data = request.get_json()
+        email = data.get('email', '').strip()
+        categories = data.get('categories', [])
+        
+        if not email:
+            return jsonify({"error": "Email is required"}), 400
+        
+        # Add subscriber
+        success, message, token = add_subscriber(email, categories or ['all'])
+        
+        if success:
+            # Send confirmation email
+            try:
+                confirmation_url = f"{request.host_url.rstrip('/')}/confirm-subscription?email={email}&token={token}"
+                
+                subject = "✉️ Confirm Your AI News Agent Subscription"
+                html_content = f"""
+                <html>
+                    <head>
+                        <style>
+                            body {{ font-family: 'Inter', sans-serif; background: #0a0a0f; color: #ffffff; }}
+                            .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
+                            .header {{ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 12px; text-align: center; margin-bottom: 20px; }}
+                            .content {{ background: rgba(102, 126, 234, 0.08); padding: 20px; border-radius: 12px; margin-bottom: 20px; }}
+                            .btn {{ display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 30px; border-radius: 8px; text-decoration: none; margin: 20px 0; }}
+                            .footer {{ text-align: center; color: #8a8a9e; font-size: 12px; }}
+                        </style>
+                    </head>
+                    <body>
+                        <div class="container">
+                            <div class="header">
+                                <h1>🤖 AI News Agent</h1>
+                            </div>
+                            <div class="content">
+                                <p>Hi there!</p>
+                                <p>Thank you for subscribing to AI News Agent! Click the button below to confirm your subscription and start receiving curated AI news, builder tools, and cool startups.</p>
+                                <a href="{confirmation_url}" class="btn">Confirm Subscription ✨</a>
+                                <p>Or copy this link: <a href="{confirmation_url}">{confirmation_url}</a></p>
+                                <p>This link expires in 24 hours.</p>
+                            </div>
+                            <div class="footer">
+                                <p>© 2024 AI News Agent. All rights reserved.</p>
+                            </div>
+                        </div>
+                    </body>
+                </html>
+                """
+                
+                msg = Message(
+                    subject=subject,
+                    recipients=[email],
+                    html=html_content,
+                    sender=MAIL_FROM or MAIL_USERNAME
+                )
+                
+                if mail:
+                    mail.send(msg)
+                    return jsonify({
+                        "success": True,
+                        "message": "Subscription created! Check your email to confirm."
+                    }), 201
+                else:
+                    # Email not configured, but subscription added
+                    return jsonify({
+                        "success": True,
+                        "message": message,
+                        "warning": "Email confirmation not available. Your subscription may need manual confirmation."
+                    }), 201
+                    
+            except Exception as e:
+                print(f"Error sending confirmation email: {e}")
+                # Subscription was added, but email failed
+                return jsonify({
+                    "success": True,
+                    "message": message,
+                    "warning": f"Subscription added but confirmation email failed to send"
+                }), 201
+        else:
+            return jsonify({"error": message}), 400
+            
+    except Exception as e:
+        print(f"Error in /api/subscribe: {e}")
+        return jsonify({"error": "Server error processing subscription"}), 500
+
+@app.route('/confirm-subscription')
+def confirm_subscription_page():
+    """Handle subscription confirmation."""
+    try:
+        email = request.args.get('email', '')
+        token = request.args.get('token', '')
+        
+        if not email or not token:
+            return """
+            <html><head><style>
+                body { font-family: 'Inter', sans-serif; background: #0a0a0f; color: #fff; text-align: center; padding: 50px; }
+                .container { max-width: 500px; margin: 0 auto; }
+                .error { color: #ff6b6b; }
+            </style></head><body>
+            <div class="container">
+                <h1>❌ Invalid Link</h1>
+                <p class="error">Missing email or confirmation token.</p>
+            </div>
+            </body></html>
+            """, 400
+        
+        success, message = confirm_subscription(email, token)
+        
+        if success:
+            return f"""
+            <html><head><style>
+                body {{ font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; text-align: center; padding: 50px; }}
+                .container {{ max-width: 500px; margin: 0 auto; background: rgba(0,0,0,0.3); padding: 40px; border-radius: 12px; }}
+                .success {{ color: #4fffb0; }}
+                .btn {{ display: inline-block; background: linear-gradient(135deg, #4fffb0 0%, #3b82f6 100%); color: #0a0e1a; padding: 12px 30px; border-radius: 8px; text-decoration: none; margin-top: 20px; font-weight: bold; }}
+            </style></head><body>
+            <div class="container">
+                <h1 class="success">✅ {message}</h1>
+                <p>You're all set! You'll now receive curated AI news updates.</p>
+                <a href="/" class="btn">Back to AI News Agent</a>
+            </div>
+            </body></html>
+            """, 200
+        else:
+            return f"""
+            <html><head><style>
+                body {{ font-family: 'Inter', sans-serif; background: #0a0a0f; color: #fff; text-align: center; padding: 50px; }}
+                .container {{ max-width: 500px; margin: 0 auto; }}
+                .error {{ color: #ff6b6b; }}
+                .btn {{ display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; padding: 12px 30px; border-radius: 8px; text-decoration: none; margin-top: 20px; font-weight: bold; }}
+            </style></head><body>
+            <div class="container">
+                <h1>❌ Confirmation Failed</h1>
+                <p class="error">{message}</p>
+                <a href="/" class="btn">Back to Home</a>
+            </div>
+            </body></html>
+            """, 400
+    
+    except Exception as e:
+        print(f"Error in confirm_subscription_page: {e}")
+        return f"""
+        <html><head><style>
+            body {{ font-family: 'Inter', sans-serif; background: #0a0a0f; color: #fff; text-align: center; padding: 50px; }}
+            .container {{ max-width: 500px; margin: 0 auto; }}
+            .error {{ color: #ff6b6b; }}
+        </style></head><body>
+        <div class="container">
+            <h1>❌ Server Error</h1>
+            <p class="error">{str(e)}</p>
+        </div>
+        </body></html>
+        """, 500
+
+@app.route('/api/unsubscribe', methods=['POST'])
+def unsubscribe_api():
+    """Handle unsubscribe requests."""
+    try:
+        data = request.get_json()
+        email = data.get('email', '').strip()
+        token = data.get('token')  # Optional - can unsubscribe with email only
+        
+        if not email:
+            return jsonify({"error": "Email is required"}), 400
+        
+        success, message = unsubscribe(email, token)
+        
+        if success:
+            return jsonify({"success": True, "message": message}), 200
+        else:
+            return jsonify({"error": message}), 400
+            
+    except Exception as e:
+        print(f"Error in /api/unsubscribe: {e}")
+        return jsonify({"error": "Server error processing unsubscribe"}), 500
+
+@app.route('/api/subscribers-count')
+def subscribers_count():
+    """Get the count of confirmed subscribers."""
+    try:
+        count = get_subscriber_count()
+        return jsonify({"count": count}), 200
+    except Exception as e:
+        print(f"Error in /api/subscribers-count: {e}")
+        return jsonify({"error": "Server error"}), 500
+
 if __name__ == '__main__':
     # Use Railway's PORT environment variable, fallback to 5001 for local development
     PORT = int(os.environ.get('PORT', 5001))
