@@ -450,6 +450,9 @@ HTML_TEMPLATE = """
             .email-send-btn {
                 width: 100%;
             }
+            .email-actions {
+                flex-direction: column;
+            }
             .modal-content {
                 width: 95%;
                 padding: 30px 20px;
@@ -1137,6 +1140,26 @@ HTML_TEMPLATE = """
             transform: none;
             box-shadow: none;
         }
+        .email-hint {
+            color: #8a8a9e;
+            font-size: 0.95em;
+            line-height: 1.6;
+            margin: -8px 0 18px 0;
+        }
+        .email-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .email-secondary-btn {
+            background: transparent;
+            border: 2px solid rgba(102, 126, 234, 0.55);
+            box-shadow: none;
+        }
+        .email-secondary-btn:hover {
+            background: rgba(102, 126, 234, 0.12);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+        }
         .email-message {
             margin-top: 15px;
             padding: 12px;
@@ -1627,12 +1650,16 @@ HTML_TEMPLATE = """
         <div class="results" id="results">
             <div class="categories-grid" id="categoriesGrid"></div>
             
-            <!-- Email Section (appears after results) -->
+            <!-- Digest export (appears after results) — no server email -->
             <div class="email-section" id="emailSection" style="display: none;">
-                <div class="email-title">📧 Send Summary via Email</div>
+                <div class="email-title">Keep this digest</div>
+                <p class="email-hint">Download the full summary, or open it in your mail app. Nothing is sent from this site.</p>
                 <div class="email-form">
-                    <input type="email" id="emailInput" placeholder="Enter your email address" class="email-input">
-                    <button class="email-send-btn" id="emailSendBtn" onclick="sendEmail()">Send Email</button>
+                    <input type="email" id="emailInput" placeholder="Optional: To address for Mail" class="email-input">
+                </div>
+                <div class="email-actions">
+                    <button class="email-send-btn" id="emailDownloadBtn" onclick="downloadDigest()">Download digest</button>
+                    <button class="email-send-btn email-secondary-btn" id="emailMailBtn" onclick="openInMail()">Open in Mail</button>
                 </div>
                 <div class="email-message" id="emailMessage"></div>
             </div>
@@ -2108,91 +2135,134 @@ HTML_TEMPLATE = """
             }
         }
         
-        // Store current results data for email
+        // Store current results for local download / Mail (no server send)
         let currentResultsData = null;
         
-        // Update displayResults to store data
         const originalDisplayResults = displayResults;
         displayResults = function(data) {
             currentResultsData = data;
             originalDisplayResults(data);
         };
-        
-        // Send email function
-        window.sendEmail = async function() {
-            const emailInput = document.getElementById('emailInput');
-            const emailSendBtn = document.getElementById('emailSendBtn');
-            const messageDiv = document.getElementById('emailMessage');
-            
-            const email = emailInput.value.trim();
-            if (!email) {
-                messageDiv.className = 'email-message error';
-                messageDiv.textContent = '❌ Please enter an email address';
-                messageDiv.style.display = 'block';
-                return;
-            }
-            
-            // Basic email validation
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                messageDiv.className = 'email-message error';
-                messageDiv.textContent = '❌ Please enter a valid email address';
-                messageDiv.style.display = 'block';
-                return;
-            }
-            
-            if (!currentResultsData) {
-                messageDiv.className = 'email-message error';
-                messageDiv.textContent = '❌ No results to send. Please fetch news first.';
-                messageDiv.style.display = 'block';
-                return;
-            }
-            
-            // Disable button
-            emailSendBtn.disabled = true;
-            emailSendBtn.textContent = 'Sending...';
-            messageDiv.style.display = 'none';
-            
-            try {
-                const response = await fetch('/send-email', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        email: email,
-                        results: currentResultsData
-                    })
+
+        function digestFilename() {
+            const d = new Date();
+            const yyyy = d.getFullYear();
+            const mm = String(d.getMonth() + 1).padStart(2, '0');
+            const dd = String(d.getDate()).padStart(2, '0');
+            return 'ask-saniya-digest-' + yyyy + '-' + mm + '-' + dd + '.html';
+        }
+
+        function buildDigestPlainText(data) {
+            const lines = ['Ask Saniya — AI news digest', ''];
+            const categories = (data && data.categories) || {};
+            Object.keys(categories).forEach(function(name) {
+                const cat = categories[name] || {};
+                const articles = Array.isArray(cat) ? cat : (cat.articles || []);
+                if (!articles.length) return;
+                lines.push(name);
+                articles.slice(0, 5).forEach(function(article) {
+                    const title = article.title || 'Untitled';
+                    const link = article.link || '';
+                    lines.push('- ' + title + (link ? ' ' + link : ''));
                 });
-                
-                // Check if response is JSON
-                const contentType = response.headers.get('content-type');
-                if (!contentType || !contentType.includes('application/json')) {
-                    const text = await response.text();
-                    console.error('Server returned non-JSON response:', text.substring(0, 200));
-                    throw new Error('Server error. Please check Railway logs or email configuration.');
-                }
-                
-                const data = await response.json();
-                
-                if (response.ok && data.success) {
-                    messageDiv.className = 'email-message success';
-                    messageDiv.textContent = '✅ Email sent successfully! Check your inbox.';
-                    messageDiv.style.display = 'block';
-                    emailInput.value = '';
-                } else {
-                    const errorMsg = data.error || data.details || 'Failed to send email';
-                    throw new Error(errorMsg);
-                }
-            } catch (error) {
-                console.error('Email send error:', error);
-                messageDiv.className = 'email-message error';
-                messageDiv.textContent = `❌ ${error.message}`;
-                messageDiv.style.display = 'block';
-            } finally {
-                emailSendBtn.disabled = false;
-                emailSendBtn.textContent = 'Send Email';
+                lines.push('');
+            });
+            lines.push('Full formatted digest: download the HTML file from Ask Saniya.');
+            return lines.join('\\n');
+        }
+
+        function buildDigestHtml(data) {
+            const categories = (data && data.categories) || {};
+            let sections = '';
+            Object.keys(categoryConfig).forEach(function(name) {
+                const cat = categories[name] || {};
+                const articles = Array.isArray(cat) ? cat : (cat.articles || []);
+                if (!articles.length) return;
+                const cfg = categoryConfig[name] || { icon: '📰', color: '#667eea' };
+                let items = '';
+                articles.slice(0, 8).forEach(function(article) {
+                    const title = escapeHtml(article.title || 'Untitled');
+                    const source = escapeHtml(article.source || '');
+                    const link = article.link || '#';
+                    items += '<li style="margin:0 0 12px 0;padding:14px;background:rgba(255,255,255,0.04);border-radius:10px;border-left:3px solid ' + cfg.color + ';">'
+                        + '<a href="' + escapeHtml(link) + '" style="color:#e0e0e8;text-decoration:none;font-weight:600;">' + title + '</a>'
+                        + (source ? '<div style="color:#8a8a9e;font-size:13px;margin-top:6px;">' + source + '</div>' : '')
+                        + '</li>';
+                });
+                sections += '<section style="margin:0 0 28px 0;"><h2 style="color:' + cfg.color + ';font-size:20px;margin:0 0 12px 0;">'
+                    + cfg.icon + ' ' + escapeHtml(name) + '</h2><ul style="list-style:none;padding:0;margin:0;">' + items + '</ul></section>';
+            });
+            const generated = escapeHtml((data && data.generated_at) || new Date().toISOString());
+            return '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">'
+                + '<title>Ask Saniya digest</title></head>'
+                + '<body style="margin:0;padding:32px 16px;background:#0a0a0f;color:#e0e0e8;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;">'
+                + '<div style="max-width:640px;margin:0 auto;background:#0d1225;border-radius:20px;padding:36px 28px;border:1px solid rgba(139,132,255,0.25);">'
+                + '<p style="letter-spacing:2px;font-size:11px;color:#8b84ff;text-transform:uppercase;margin:0 0 10px 0;">AI-powered intelligence</p>'
+                + '<h1 style="margin:0 0 8px 0;color:#d4b3ff;">Ask Saniya</h1>'
+                + '<p style="color:#8a8a9e;margin:0 0 28px 0;">Your AI news digest · ' + generated + '</p>'
+                + sections
+                + '<p style="color:#6b7280;font-size:13px;margin:24px 0 0 0;">Saved locally from Ask Saniya. Nothing was emailed from the server.</p>'
+                + '</div></body></html>';
+        }
+
+        function showDigestMessage(kind, text) {
+            const messageDiv = document.getElementById('emailMessage');
+            messageDiv.className = 'email-message ' + kind;
+            messageDiv.textContent = text;
+            messageDiv.style.display = 'block';
+        }
+
+        function triggerDigestDownload(html, filename) {
+            const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            setTimeout(function() { URL.revokeObjectURL(url); }, 2000);
+            return url;
+        }
+
+        window.downloadDigest = function() {
+            if (!currentResultsData) {
+                showDigestMessage('error', 'Fetch news first, then download the digest.');
+                return;
             }
+            const filename = digestFilename();
+            const html = buildDigestHtml(currentResultsData);
+            triggerDigestDownload(html, filename);
+            showDigestMessage('success', 'Saved ' + filename + ' to your downloads.');
+        };
+
+        window.openInMail = function() {
+            if (!currentResultsData) {
+                showDigestMessage('error', 'Fetch news first, then open it in Mail.');
+                return;
+            }
+            const emailInput = document.getElementById('emailInput');
+            const to = (emailInput.value || '').trim();
+            if (to) {
+                const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+                if (!emailRegex.test(to)) {
+                    showDigestMessage('error', 'Enter a valid To address, or leave it blank.');
+                    return;
+                }
+            }
+            const filename = digestFilename();
+            const html = buildDigestHtml(currentResultsData);
+            triggerDigestDownload(html, filename);
+            let body = buildDigestPlainText(currentResultsData);
+            if (body.length > 1600) {
+                body = body.slice(0, 1600) + '\\n\\n[Truncated — attach ' + filename + ' for the full digest]';
+            }
+            body = 'The full HTML digest was downloaded as ' + filename + '. Attach it if you want the formatted version.\\n\\n' + body;
+            const mailto = 'mailto:' + encodeURIComponent(to)
+                + '?subject=' + encodeURIComponent('Ask Saniya — AI news digest')
+                + '&body=' + encodeURIComponent(body);
+            window.location.href = mailto;
+            showDigestMessage('success', 'Opened Mail with a short summary. Attach ' + filename + ' for the full digest.');
         };
         
         // Ensure button is clickable on page load
